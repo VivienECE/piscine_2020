@@ -4,6 +4,7 @@
 --
 -- Hôte : 127.0.0.1:3306
 -- Généré le :  mer. 15 avr. 2020 à 15:54
+
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -240,11 +241,13 @@ CREATE TABLE IF NOT EXISTS `panier` (
 DROP TABLE IF EXISTS `utilisateur`;
 CREATE TABLE IF NOT EXISTS `utilisateur` (
   `IdUtilisateur` int(10) NOT NULL AUTO_INCREMENT COMMENT 'PRIMARY',
+
   `Email` varchar(50) NOT NULL,
   `Pseudo` varchar(20) NOT NULL,
   `MotDePasse` varchar(60) NOT NULL,
   PRIMARY KEY (`IdUtilisateur`)
 ) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=latin1;
+
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -254,6 +257,7 @@ INSERT INTO `utilisateur` (`IdUtilisateur`, `Email`, `Pseudo`, `MotDePasse`) VAL
 (1, 'admin@gmail.com', 'admin', 'admin'),
 (22, 'vivien.eaetetournay@outlook.fr', 'viveaat', 'cd79480c7bc8fd44fa15d329d43c7bba29aff44b'),
 (21, 'vivien.eaeetournay@outlook.fr', 'viveaa', 'f882e7e2875432d43bd50e79a635d3739ac0262d');
+
 
 -- --------------------------------------------------------
 
@@ -275,6 +279,7 @@ CREATE TABLE IF NOT EXISTS `vendeur` (
   `CodedeSecurite` varchar(3) NOT NULL,
   `Telephone` varchar(20) NOT NULL,
   PRIMARY KEY (`IdVendeur`)
+
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

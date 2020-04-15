@@ -1,0 +1,88 @@
+   @font-face {
+    font-family: "CaviarDreams";
+    src: url("piscine_2020/CaviarDreams.ttf");
+  }
+
+  body{
+    font-family: "CaviarDreams", serif;
+  }
+
+    /* Remove the navbar's default margin-bottom and rounded borders */ 
+   
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    .navbar {
+      background:#C4BDE3;
+      color: white;
+      }
+
+    
+
+    .nav-link, .navbar-brand, .ici {
+      color: #fff;
+      cursor: pointer;
+    }
+    .ici{
+      background-color: #B8AFE5;
+    }
+
+    .nav-link {
+      margin: auto;
+    }
+
+    .nav-link:hover {
+      color: grey;
+    }
+    .nav-link:hover img{
+      width: 30px;
+      height: 25px;
+    }
+
+    .navbar-collapse {
+      justify-content: flex-end;
+    }
+
+    .col-lg-4{
+      border-right-width: 3;
+      border-right-color: #C4BDE3;
+      } 
+    
+    .feature-title{
+      color: #C4BDE3;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .carousel-inner img{
+      margin-left: 25%;
+      width: 200px;
+      height: 200px;
+    }
+
+    
+    .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
+    }
+
+  .carousel-control-next-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+  }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #C4BDE3;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }

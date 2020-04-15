@@ -12,14 +12,14 @@ $db_found = mysqli_select_db($db_handle, $database);
 if (isset($_POST["button"])) {
 		$pseudo = htmlspecialchars($_POST["pseudo"]);
 		$motdepasse = sha1($_POST["motdepasse"]);
-	
 		if ($db_found) {
 			//Recherche login/mdp, a developper pour differencier admin/acheteur/vendeur
 			$sql = "SELECT * FROM utilisateur WHERE pseudo = '$pseudo' AND motdepasse = '$motdepasse'";
 			$result = mysqli_query($db_handle, $sql);
 			if (mysqli_num_rows($result) != 0) {
-				header("Location: Acheteur/accueil.php");
-  				  exit;
+				// Use openssl_encrypt() function to encrypt the data 
+				$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
+				//header("Location: ../Acheteur/accueil.php");
 			}else {$erreur = "Erreur dans le nom d'utilisateur ou le mot de passe";}
 		}
 		else {echo "Database not found";}
@@ -64,7 +64,6 @@ mysqli_close($db_handle);?>
 				    </form>
 					<p><br></p>
 				</div>
-
 				<div class="col-lg-6 col-md-6 col-sm-12">
 					<h1><br>INSCRIPTION<br></h1>
 					<div align="center"><br><br><a href="inscriptionAcheteur.php"><button type="button" class="btn" id="gauche">ACHETEUR</button>
@@ -76,3 +75,4 @@ mysqli_close($db_handle);?>
 
 	</body>
 </html>
+

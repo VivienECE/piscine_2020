@@ -1,4 +1,4 @@
-   @font-face {
+  /* @font-face {
     font-family: "CaviarDreams";
     src: url("piscine_2020/CaviarDreams.ttf");
   }
@@ -7,8 +7,24 @@
     font-family: "CaviarDreams", serif;
   }
 
-    /* Remove the navbar's default margin-bottom and rounded borders */ 
-   
+     Remove the navbar's default margin-bottom and rounded borders 
+
+     body{
+      background-image: url(fond.png);
+     }*/ 
+   h1,h3{
+      color: #C4BDE3;
+      font-weight: bold;
+      text-shadow: rgba(0,0,0,0.4) 2px 2px;
+      text-align: center;
+    }
+
+    h2{
+      color: black;
+      font-weight: bold;
+      text-shadow: rgba(0,0,0,0.4) 2px 2px;
+      text-align: center;
+    }
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
@@ -44,11 +60,6 @@
     .navbar-collapse {
       justify-content: flex-end;
     }
-
-    .col-lg-4{
-      border-right-width: 3;
-      border-right-color: #C4BDE3;
-      } 
     
     .feature-title{
       color: #C4BDE3;
@@ -78,11 +89,67 @@
       padding: 15px;
     }
     
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;} 
-    }
+                                                    
+                                                    /*CATEGORIES*/
+
+  h1{
+    text-align: center;
+    font-weight: bold;
+    color: #C4BDE3;
+  }
+
+  h2{
+    text-align: center;
+    font-weight: bold;
+    color: black;
+  }
+
+  .thumbnail{
+    margin-left: 20%;
+  }
+  .thumbnail img{
+    width: 200px;
+    height: 200px;
+    box-shadow: rgba(0,0,0,0.4) 3px 3px;
+  }
+
+  #id{
+    color: black;
+    font-size: 11px;
+  }
+
+  #titre{
+    color: black;
+    font-size: 18px;
+  }
+
+  #prix{
+    color: #C4BDE3;
+    font-weight: bold;
+  }
+
+  .row{
+    border-bottom-width: medium;
+    border-bottom-color: #E6E6E6;
+
+  }
+
+  #barre{
+    border-right-width: 4px solid;
+    border-right-color: #C4BDE3;
+  }
+
+  .btn{
+    margin-left:25%;
+    color: #C4BDE3;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 10rem;
+    border: 1.5px outset;
+    border-color: #E6E6E6;
+    transform: scale(1);
+    transition: transform 400ms;
+  }
+  .btn:hover{
+    transform: scale(1.2);
+  }

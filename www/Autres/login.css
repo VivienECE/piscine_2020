@@ -1,0 +1,56 @@
+.container{
+	background-color: #C4BDE3;
+}
+
+h1{
+	color: white;
+	font-weight: bold;
+	text-shadow: rgba(0,0,0,0.4) 2px 2px;
+	text-align: center;
+}
+
+input{
+	border-radius: 2rem;
+	margin-top: 20px;
+	border:1px;
+	box-shadow: rgba(0,0,0,0.4) 2px 2px;
+}
+
+.btn{
+	color: #C4BDE3;
+	background-color: white;
+	font-weight: bold;
+	font-size: 16px;
+	text-align: center;
+	box-shadow: rgba(0,0,0,0.4) 2px 2px;
+	transform: scale(1);
+    transition: transform 400ms;
+}
+
+.btn:hover{
+    transform: scale(1.2);
+  }
+
+#gauche{
+	border-bottom-left-radius: 2rem;
+	border-top-left-radius: 2rem;
+}
+
+#droite{
+	border-bottom-right-radius: 2rem;
+	border-top-right-radius: 2rem;
+}
+
+#carte img{
+	height: 30px;
+	width: 50px;
+}
+
+td{
+	color: white;
+}
+
+p{
+	color: white;
+	font-weight: bold;
+}

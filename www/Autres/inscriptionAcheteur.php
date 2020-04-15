@@ -21,7 +21,7 @@ if (isset($_POST["button"])) {
 		$codepostal = htmlspecialchars($_POST["codepostal"]);
 		$pays = htmlspecialchars($_POST["pays"]);
 		$telephone = htmlspecialchars($_POST["telephone"]);
-		$typedecarte = htmlspecialchars($_POST["typedecarte"]);
+		//$typedecarte = htmlspecialchars($_POST["typedecarte"]);
 		$numerocarte = htmlspecialchars($_POST["numerocarte"]);
 		$nomcarte= htmlspecialchars($_POST["nomcarte"]);
 		$MM = htmlspecialchars($_POST["MM"]);$YY = htmlspecialchars($_POST["YY"]);
@@ -52,9 +52,11 @@ if (isset($_POST["button"])) {
 				$sql= "SELECT IdUtilisateur FROM utilisateur WHERE pseudo = '$pseudo'";
 				$result = mysqli_query($db_handle, $sql);
 				$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
-				$sql= "INSERT INTO `acheteur`(`IdUtilisateur`, `Nom`, `Prenom`, `Adresse`, `CodePostal`, `Pays`, `Telephone`, `TypeDeCarte`, `NumeroCarte`, `NomCarte`, `ExpirationCarte`, `CodedeSecurite`) VALUES ('$idutilisateur','$nom','$prenom','$adresse','$codepostal','$pays','$telephone','$typedecarte','$numerocarte','$nomcarte','$expirationcarte','$codedesecurite')";
+				$sql= "INSERT INTO `acheteur`(`IdUtilisateur`, `Nom`, `Prenom`, `Adresse`, `CodePostal`, `Pays`, `Telephone`, `TypeDeCarte`, `NumeroCarte`, `NomCarte`, `ExpirationCarte`, `CodedeSecurite`) VALUES ('$idutilisateur','$nom','$prenom','$adresse','$codepostal','$pays','$telephone','visa','$numerocarte','$nomcarte','$expirationcarte','$codedesecurite')";
 			    echo $sql;
 				$result =mysqli_query($db_handle, $sql);
+				header("Location: Acheteur/accueil.php");
+  				  exit;
 				//OPTIONNEL 
 				echo "Vous êtes enregistré." . "<br>" ;	
 				//OPTIONNEL	
@@ -94,16 +96,19 @@ mysqli_close($db_handle);?>
 					<div align="center">
 					<img src="compte.png" height="100" width="100">
 					</div>
-					<form>
+					<form method="post">
 						<table align="center">
 							<tr align="center">
 								<td><input type="text" name="pseudo" placeholder=" Nom d'utilisateur" pattern=".{4,14}" maxlength='14' required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="pass" name="motdepasse" placeholder=" Mot de passe"pattern=".{10,30}" title="10 à 30 caractères" maxlength='30' required></td>
+								<td><input type="email" name="email" placeholder=" Email"pattern=".{10,30}" maxlength='50' required></td>
+							</tr>
+							<tr align="center">
+								<td><input type="password" name="motdepasse" placeholder=" Mot de passe"pattern=".{10,30}" title="10 à 30 caractères" maxlength='30' required></td>
 							</tr>
 						</table>
-					</form>
+					
 				</div>
 			</div>
 
@@ -111,54 +116,78 @@ mysqli_close($db_handle);?>
 				<div class="col-lg-2 col-md-2"></div>
 				<div class="col-lg-4 col-md-4 col-sm-12" style=" background-color: #C4BDE3;">
 					<div><p><br></p></div>
-					<form>
+					
 						<table align="center">
 							<tr align="center">
-								<td><input type="text" id="nomPrenom" placeholder=" Nom et Prénom"></td>
+								<td><input type="text" name="nom" placeholder=" Nom" maxlength='20' required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="adresse1" placeholder=" Adresse Ligne 1"></td>
+								<td><input type="text" name="prenom" placeholder=" Prenom" maxlength='20' required></td>
+							</tr>
+							<tr align="center">
+								<td><input type="text" name="adresse" placeholder=" Adresse Ligne 1" required></td>
 							</tr>
 							<tr align="center">
 								<td><input type="text" id="adresse2" placeholder=" Adresse Ligne 2"></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="ville" placeholder=" Ville"></td>
+								<td><input type="text" name="ville" placeholder=" Ville" maxlength='20' required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="number" id="codePostal" placeholder=" Code Postal"></td>
+								<td><input type="text" name="codepostal" placeholder=" Code Postal" pattern="[0-9]{3,10}" maxlength='10' required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="pays" placeholder=" Pays"></td>
+								<td><input type="text" name="pays" placeholder=" Pays" required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="phone" id="number" placeholder=" Numéro de téléphone"></td>
+								<td><input type="tel" name="telephone" placeholder=" Numéro de téléphone" pattern="[0-9\s]{4,20}" maxlength='20' required></td>
 							</tr>
 						</table>
-					</form>	
+					
 				</div>
 
 				<div class="col-lg-4 col-md-4 col-sm-12" style=" background-color: #C4BDE3;">
 					<div><p><br></p></div>
 					<p id="carte" align="center"><img src="visa.png">          <img src="MC.png">          <img src="AE.png">          <img src="paypal.png"></p>
-					<form>
+					
 						<table align="center">
 							<tr align="center">
-								<td><input type="text" id="numCarte" placeholder=" Numéro de carte"></td>
+								<td><input type="text" name="numerocarte" placeholder=" Numéro de carte" pattern="[0-9\s]{13,19}" maxlength="19" required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="nomCarte" placeholder=" Nom Propriétaire"></td>
+								<td><input type="text" name="nomcarte" placeholder=" Nom Propriétaire" maxlength='20' required></td>
 							</tr>
 							<tr align="center">
 								<td>Date d'expiration :</td>
-								<td><input type="date" id="dateCatre"></td>
+								<td><select name='MM' required>
+									    <option value=''>Mois</option>
+									    <option value='01'>January</option>
+									    <option value='02'>February</option>
+									    <option value='03'>March</option>
+									    <option value='04'>April</option>
+									    <option value='05'>May</option>
+									    <option value='06'>June</option>
+									    <option value='07'>July</option>
+									    <option value='08'>August</option>
+									    <option value='09'>September</option>
+									    <option value='10'>October</option>
+									    <option value='11'>November</option>
+									    <option value='12'>December</option>
+									</select> 
+									<select name='YY' required>
+									    <option value=''>Année</option>
+									    <option value='20'>2020</option>
+									    <option value='21'>2021</option>
+									    <option value='22'>2022</option>
+									    <option value='23'>2023</option>
+								</select> </td>
 							</tr>
 							<tr align="center">
 								<td>Code secret à 3 chiffres :</td>
-								<td><input type="number" id="cvv"></td>
+								<td><input  type="text" placeholder="CVV" maxlength='3' pattern="[0-9]{3}" title="Code de sécurité invalide" name="codedesecurite" required></td>
 							</tr>
 						</table>
-					</form>	
+						
 				</div>
 						
 			</div>
@@ -168,8 +197,10 @@ mysqli_close($db_handle);?>
 				<div class="col-lg-8 col-md-8 col-sm-12" style=" background-color: #C4BDE3;">
 						<div align="center">
 							<p><br><br></p>
-							<p><input type="checkbox" name="clause">  J'accepte la clause client.</p>
-							<a href="#"><button type="submit" class="btn" style="border-radius: 2rem;">VALIDER</button></a>
+							<font color="red"><?php if(isset($erreur)){echo $erreur;}?></font>
+							<p><input type="checkbox" name="clause" required>  J'accepte la clause client.</p>
+							<a href="#"><button type="submit" name="button" class="btn" style="border-radius: 2rem;">VALIDER</button></a>
+							</form>	
 						</div>
 					<div><p><br><br><br></p></div>
 				</div>

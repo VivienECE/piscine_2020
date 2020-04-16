@@ -11,6 +11,7 @@ $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $doublon = false;
 $debug = false;
+
 //Recupération des données du formulaires
 if (isset($_POST["button"])) {
 		$pseudo = htmlspecialchars($_POST["pseudo"]);
@@ -38,7 +39,8 @@ if (isset($_POST["button"])) {
 			if (!$doublon) {
 				$uploadfile = $uploaddir . basename($_FILES['image']['name']);
 				$image = $_FILES['image']['name']; //chemin d'accès à l'image
-				//si aucune image de selectionner, ajoute dans la bdd avec une image par défaut
+				
+				//si aucune image de selectionnée, ajoute dans la bdd avec une image par défaut
 				if(!$image)
 				{
 				    $sql= "INSERT INTO utilisateur (`Pseudo`, `MotDePasse`) VALUES ('$pseudo','$motdepasse')";
@@ -47,13 +49,13 @@ if (isset($_POST["button"])) {
 					$result = mysqli_query($db_handle, $sql);
 					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
 					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Email`,`Image` ) VALUES ('$idutilisateur','$email','images/compte.png')";
-				    if(debug){echo $sql;}
+				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
 					header("Location: ../Vendeur/accueil.php");
 				}//sinon verifie le format
-				else if(get_file_extension($image)!="jpg"&&get_file_extension($image)!="png"){
+				else if(get_file_extension($image)!="jpg"&&get_file_extension($image)!="png"&&get_file_extension($image)!="PNG"){
 				   $erreur = "Mauvais format d'image";
 				}
 				//Deplace l'image dans nos fichiers www/vendeur/images, si succès: Ajout du reste des infos dans la BDD, redirection à l'acceuil
@@ -66,7 +68,7 @@ if (isset($_POST["button"])) {
 					$nom_image = $uploaddir . 'imageprofil_'. $idutilisateur."." . get_file_extension($image); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
 					rename($uploadfile,$nom_image);
 					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Email`,`Image` ) VALUES ('$idutilisateur','$email','$nom_image')";
-				    echo $sql;
+				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
 					session_start();
 					$_SESSION['id'] = $idutilisateur;

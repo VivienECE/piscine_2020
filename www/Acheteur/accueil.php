@@ -7,10 +7,9 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$idutilisateur=urldecode($_GET['idutilisateur']);
-		  
-		// Display the decrypted string 
-echo "ID:".$idutilisateur;
+// Display the decrypted string 
+session_start();
+echo "ID:" . $_SESSION['id'];
 
 //fermer la connexion
 mysqli_close($db_handle);?>

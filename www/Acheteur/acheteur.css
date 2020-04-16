@@ -19,7 +19,7 @@
       text-align: center;
     }
 
-    h2{
+    h2,h4{
       color: black;
       font-weight: bold;
       text-shadow: rgba(0,0,0,0.4) 2px 2px;
@@ -154,6 +154,11 @@
   a{
     color: black;
   }
+
+  .fav:hover img{
+      width: 40px;
+      height: 40px;
+    }
 
                                                      /*PANIER*/
 #total{

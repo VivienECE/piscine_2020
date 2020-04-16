@@ -8,10 +8,10 @@
   }
 
      Remove the navbar's default margin-bottom and rounded borders 
-
+*/ 
      body{
       background-image: url(fond.png);
-     }*/ 
+     }
    h1,h3{
       color: #C4BDE3;
       font-weight: bold;
@@ -92,18 +92,6 @@
                                                     
                                                     /*CATEGORIES*/
 
-  h1{
-    text-align: center;
-    font-weight: bold;
-    color: #C4BDE3;
-  }
-
-  h2{
-    text-align: center;
-    font-weight: bold;
-    color: black;
-  }
-
   .thumbnail{
     margin-left: 20%;
   }
@@ -174,16 +162,22 @@
 
 
                                                     /*MON COMPTE*/
+.menuBIS{
+  width: 200px; 
+}
 
 .menu{
-  width: 400px; 
+  width: 300px; 
+}
+
+.menu, .menuBIS{
   margin: 40px auto;
   list-style: none;
   padding: 5px; 
   background: #F2F2F2;  
 }
 
-.menu a {
+.menu a, .menuBIS a {
 
   display: block;
   text-align: center;
@@ -197,10 +191,19 @@
   transition: all .3s; 
 }
 
-.menu a:hover, .menu a:focus {
+.menu  a:hover, .menuBIS a:hover, .menu a:focus, .menuBIS a:focus {
     background: rgb(180,167,222);  
     color: #FFF;
     -ms-transform: rotate(1.1); 
     -webkit-transform: rotate(1.1);
     transform: scale(1.1);  
+}
+
+#aide{
+  margin-left: 25%;
+}
+#aide img{
+  width:40px;
+  height:40px;
+  margin-right: 30px;
 }

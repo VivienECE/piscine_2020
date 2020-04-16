@@ -171,3 +171,36 @@
   width: 150px;
   height: 150px;
 }
+
+
+                                                    /*MON COMPTE*/
+
+.menu{
+  width: 400px; 
+  margin: 40px auto;
+  list-style: none;
+  padding: 5px; 
+  background: #F2F2F2;  
+}
+
+.menu a {
+
+  display: block;
+  text-align: center;
+  margin: 1px 0; 
+  padding: 8px 10px; 
+  color: #666;  
+  background: #FFF;  
+  text-decoration: none; 
+  -webkit-transition: all .3s;  
+  -moz-transition: all .3s;   
+  transition: all .3s; 
+}
+
+.menu a:hover, .menu a:focus {
+    background: rgb(180,167,222);  
+    color: #FFF;
+    -ms-transform: rotate(1.1); 
+    -webkit-transform: rotate(1.1);
+    transform: scale(1.1);  
+}

@@ -7,10 +7,88 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$idutilisateur=urldecode($_GET['idutilisateur']);
-		  
-		// Display the decrypted string 
-echo "ID:".$idutilisateur;
+$debug = true;
+function get_file_extension($file) {
+
+return;
+}
+//$sql= "SELECT IdItem, PrixFinal, DateFinal FROM enchere where ...?";
+//$result = mysqli_query($db_handle, $sql);
+
+/**
+$sql= "SELECT * FROM enchere where IdItem = 1";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Eprix= $data['PrixFinal'];
+$Edatefinal= $data['DateFin'];}
+$sql= "SELECT * FROM item where IdItem = 1";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Enom= $data['Nom'];
+$Eimage= $data['Image'];
+$Ecategorie= $data['Categorie'];}**/
+//ENCHERE
+$EnchereIdItem=array(); $EncherePrix=array(); $EnchereDate=array(); $EnchereNom=array();$EnchereImage=array();$EnchereCategorie=array();
+
+$sql= "SELECT IdItem,PrixFinal,DateFin FROM enchere";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($EnchereIdItem,$data['IdItem']);
+array_push($EncherePrix,$data['PrixFinal']);
+array_push($EnchereDate,$data['DateFin']);}
+
+for($i = 0;$i < sizeof($EnchereIdItem);$i++)
+{
+	$sql= "SELECT Nom,Image,Categorie FROM item where IdItem=".$EnchereIdItem[$i];
+	$result = mysqli_query($db_handle, $sql);
+	while ($data = mysqli_fetch_assoc($result)){
+		array_push($EnchereNom,$data['Nom']);
+		array_push($EnchereImage,$data['Image']);
+		array_push($EnchereCategorie,$data['Categorie']);}
+}
+
+//IMMEDIAT
+$ImmediatIdItem=array(); $ImmediatPrix=array(); $ImmediatDate=array(); $ImmediatNom=array();$ImmediatImage=array();$ImmediatCategorie=array();
+
+$sql= "SELECT IdItem,PrixFinal,DateFin FROM achatimmediat";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($ImmediatIdItem,$data['IdItem']);
+array_push($ImmediatPrix,$data['PrixFinal']);
+array_push($ImmediatDate,$data['DateFin']);}
+
+for($i = 0;$i < sizeof($ImmediatIdItem);$i++)
+{
+	$sql= "SELECT Nom,Image,Categorie FROM item where IdItem=".$ImmediatIdItem[$i];
+	$result = mysqli_query($db_handle, $sql);
+	while ($data = mysqli_fetch_assoc($result)){
+		array_push($ImmediatNom,$data['Nom']);
+		array_push($ImmediatImage,$data['Image']);
+		array_push($ImmediatCategorie,$data['Categorie']);}
+}
+
+//OFFRE
+$OffreIdItem=array(); $OffrePrix=array(); $OffreDate=array(); $OffreNom=array();$OffreImage=array();$OffreCategorie=array();
+
+$sql= "SELECT IdItem,PrixFinal,DateFin FROM meilleureoffre";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($OffreIdItem,$data['IdItem']);
+array_push($OffrePrix,$data['PrixFinal']);
+array_push($OffreDate,$data['DateFin']);}
+
+for($i = 0;$i < sizeof($OffreIdItem);$i++)
+{
+	$sql= "SELECT Nom,Image,Categorie FROM item where IdItem=".$OffreIdItem[$i];
+	$result = mysqli_query($db_handle, $sql);
+	while ($data = mysqli_fetch_assoc($result)){
+		array_push($OffreNom,$data['Nom']);
+		array_push($OffreImage,$data['Image']);
+		array_push($OffreCategorie,$data['Categorie']);}
+}
+
+// Display the decrypted string 
+session_start();
 
 //fermer la connexion
 mysqli_close($db_handle);?>
@@ -48,100 +126,120 @@ mysqli_close($db_handle);?>
 
 	<div class="container features">
 		<div class="row">
+			<!-- ENCHERE -->
 			<div class="col-lg-4 col-md-4 col-sm-12">
 				<h3 class="feature-title">Ventes aux enchères<br><br><br><br></h3>
-				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
-				    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel" data-slide-to="1"></li>
-				    <li data-target="#myCarousel" data-slide-to="2"></li>
+				    <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
+				    <li data-target="#myCarousel1" data-slide-to="1"></li>
+				    <li data-target="#myCarousel1" data-slide-to="2"></li>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img src="images/piece.jpg" alt="Monnaie grecque">
+				      <span><?php echo "<br>"."$EnchereNom[0]"; ?></span>
+				      <img <?php echo "src='$EnchereImage[0]'"; ?>>
+					  <span><?php echo "<br>"."$EncherePrix[0] €"; ?></span>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/antiquite.jpg" alt="Antiquité">
+				       <span><?php echo "<br>"."$EnchereNom[1]"; ?></span>
+				      <img <?php echo "src='$EnchereImage[1]'"; ?>>
+					  <span><?php echo "<br>"."$EncherePrix[1] €"; ?></span>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/montre.jpg" alt="Montre">
+				       <span><?php echo "<br>"."$EnchereNom[2]"; ?></span>
+				      <img <?php echo "src='$EnchereImage[2]'"; ?>>
+					  <span><?php echo "<br>"."$EncherePrix[2] €"; ?></span>
 				    </div>
 				  </div>
 
 				  <!-- Left and right controls -->
-				  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+				  <a class="carousel-control-prev" href="#myCarousel1" data-slide="prev">
 				    <span class="carousel-control-prev-icon"></span>
-				  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+				  <a class="carousel-control-next" href="#myCarousel1" data-slide="next">
 				    <span class="carousel-control-next-icon"></span>
 				  </a>
 				</div>
 			</div>
-
+			<!-- IMMEDIAT -->
 			<div class="col-lg-4 col-md-4 col-sm-12">
 				<h3 class="feature-title">Ventes immédiates<br><br><br><br></h3>
-				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
-				    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel" data-slide-to="1"></li>
-				    <li data-target="#myCarousel" data-slide-to="2"></li>
+				    <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+				    <li data-target="#myCarousel2" data-slide-to="1"></li>
+				    <li data-target="#myCarousel2" data-slide-to="2"></li>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img src="images/piece.jpg" alt="Monnaie grecque">
+				       <span><?php echo "<br>"."$ImmediatNom[0]"; ?></span>
+				      <img <?php echo "src='$ImmediatImage[0]'"; ?>>
+					  <span><?php echo "<br>"."$ImmediatPrix[0] €"; ?></span>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/antiquite.jpg" alt="Antiquité">
+				       <span><?php echo "<br>"."$ImmediatNom[1]"; ?></span>
+				      <img <?php echo "src='$ImmediatImage[1]'"; ?>>
+					  <span><?php echo "<br>"."$ImmediatPrix[1] €"; ?></span>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/montre.jpg" alt="Montre">
+				       <span><?php echo "<br>"."$ImmediatNom[2]"; ?></span>
+				      <img <?php echo "src='$ImmediatImage[2]'"; ?>>
+					  <span><?php echo "<br>"."$ImmediatPrix[2] €"; ?></span>
 				    </div>
 				  </div>
 
 				  <!-- Left and right controls -->
-				  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+				  <a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
 				    <span class="carousel-control-prev-icon"></span>
-				  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+				  <a class="carousel-control-next" href="#myCarousel2" data-slide="next">
 				    <span class="carousel-control-next-icon"></span>
 				  </a>
 				</div>
 			</div>
 
+			<!-- OFFRES -->
 			<div class="col-lg-4 col-md-4 col-sm-12">
 				<h3 class="feature-title">Meilleures offres<br><br><br><br></h3>
-				<div id="myCarousel" class="carousel slide" data-ride="carousel">
+				<div id="myCarousel3" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
-				    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel" data-slide-to="1"></li>
-				    <li data-target="#myCarousel" data-slide-to="2"></li>
+				    <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>
+				    <li data-target="#myCarousel3" data-slide-to="1"></li>
+				    <li data-target="#myCarousel3" data-slide-to="2"></li>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img src="images/piece.jpg" alt="Monnaie grecque">
+				      <span><?php echo "<br>"."$OffreNom[0]"; ?></span>
+				      <img <?php echo "src='$OffreImage[0]'"; ?>>
+					  <span><?php echo "<br>"."$OffrePrix[0] €"; ?></span>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/antiquite.jpg" alt="Antiquité">
+				      <span><?php echo "<br>"."$OffreNom[1]"; ?></span>
+				      <img <?php echo "src='$OffreImage[1]'"; ?>>
+					  <span><?php echo "<br>"."$OffrePrix[1] €"; ?></span>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/montre.jpg" alt="Montre">
+				       <span><?php echo "<br>"."$OffreNom[2]"; ?></span>
+				      <img <?php echo "src='$OffreImage[2]'"; ?>>
+					  <span><?php echo "<br>"."$OffrePrix[2] €"; ?></span>
 				    </div>
 				  </div>
 
 				  <!-- Left and right controls -->
-				  <a class="carousel-control-prev" href="#myCarousel" data-slide="prev">
+				  <a class="carousel-control-prev" href="#myCarousel3" data-slide="prev">
 				    <span class="carousel-control-prev-icon"></span>
-				  <a class="carousel-control-next" href="#myCarousel" data-slide="next">
+				  <a class="carousel-control-next" href="#myCarousel3" data-slide="next">
 				    <span class="carousel-control-next-icon"></span>
 				  </a>
 				</div>

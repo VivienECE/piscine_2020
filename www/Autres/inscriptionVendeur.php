@@ -128,6 +128,8 @@ mysqli_close($db_handle);?>
 							</script>
 							<!--IMAGE DU PROFIL -->
 
+							<hr style="height: 30px; color: white; margin-bottom: 10px; margin-top: 20px;">
+
 							<tr align="center">
 								<td><input type="text" name="pseudo" placeholder=" Nom d'utilisateur" pattern=".{4,14}" maxlength='14' required></td>
 							</tr>
@@ -138,10 +140,11 @@ mysqli_close($db_handle);?>
 								<td><input type="email" name="email" placeholder=" Email" pattern=".{1,30}" title="30 caractères max" maxlength='30' required></td>
 							</tr>
 						</table>
+
+						<hr style="height: 100px; color: white;  margin-bottom: 20px; margin-top: 10px;">
 					
 					<div align="center">
 					<font color="red"><?php if(isset($erreur)){echo $erreur;}?></font>
-					<p><br><br></p>
 					<a href="#"><button type="submit"  name="button" class="btn" style="border-radius: 2rem;">VALIDER</button></a>
 					</form>
 					</div>

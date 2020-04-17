@@ -144,7 +144,7 @@ mysqli_close($db_handle);?>
 							<tr align="center">
 								<td><!--IMAGE DU PROFIL -->
 								<input type="hidden" name="MAX_FILE_SIZE" value="30000" />  <!--Apparament taille max de l'image en ko? -->
-								<input type="file" name="image" accept="image/gif, image/jpeg, image/png" onchange="loadFile(event)"> 
+								<input style="border-radius: 2rem;" type="file" name="image" accept="image/gif, image/jpeg, image/png" onchange="loadFile(event)"> 
 								<script>
 								  var loadFile = function(event) {
 								    var output = document.getElementById('profil');
@@ -172,7 +172,7 @@ mysqli_close($db_handle);?>
 
 			<div class="row">
 				<div class="col-lg-2 col-md-2"></div>
-				<div class="col-lg-4 col-md-4 col-sm-12" style=" background-color: #C4BDE3;">
+				<div class="col-lg-3 col-md-3 col-sm-12" style=" background-color: #C4BDE3;">
 					<div><p><br></p></div>
 					
 						<table align="center">
@@ -204,8 +204,12 @@ mysqli_close($db_handle);?>
 					
 				</div>
 
+				<div class="col-lg-1 col-md-1 col-sm-0" style=" background-color: #C4BDE3;">
+					<hr style="height: 300px; color: white;">
+				</div>
+
 				<div class="col-lg-4 col-md-4 col-sm-12" style=" background-color: #C4BDE3;">
-					<div><p><br></p></div>
+					<div><p><br><br><br></p></div>
 					<p id="carte" align="center"><img src="visa.png">          <img src="MC.png">          <img src="AE.png">          <img src="paypal.png"></p>
 					
 						<table align="center">
@@ -217,7 +221,7 @@ mysqli_close($db_handle);?>
 							</tr>
 							<tr align="center">
 								<td>Date d'expiration :</td>
-								<td><select name='MM' required>
+								<td><select style="border-radius: 2rem; border:1px; box-shadow: rgba(0,0,0,0.4) 2px 2px;" name='MM' required>
 									    <option value=''>Mois</option>
 									    <option value='01'>January</option>
 									    <option value='02'>February</option>
@@ -232,7 +236,7 @@ mysqli_close($db_handle);?>
 									    <option value='11'>November</option>
 									    <option value='12'>December</option>
 									</select> 
-									<select name='YY' required>
+									<select style="border-radius: 2rem; border:1px; box-shadow: rgba(0,0,0,0.4) 2px 2px;" name='YY' required>
 									    <option value=''>Année</option>
 									    <option value='20'>2020</option>
 									    <option value='21'>2021</option>

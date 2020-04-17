@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  ven. 17 avr. 2020 à 16:31
+-- Généré le :  ven. 17 avr. 2020 à 20:35
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -177,18 +177,18 @@ INSERT INTO `item` (`IdItem`, `IdVendeur`, `Nom`, `Description`, `Categorie`, `P
 
 DROP TABLE IF EXISTS `meilleureoffre`;
 CREATE TABLE IF NOT EXISTS `meilleureoffre` (
-  `IdMeilleurOffre` int(8) NOT NULL AUTO_INCREMENT,
+  `IdMeilleureOffre` int(8) NOT NULL AUTO_INCREMENT,
   `IdItem` int(8) NOT NULL,
   `DateFin` date NOT NULL,
   `PrixFinal` int(8) NOT NULL,
-  PRIMARY KEY (`IdMeilleurOffre`)
+  PRIMARY KEY (`IdMeilleureOffre`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `meilleureoffre`
 --
 
-INSERT INTO `meilleureoffre` (`IdMeilleurOffre`, `IdItem`, `DateFin`, `PrixFinal`) VALUES
+INSERT INTO `meilleureoffre` (`IdMeilleureOffre`, `IdItem`, `DateFin`, `PrixFinal`) VALUES
 (1, 3, '2020-04-17', 90),
 (2, 7, '2020-04-30', 78),
 (3, 9, '2020-04-30', 30);
@@ -206,10 +206,10 @@ CREATE TABLE IF NOT EXISTS `negocie` (
   `IdAcheteur` int(8) NOT NULL,
   `IdMeilleureOffre` int(8) NOT NULL,
   `EtapeNegociation` int(1) NOT NULL COMMENT '[1-5] +1 apres chaque contre-offre',
-  `Date` date NOT NULL,
+  `Date` date DEFAULT NULL,
   `Prix` int(8) NOT NULL,
   PRIMARY KEY (`IdNegociation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -222,10 +222,10 @@ CREATE TABLE IF NOT EXISTS `offreenchere` (
   `IdOffre` int(8) NOT NULL AUTO_INCREMENT,
   `IdEnchere` int(8) NOT NULL,
   `IdAcheteur` int(8) NOT NULL,
-  `Date` int(11) NOT NULL,
+  `Date` int(11) DEFAULT NULL,
   `Prix` int(8) NOT NULL,
   PRIMARY KEY (`IdOffre`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -251,16 +251,15 @@ CREATE TABLE IF NOT EXISTS `selectionne` (
   `IdSelectionne` int(8) NOT NULL AUTO_INCREMENT,
   `IdAcheteur` int(8) NOT NULL,
   `IdAchatImmediat` int(8) NOT NULL,
-  `IdPanier` int(8) NOT NULL,
   PRIMARY KEY (`IdSelectionne`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `selectionne`
 --
 
-INSERT INTO `selectionne` (`IdSelectionne`, `IdAcheteur`, `IdAchatImmediat`, `IdPanier`) VALUES
-(1, 1, 1, 1);
+INSERT INTO `selectionne` (`IdSelectionne`, `IdAcheteur`, `IdAchatImmediat`) VALUES
+(7, 1, 3);
 
 -- --------------------------------------------------------
 

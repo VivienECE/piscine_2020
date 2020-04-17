@@ -9,25 +9,8 @@ $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
 function get_file_extension($file) {
-
 return;
 }
-//$sql= "SELECT IdItem, PrixFinal, DateFinal FROM enchere where ...?";
-//$result = mysqli_query($db_handle, $sql);
-
-/**
-$sql= "SELECT * FROM enchere where IdItem = 1";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Eprix= $data['PrixFinal'];
-$Edatefinal= $data['DateFin'];}
-$sql= "SELECT * FROM item where IdItem = 1";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Enom= $data['Nom'];
-$Eimage= $data['Image'];
-$Ecategorie= $data['Categorie'];}**/
-//ENCHERE
 $EnchereIdItem=array(); $EncherePrix=array(); $EnchereDate=array(); $EnchereNom=array();$EnchereImage=array();$EnchereCategorie=array();
 
 $sql= "SELECT IdItem,PrixFinal,DateFin FROM enchere";
@@ -90,6 +73,29 @@ for($i = 0;$i < sizeof($OffreIdItem);$i++)
 // Display the decrypted string 
 session_start();
 
+function display_item($Nom,$Image,$Prix) 
+{
+	echo  "
+		  <div class='carousel-inner'>
+		       <div class='carousel-item active'>
+		       <span> <br>$Nom[0] </span>
+		      <img src='$Image[0]' >
+			  <span> $Prix[0] € </span>
+		    </div>
+
+		       <div class='carousel-item'>
+		       <span> <br>$Nom[1] </span>
+		      <img src='$Image[1]';>
+			  <span> $Prix[1] € </span>
+		    </div>
+		    <div class='carousel-item'>
+		       <span> <br>$Nom[2] </span>
+		      <img src='$Image[2]' >
+			  <span> $Prix[2] € </span>
+		    </div>
+		  </div>";
+}
+
 //fermer la connexion
 mysqli_close($db_handle);?>
 
@@ -137,25 +143,7 @@ mysqli_close($db_handle);?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
-				    <div class="carousel-item active">
-				      <span><?php echo "<br>"."$EnchereNom[0]"; ?></span>
-				      <img <?php echo "src='$EnchereImage[0]'"; ?>>
-					  <span><?php echo "<br>"."$EncherePrix[0] €"; ?></span>
-				    </div>
-
-				    <div class="carousel-item">
-				       <span><?php echo "<br>"."$EnchereNom[1]"; ?></span>
-				      <img <?php echo "src='$EnchereImage[1]'"; ?>>
-					  <span><?php echo "<br>"."$EncherePrix[1] €"; ?></span>
-				    </div>
-
-				    <div class="carousel-item">
-				       <span><?php echo "<br>"."$EnchereNom[2]"; ?></span>
-				      <img <?php echo "src='$EnchereImage[2]'"; ?>>
-					  <span><?php echo "<br>"."$EncherePrix[2] €"; ?></span>
-				    </div>
-				  </div>
+				<?php display_item($EnchereNom,$EnchereImage,$EncherePrix);?>
 
 				  <!-- Left and right controls -->
 				  <a class="carousel-control-prev" href="#myCarousel1" data-slide="prev">
@@ -176,25 +164,7 @@ mysqli_close($db_handle);?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
-				    <div class="carousel-item active">
-				       <span><?php echo "<br>"."$ImmediatNom[0]"; ?></span>
-				      <img <?php echo "src='$ImmediatImage[0]'"; ?>>
-					  <span><?php echo "<br>"."$ImmediatPrix[0] €"; ?></span>
-				    </div>
-
-				    <div class="carousel-item">
-				       <span><?php echo "<br>"."$ImmediatNom[1]"; ?></span>
-				      <img <?php echo "src='$ImmediatImage[1]'"; ?>>
-					  <span><?php echo "<br>"."$ImmediatPrix[1] €"; ?></span>
-				    </div>
-
-				    <div class="carousel-item">
-				       <span><?php echo "<br>"."$ImmediatNom[2]"; ?></span>
-				      <img <?php echo "src='$ImmediatImage[2]'"; ?>>
-					  <span><?php echo "<br>"."$ImmediatPrix[2] €"; ?></span>
-				    </div>
-				  </div>
+				  	<?php display_item($ImmediatNom,$ImmediatImage,$ImmediatPrix);?>
 
 				  <!-- Left and right controls -->
 				  <a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
@@ -216,25 +186,7 @@ mysqli_close($db_handle);?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
-				    <div class="carousel-item active">
-				      <span><?php echo "<br>"."$OffreNom[0]"; ?></span>
-				      <img <?php echo "src='$OffreImage[0]'"; ?>>
-					  <span><?php echo "<br>"."$OffrePrix[0] €"; ?></span>
-				    </div>
-
-				    <div class="carousel-item">
-				      <span><?php echo "<br>"."$OffreNom[1]"; ?></span>
-				      <img <?php echo "src='$OffreImage[1]'"; ?>>
-					  <span><?php echo "<br>"."$OffrePrix[1] €"; ?></span>
-				    </div>
-
-				    <div class="carousel-item">
-				       <span><?php echo "<br>"."$OffreNom[2]"; ?></span>
-				      <img <?php echo "src='$OffreImage[2]'"; ?>>
-					  <span><?php echo "<br>"."$OffrePrix[2] €"; ?></span>
-				    </div>
-				  </div>
+				 	<?php display_item($OffreNom,$OffreImage,$OffrePrix);?>
 
 				  <!-- Left and right controls -->
 				  <a class="carousel-control-prev" href="#myCarousel3" data-slide="prev">

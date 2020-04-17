@@ -59,7 +59,7 @@ mysqli_close($db_handle);?>
 		<div class="container">
 			<div class="row">
 				
-				<div class="col-lg-6 col-md-6 col-sm-12" style="border-right-width: 3px; border-right-color: white;">
+				<div class="col-lg-5 col-md-5 col-sm-12" style="border-right-width: 3px; border-right-color: white;">
 					<h1><br>CONNEXION<br></h1>
 					<form method='post'>
 						<table align="center">
@@ -74,11 +74,14 @@ mysqli_close($db_handle);?>
 					<p><br></p>
 					<font color="red">
 						<?php if(isset($erreur)){echo $erreur;}?></font>
-					<input type="submit" name="button" id="button" src="login.png" height="75" width="75" style="margin-left: 40%"></a>
+					<input type="submit" name="button" id="button" class="btn"style="margin-left: 40%"></a>
 				    </form>
 					<p><br></p>
 				</div>
-				<div class="col-lg-6 col-md-6 col-sm-12">
+				<div class="col-lg-1 col-md-1 col-sm-12">
+					<hr style="height: 200px; color: white;">
+				</div>
+				<div class="col-lg-5 col-md-5 col-sm-12">
 					<h1><br>INSCRIPTION<br></h1>
 					<div align="center"><br><br><a href="inscriptionAcheteur.php"><button type="button" class="btn" id="gauche">ACHETEUR</button>
 						<a href="inscriptionVendeur.php"><button type="button" class="btn" id="droite">VENDEUR</button>

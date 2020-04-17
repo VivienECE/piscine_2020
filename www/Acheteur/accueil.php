@@ -131,7 +131,7 @@ mysqli_close($db_handle);?>
 		<div class="row">
 			<!-- ENCHERE -->
 			<div class="col-lg-4 col-md-4 col-sm-12">
-				<h3 class="feature-title">Ventes aux enchères<br><br><br><br></h3>
+				<a href="enchere.php"><h3 class="feature-title">Ventes aux enchères<br><br><br><br></h3></a>
 				<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
@@ -152,7 +152,7 @@ mysqli_close($db_handle);?>
 			</div>
 			<!-- IMMEDIAT -->
 			<div class="col-lg-4 col-md-4 col-sm-12">
-				<h3 class="feature-title">Ventes immédiates<br><br><br><br></h3>
+				<a href="achatimmediat.php"><h3 class="feature-title">Ventes immédiates<br><br><br><br></h3></a>
 				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
@@ -174,7 +174,7 @@ mysqli_close($db_handle);?>
 
 			<!-- OFFRES -->
 			<div class="col-lg-4 col-md-4 col-sm-12">
-				<h3 class="feature-title">Meilleures offres<br><br><br><br></h3>
+				<a href="meilleureoffre.php"><h3 class="feature-title">Meilleures offres<br><br><br><br></h3></a>
 				<div id="myCarousel3" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>

@@ -17,7 +17,7 @@ $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join enchere ON item.IdItem = enchere.IdItem
-	WHERE Categorie='musee'";
+	WHERE Categorie='accessoire'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -28,7 +28,7 @@ array_push($prixitem,"Vente aux enchères !");}
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
-	WHERE Categorie='musee'";
+	WHERE Categorie='accessoire'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -39,7 +39,7 @@ array_push($prixitem,"Proposez une offre au vendeur !");}
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join achatimmediat ON item.IdItem = achatimmediat.IdItem
-	WHERE Categorie='musee'";
+	WHERE Categorie='accessoire'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -97,10 +97,10 @@ mysqli_close($db_handle);?>
 			</div>
 	</nav>
 
-	<div><p><br><h1>MUSEE</h1><br><br></p></div>
+	<div><p><br><h1>ACCESSOIRES VIP</h1><br><br></p></div>
 
 	<div class="container features">
-		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE MUSEE DEPUIS LA BDD-->
+		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE ACESSOIRE DEPUIS LA BDD-->
 					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i]);}?>
 
 	<footer class="page-footer">

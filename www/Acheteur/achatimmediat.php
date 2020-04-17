@@ -16,30 +16,7 @@ $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
-	join enchere ON item.IdItem = enchere.IdItem
-	WHERE Categorie='musee'";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-array_push($iditem,$data['IdItem']);
-array_push($nomitem,$data['Nom']);
-array_push($imageitem,$data['Image']);
-array_push($prixitem,"Vente aux enchères !");}
-
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
-FROM item
-	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
-	WHERE Categorie='musee'";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-array_push($iditem,$data['IdItem']);
-array_push($nomitem,$data['Nom']);
-array_push($imageitem,$data['Image']);
-array_push($prixitem,"Proposez une offre au vendeur !");}
-
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
-FROM item
-	join achatimmediat ON item.IdItem = achatimmediat.IdItem
-	WHERE Categorie='musee'";
+	join achatimmediat ON item.IdItem = achatimmediat.IdItem";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -66,9 +43,7 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem)
 session_start();
 
 //fermer la connexion
-mysqli_close($db_handle);?>
-
-<!DOCTYPE html>
+mysqli_close($db_handle);?><!DOCTYPE html>
 <html>
 <head>
 	<title>ECEbay panier</title>
@@ -97,11 +72,11 @@ mysqli_close($db_handle);?>
 			</div>
 	</nav>
 
-	<div><p><br><h1>MUSEE</h1><br><br></p></div>
+	<div><p><br><h1>VENTES IMMEDIATES</h1><br><br></p></div>
 
 	<div class="container features">
-		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE MUSEE DEPUIS LA BDD-->
-					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i]);}?>
+		<div class="row">
+			<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i]);}?>
 
 	<footer class="page-footer">
 			<div class="container">

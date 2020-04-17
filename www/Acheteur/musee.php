@@ -26,11 +26,9 @@ $Enom= $data['Nom'];
 $Eimage= $data['Image'];
 $Ecategorie= $data['Categorie'];}**/
 //ENCHERE
-<<<<<<< Updated upstream
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$typeitem=array();
-=======
+
 $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
->>>>>>> Stashed changes
+
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
@@ -65,8 +63,6 @@ array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($prixitem,$data['PrixFinal']."€");}
 
-<<<<<<< Updated upstream
-=======
 //Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$prixitem) 
 {
@@ -82,7 +78,6 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem)
 			</div>";
 }
 
->>>>>>> Stashed changes
 // Display the decrypted string 
 session_start();
 
@@ -121,87 +116,8 @@ mysqli_close($db_handle);?>
 	<div><p><br><h1>MUSEE</h1><br><br></p></div>
 
 	<div class="container features">
-<<<<<<< Updated upstream
-		<div class="row">
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[0]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[0]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[0]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[0]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[1]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[1]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[1]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[1]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div  align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[2]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[2]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[2]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[2]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-		</div>
-		<div><br></div>
-		<div class="row">
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[3]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[3]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[3]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[3]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[4]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[4]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[4]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[4]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[6]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[6]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[6]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[6]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-		</div>
-	</div>
-=======
 		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE MUSEE DEPUIS LA BDD-->
 					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i]);}?>
->>>>>>> Stashed changes
 
 	<footer class="page-footer">
 			<div class="container">

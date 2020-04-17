@@ -96,7 +96,6 @@
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
   }
     
-    /* Set black background color, white text and some padding */
     footer {
       background-color: #C4BDE3;
       color: white;
@@ -129,12 +128,6 @@
   #prix{
     color: #C4BDE3;
     font-weight: bold;
-  }
-
-  .row{
-    border-bottom-width: medium;
-    border-bottom-color: #E6E6E6;
-
   }
 
   .btn{

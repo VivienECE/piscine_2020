@@ -1,0 +1,100 @@
+     body{
+      background-image: url(fond.png);
+     }
+
+   h1,h3{
+      color: #C4BDE3;
+      font-weight: bold;
+      text-shadow: rgba(0,0,0,0.4) 2px 2px;
+      text-align: center;
+    }
+
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    .navbar {
+      background:#C4BDE3;
+      color: white;
+      }
+
+    
+
+    .nav-link, .navbar-brand, .ici {
+      color: #fff;
+      cursor: pointer;
+    }
+    .ici{
+      background-color: #B8AFE5;
+    }
+
+    .nav-link {
+      margin: auto;
+    }
+
+    .nav-link:hover {
+      color: grey;
+    }
+    .nav-link:hover img{
+      width: 30px;
+      height: 25px;
+    }
+
+    .navbar-collapse {
+      justify-content: flex-end;
+    }
+    
+    .feature-title{
+      color: #C4BDE3;
+      text-align: center;
+      font-weight: bold;
+    }
+
+
+  #barreH{
+    font-size: 1.5px;
+    background-color: #C4BDE3;
+    color: #C4BDE3;
+  }
+
+  #barreV{
+    font-size: 18px;
+    background-color:#C4BDE3; 
+    color: #C4BDE3; 
+    line-height: 0px;
+  }
+
+  footer {
+      background-color: #C4BDE3;
+      color: white;
+      padding: 15px;
+    }
+
+                                                                       /*VENTES*/
+
+  .thumbnail{
+    margin-left: 20%;
+  }
+
+  .thumbnail img{
+    width: 200px;
+    height: 200px;
+    box-shadow: rgba(0,0,0,0.4) 3px 3px;
+  }
+
+   #id{
+    color: black;
+    font-size: 11px;
+    font-weight: normal;
+  }
+
+  #titre{
+    color: black;
+    font-size: 18px;
+  }
+
+  #prix{
+    color: #C4BDE3;
+    font-weight: bold;
+  }

@@ -78,7 +78,7 @@ if (isset($_POST["button"])) {
 					$result =mysqli_query($db_handle, $sql);
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
-					header("Location: Acheteur/accueil.php");
+					header("Location: ../Acheteur/accueil.php");
   				 }//sinon verifie le format
 				else if(get_file_extension($image)!="jpg"&&get_file_extension($image)!="png"&&get_file_extension($image)!="PNG"&&get_file_extension($image)!="JPG"){
 				   $erreur = "Mauvais format d'image";
@@ -97,7 +97,7 @@ if (isset($_POST["button"])) {
 					$result =mysqli_query($db_handle, $sql);
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
-					header("Location: Acheteur/accueil.php");
+					header("Location: ../Acheteur/accueil.php");
 				} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
 				else {
 				   if($debug){print_r($_FILES['image']);}

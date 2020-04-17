@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 16 avr. 2020 à 15:20
+-- Généré le :  ven. 17 avr. 2020 à 02:17
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -31,11 +31,20 @@ SET time_zone = "+00:00";
 DROP TABLE IF EXISTS `achatimmediat`;
 CREATE TABLE IF NOT EXISTS `achatimmediat` (
   `IdAchatImmediat` int(8) NOT NULL AUTO_INCREMENT,
-  `IdAcheteur` int(8) NOT NULL,
   `IdItem` int(8) NOT NULL,
-  `Date` date NOT NULL,
+  `PrixFinal` varchar(255) NOT NULL,
+  `DateFin` date NOT NULL,
   PRIMARY KEY (`IdAchatImmediat`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `achatimmediat`
+--
+
+INSERT INTO `achatimmediat` (`IdAchatImmediat`, `IdItem`, `PrixFinal`, `DateFin`) VALUES
+(1, 2, '2000', '2020-04-16'),
+(2, 4, '80', '2020-04-30'),
+(3, 5, '80', '2020-04-30');
 
 -- --------------------------------------------------------
 
@@ -75,7 +84,7 @@ CREATE TABLE IF NOT EXISTS `acheteur` (
   `CodedeSecurite` varchar(3) NOT NULL,
   `ImageProfil` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`IdAcheteur`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `acheteur`
@@ -87,7 +96,10 @@ INSERT INTO `acheteur` (`IdAcheteur`, `IdUtilisateur`, `Nom`, `Prenom`, `Adresse
 (3, 24, 'vvvv', 'vvvv', 'vvv', '00000', 'ffff', '99999999999', 'visa', '7777777777777777777', '777', '10/20', '777', NULL),
 (4, 25, 'eeeee', 'eeeeeeeee', 'eeeeeeee', '44444', '3333333333', '333333333333333333', 'visa', '3333333333333333333', 'E333', '02/20', '333', NULL),
 (5, 26, 'tesst', 'tesst', 'tesst', '222222', 'tesst', '22222222222222', 'visa', '2222222222222222222', 'tesst', '01/20', '222', NULL),
-(6, 28, 'eeeeeeee', 'eeeeeeeee', 'eeeeeeeee', '44444', '44444', '4444444', 'visa', '444444444444444', '4444', '03/22', '444', NULL);
+(6, 28, 'eeeeeeee', 'eeeeeeeee', 'eeeeeeeee', '44444', '44444', '4444444', 'visa', '444444444444444', '4444', '03/22', '444', NULL),
+(7, 72, '11111111111111111', '11111111111111111', '1111111111111111111111111111111111', '1111111111', '11111111111111111', '11111111111111111', 'visa', '1111111111111111111', '11111111111111111', '01/20', '111', 'images/compte.png'),
+(8, 73, '11111111111111111', '11111111111111111', '1111111111111111111111111111111111', '1111111111', '11111111111111111', '11111111111111111', 'visa', '1111111111111111111', '11111111111111111', '01/20', '111', ''),
+(9, 74, '11111111111111111', '11111111111111111', '1111111111111111111111111111111111', '1111111111', '11111111111111111', '11111111111111111', 'visa', '1111111111111111111', '11111111111111111', '01/20', '111', '../acheteur/images/imageprofil_74.jpg');
 
 -- --------------------------------------------------------
 
@@ -118,7 +130,16 @@ CREATE TABLE IF NOT EXISTS `enchere` (
   `DateFin` date NOT NULL,
   `PrixFinal` int(8) NOT NULL COMMENT '=(2nd offre + chere) +1euro',
   PRIMARY KEY (`IdEnchere`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `enchere`
+--
+
+INSERT INTO `enchere` (`IdEnchere`, `IdItem`, `DateDebut`, `DateFin`, `PrixFinal`) VALUES
+(1, 1, '2020-04-16', '2020-04-22', 150),
+(2, 6, '2020-04-17', '2020-04-30', 300),
+(3, 8, '2020-04-17', '2020-04-30', 1500);
 
 -- --------------------------------------------------------
 
@@ -139,7 +160,22 @@ CREATE TABLE IF NOT EXISTS `item` (
   `Image` varchar(255) DEFAULT NULL,
   `Video` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`IdItem`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `item`
+--
+
+INSERT INTO `item` (`IdItem`, `IdVendeur`, `Nom`, `Description`, `Categorie`, `PrixInitial`, `Date`, `Statut`, `Image`, `Video`) VALUES
+(1, 70, 'Montre de luxe', 'Montre de mon arrière, arrière...grand-père. En état de marche.', 'musee', 150, '2020-04-16', 'vente', '../items/images/item_1.png', NULL),
+(2, 56, 'New York', 'Peinture à l\'huile', 'musee', 1000, '2020-04-16', 'vente', '../items/images/item_2.png', NULL),
+(3, 45, 'Bidonville', 'Illustration', 'musee', 90, '2020-04-17', 'vente', '../items/images/item_3.png', NULL),
+(4, 45, 'Strange Farm', 'Illustration', 'musee', 80, '2020-04-17', 'vente', '../items/images/item_4.png', NULL),
+(5, 45, 'Futuristic Street', 'Illustration', 'musee', 80, '2020-04-17', 'vente', '../items/images/item_5.png', NULL),
+(6, 45, 'Rapiere', 'Rapiere du XVII', 'musee', 300, '2020-04-17', 'vente', '../items/images/item_6.png', NULL),
+(7, 45, 'Solitude Falling', 'Illustration', 'musee', 80, '2020-04-17', 'vente', '../items/images/item_7.png', NULL),
+(8, 78, 'Bague', 'Bague en diamant', 'musee', 1500, '2020-04-17', 'vente', '../items/images/item_8', NULL),
+(9, 78, 'Piece Antique', 'Piece Antique', 'musee', 35, '2020-04-17', 'vente', '../items/images/item_9', NULL);
 
 -- --------------------------------------------------------
 
@@ -151,10 +187,19 @@ DROP TABLE IF EXISTS `meilleureoffre`;
 CREATE TABLE IF NOT EXISTS `meilleureoffre` (
   `IdMeilleurOffre` int(8) NOT NULL AUTO_INCREMENT,
   `IdItem` int(8) NOT NULL,
-  `Date` date NOT NULL,
+  `DateFin` date NOT NULL,
   `PrixFinal` int(8) NOT NULL,
   PRIMARY KEY (`IdMeilleurOffre`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `meilleureoffre`
+--
+
+INSERT INTO `meilleureoffre` (`IdMeilleurOffre`, `IdItem`, `DateFin`, `PrixFinal`) VALUES
+(1, 3, '2020-04-17', 90),
+(2, 7, '2020-04-30', 78),
+(3, 9, '2020-04-30', 30);
 
 -- --------------------------------------------------------
 
@@ -216,7 +261,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `Pseudo` varchar(20) NOT NULL,
   `MotDePasse` varchar(60) NOT NULL,
   PRIMARY KEY (`IdUtilisateur`)
-) ENGINE=MyISAM AUTO_INCREMENT=68 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=75 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -224,6 +269,13 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 
 INSERT INTO `utilisateur` (`IdUtilisateur`, `Email`, `Pseudo`, `MotDePasse`) VALUES
 (26, 'test@gmail.com', 'test', '01b307acba4f54f55aafc33bb06bbbf6ca803e9a'),
+(74, 'o2o3k@outlook.fr', '111111111122', '7ecece7e9354b71ce40f31fe1d02316985157fb0'),
+(73, 'o2ok@outlook.fr', '11111111112', '7ecece7e9354b71ce40f31fe1d02316985157fb0'),
+(72, 'outloook.outlook@outlook.fr', '11111111111111', '01b307acba4f54f55aafc33bb06bbbf6ca803e9a'),
+(71, NULL, 'testeeee', '01b307acba4f54f55aafc33bb06bbbf6ca803e9a'),
+(70, NULL, 'vendeur8', '01b307acba4f54f55aafc33bb06bbbf6ca803e9a'),
+(69, NULL, 'vendeur3', '4ee6cbf5889832fd1f11e22976e5330e0e97cf20'),
+(68, NULL, 'vendeur2', '4ee6cbf5889832fd1f11e22976e5330e0e97cf20'),
 (45, NULL, 'testaezaez2', '154606927db7c898fcbc7f13fe20d495454cf2d7'),
 (46, NULL, 'testezasdaz3', '01b307acba4f54f55aafc33bb06bbbf6ca803e9a'),
 (47, NULL, 'vivioo', '01b307acba4f54f55aafc33bb06bbbf6ca803e9a'),

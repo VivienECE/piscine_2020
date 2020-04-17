@@ -7,10 +7,10 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$debug = true;
-function get_file_extension($file) {
-return;
-}
+$debug = false;
+// Display the decrypted string 
+session_start();
+if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
 $EnchereIdItem=array(); $EncherePrix=array(); $EnchereDate=array(); $EnchereNom=array();$EnchereImage=array();$EnchereCategorie=array();
 
 $sql= "SELECT IdItem,PrixFinal,DateFin FROM enchere";
@@ -69,9 +69,6 @@ for($i = 0;$i < sizeof($OffreIdItem);$i++)
 		array_push($OffreImage,$data['Image']);
 		array_push($OffreCategorie,$data['Categorie']);}
 }
-
-// Display the decrypted string 
-session_start();
 
 function display_item($Nom,$Image,$Prix) 
 {

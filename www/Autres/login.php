@@ -17,8 +17,10 @@ if (isset($_POST["button"])) {
 			$result = mysqli_query($db_handle, $sql);
 			if (mysqli_num_rows($result) != 0) {
 				session_start();
-				$_SESSION['IdUtilisateur'] = mysqli_fetch_assoc($result)['IdUtilisateur'];
-				$_SESSION['IdAcheteur'] = mysqli_fetch_assoc($result)['IdAcheteur'];
+				while ($data = mysqli_fetch_assoc($result)){
+				$_SESSION['IdUtilisateur'] = $data['IdUtilisateur'];
+				$_SESSION['IdAcheteur'] = $data['IdAcheteur'];}
+
 				header("Location: ../Acheteur/accueil.php");
 			exit;}
 
@@ -26,8 +28,9 @@ if (isset($_POST["button"])) {
 			$result = mysqli_query($db_handle, $sql);
 			if (mysqli_num_rows($result) != 0) {
 				session_start();
-				$_SESSION['IdUtilisateur'] = mysqli_fetch_assoc($result)['IdUtilisateur'];
-				$_SESSION['IdVendeur'] = mysqli_fetch_assoc($result)['IdVendeur'];
+				while ($data = mysqli_fetch_assoc($result)){
+				$_SESSION['IdUtilisateur'] = $data['IdUtilisateur'];
+				$_SESSION['IdVendeur'] = $data['IdVendeur'];}
 				header("Location: ../Vendeur/accueil.php");
 				exit;}
 

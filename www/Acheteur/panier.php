@@ -7,7 +7,7 @@ $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
 session_start();
-
+$idAcheteur = $_SESSION['IdAcheteur'];
 $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
 
 
@@ -15,7 +15,7 @@ $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join achatimmediat ON achatimmediat.IdItem = item.IdItem
     join selectionne ON achatimmediat.IdAchatImmediat = selectionne.IdAchatImmediat
-    WHERE selectionne.IdAcheteur=22";
+    WHERE selectionne.IdAcheteur=$idAcheteur";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);

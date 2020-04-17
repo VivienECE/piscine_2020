@@ -6,10 +6,6 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
-function get_file_extension($file) {
-
-return;
-}
 
 $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
 

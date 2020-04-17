@@ -6,36 +6,13 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
-function get_file_extension($file) {
 
-return;
-}
-//$sql= "SELECT IdItem, PrixFinal, DateFinal FROM enchere where ...?";
-//$result = mysqli_query($db_handle, $sql);
-
-/**
-$sql= "SELECT * FROM enchere where IdItem = 1";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Eprix= $data['PrixFinal'];
-$Edatefinal= $data['DateFin'];}
-$sql= "SELECT * FROM item where IdItem = 1";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Enom= $data['Nom'];
-$Eimage= $data['Image'];
-$Ecategorie= $data['Categorie'];}**/
-//ENCHERE
-<<<<<<< Updated upstream
 $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$typeitem=array();
-=======
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
->>>>>>> Stashed changes
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join enchere ON item.IdItem = enchere.IdItem
-	WHERE Categorie='musee'";
+	WHERE Categorie='tresors'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -46,7 +23,7 @@ array_push($prixitem,"Vente aux enchères !");}
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
-	WHERE Categorie='musee'";
+	WHERE Categorie='tresors'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -57,7 +34,7 @@ array_push($prixitem,"Proposez une offre au vendeur !");}
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join achatimmediat ON item.IdItem = achatimmediat.IdItem
-	WHERE Categorie='musee'";
+	WHERE Categorie='tresors'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -65,9 +42,6 @@ array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($prixitem,$data['PrixFinal']."€");}
 
-<<<<<<< Updated upstream
-=======
-//Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$prixitem) 
 {
 	echo "	<div class='col-md-4 col-md-4 col-sm-12'>
@@ -81,8 +55,6 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem)
 				</div>
 			</div>";
 }
-
->>>>>>> Stashed changes
 // Display the decrypted string 
 session_start();
 
@@ -118,90 +90,11 @@ mysqli_close($db_handle);?>
 			</div>
 	</nav>
 
-	<div><p><br><h1>MUSEE</h1><br><br></p></div>
+	<div><p><br><h1>FERAILLES ET TRESORS</h1><br><br></p></div>
 
 	<div class="container features">
-<<<<<<< Updated upstream
-		<div class="row">
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[0]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[0]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[0]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[0]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[1]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[1]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[1]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[1]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div  align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[2]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[2]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[2]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[2]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-		</div>
-		<div><br></div>
-		<div class="row">
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[3]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[3]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[3]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[3]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[4]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[4]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[4]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[4]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img <?php echo "src='$imageitem[6]'"; ?> class="img-fluid">
-					<div class="caption">
-						<p id="id"><?php echo "$iditem[6]"; ?></p>
-						<p id="titre"><?php echo "$nomitem[6]"; ?></p>
-						<p id="prix"><?php echo "$prixitem[6]"; ?></p>
-					</div></a>
-				</div>
-			</div>
-		</div>
-	</div>
-=======
-		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE MUSEE DEPUIS LA BDD-->
+				<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE TRESOR DEPUIS LA BDD-->
 					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i]);}?>
->>>>>>> Stashed changes
 
 	<footer class="page-footer">
 			<div class="container">

@@ -1,17 +1,7 @@
-/* @font-face {
-    font-family: "CaviarDreams";
-    src: url("piscine_2020/CaviarDreams.ttf");
-  }
-
-  body{
-    font-family: "CaviarDreams", serif;
-  }
-
-     Remove the navbar's default margin-bottom and rounded borders 
-*/ 
      body{
       background-image: url(fond.png);
      }
+
    h1,h3{
       color: #C4BDE3;
       font-weight: bold;
@@ -19,12 +9,13 @@
       text-align: center;
     }
 
-    h2,h4{
+    h2,h4,h5{
       color: black;
       font-weight: bold;
       text-shadow: rgba(0,0,0,0.4) 2px 2px;
       text-align: center;
     }
+
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
@@ -67,52 +58,60 @@
       font-weight: bold;
     }
 
+  .btn{
+    color: #C4BDE3;
+    font-weight: bold;
+    background-color: white;
+    border-radius: 10rem;
+    border: 1.5px outset;
+    border-color: #E6E6E6;
+    transform: scale(1);
+    transition: transform 400ms;
+  }
+  .btn:hover{
+    transform: scale(1.2);
+  }
 
-      hr { 
+  hr{ 
+      display: block;
+      margin-top: 3em;
+      margin-bottom: 2em;
+      margin-left: auto;
+      margin-right: auto;
+      border-style: outset;
+      border-width: 2px;
+      color: #C4BDE3;
+    }
+
+  #V { 
       display: block;
       margin-left: 2em;
       margin-right: 2em;
       border-style: outset;
       border-width: 2px;
       width: 1px;
-      height: 300px;
       color: #C4BDE3;
     } 
 
-    .carousel-inner img{
-      align-items: center;
-      width: 200px;
-      height: 200px;
-    }
-
-    .carousel-control-prev-icon {
-    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
-    }
-
-  .carousel-control-next-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
-  }
-    
-    /* Set black background color, white text and some padding */
-    footer {
+  footer {
       background-color: #C4BDE3;
       color: white;
       padding: 15px;
     }
-    
-                                                    
-                                                    /*CATEGORIES*/
+
+                                                                       /*VENTES*/
 
   .thumbnail{
     margin-left: 20%;
   }
+
   .thumbnail img{
     width: 200px;
     height: 200px;
     box-shadow: rgba(0,0,0,0.4) 3px 3px;
   }
 
-  #id{
+   #id{
     color: black;
     font-size: 11px;
     font-weight: normal;
@@ -128,60 +127,37 @@
     font-weight: bold;
   }
 
-  .row{
-    border-bottom-width: medium;
-    border-bottom-color: #E6E6E6;
-
+  .carousel-inner img{
+    width: 200px;
+    height: 200px;
   }
 
-  .btn{
-    color: #C4BDE3;
-    font-weight: bold;
-    background-color: white;
-    border-radius: 10rem;
-    border: 1.5px outset;
-    border-color: #E6E6E6;
-    transform: scale(1);
-    transition: transform 400ms;
-  }
-  .btn:hover{
-    transform: scale(1.2);
+  .carousel-inner2 img{
+    width: 200px;
+    height: 200px;
   }
 
-  a{
-    color: black;
-  }
-
-  .fav:hover img{
-      width: 40px;
-      height: 40px;
+   .carousel-control-prev-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
     }
 
-                                                     /*PANIER*/
-#total{
-  color: #C4BDE3;
-  font-weight: bold;
-  font-size: 25px;
-  text-shadow: rgba(0,0,0,0.4) 1px 1px;
-}
+  .carousel-control-next-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M2.75 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z'/%3E%3C/svg%3E");
+  }
 
-#panier{
-  width: 150px;
+  .addScroll{
+  overflow-y:scroll;
   height: 150px;
 }
 
-#paiement img{
-  width: 70px;
-  height: 70px;
-}
-
-#paiement{
-  font-weight: bold;
-
+  .addScroll2{
+  overflow-y:scroll;
+  height: 250px;
 }
 
 
-                                                    /*MON COMPTE*/
+
+                                                      /*MON COMPTE*/
 .menuBIS{
   width: 200px; 
 }
@@ -219,25 +195,23 @@
     transform: scale(1.1);  
 }
 
-#aide{
-  margin-left: 25%;
-}
-#aide img{
-  width:40px;
-  height:40px;
-  margin-right: 30px;
-}
+#nb{
+    color: black;
+    font-size: 15px;
+    font-weight: normal;
+  }
 
-#carte img{
-  margin-left: 20px;
-  height: 30px;
-  width: 50px;
-}
+  #nom{
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+  }
 
-.containerINFOS input{
+  #email{
+    color: #C4BDE3;
+    font-weight: bold;
+  }
+
+ input{
   border-radius: 2rem;
-  margin-top: 20px;
-  border:1px;
-  box-shadow: rgba(0,0,0,0.4) 2px 2px;
-}
-}
+ }

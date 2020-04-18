@@ -1,3 +1,55 @@
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+session_start();
+$IdAcheteur=$_SESSION['IdAcheteur'];
+$msg="";
+
+$sql= "SELECT Nom, Prenom, Adresse, CodePostal, Pays,Telephone,TypeDeCarte, NumeroCarte, NomCarte, ExpirationCarte, CodedeSecurite, ImageProfil
+FROM acheteur WHERE IdAcheteur=$IdAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Nom = $data['Nom'];
+$Prenom = $data['Prenom'];
+$ImageProfil = $data['ImageProfil'];
+$Adresse = $data['Adresse'];
+$Pays = $data['Pays'];
+$Telephone = $data['Telephone'];
+$NumeroCarte = $data['NumeroCarte'];
+$TypeDeCarte = $data['TypeDeCarte'];
+$CodePostal = $data['CodePostal'];
+$NomCarte = $data['NomCarte'];
+$ExpirationCarte = $data['ExpirationCarte'];
+$CodedeSecurite = $data['CodedeSecurite'];}
+
+if (isset($_POST["button"])) {
+	if($debug){echo "<br>"."button";}
+	$prix = htmlspecialchars($_POST["enchere"]);
+	$sql="SELECT * from `offreenchere` WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
+	if($debug){echo "<br>".$sql;}
+	$result=mysqli_query($db_handle, $sql);
+	if (mysqli_num_rows($result) == 0)
+	{
+		$sql="INSERT INTO `offreenchere`(`IdEnchere`, `IdAcheteur`, `Prix`) VALUES ($IdEnchere,$IdAcheteur,$prix)";
+		if($debug){echo "<br>".$sql;}
+		$result=mysqli_query($db_handle, $sql);
+		$msg="Offre envoyée";
+	}else if($prix>mysqli_fetch_assoc($result)["Prix"]){
+		$sql="UPDATE `offreenchere` SET `Prix` = $prix WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
+		if($debug){echo "<br>".$sql;}
+		$result=mysqli_query($db_handle, $sql);
+		$msg="Offre mise à jour";}
+	else{$msg="Veuillez surencherir";}
+}
+// Display the decrypted string 
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,7 +96,7 @@
 							<td><input type="pass" id="mdp" placeholder=" Mot de passe "></td>
 						</tr>
 					</table>
-				</form>
+				</form method=post>
 			</div>
 		</div>
 
@@ -55,28 +107,25 @@
 					<form>
 						<table align="center">
 							<tr align="center">
-								<td><input type="text" id="nomPrenom" placeholder=" Vincent Dupont"></td>
+								<td><input type="text" id="prenom" placeholder= <?php echo "'$Prenom'";?>><input type="text" id="nom" placeholder=<?php echo "'$Nom'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="adresse1" placeholder=" 26 rue Balzac"></td>
+								<td><input type="text" id="adresse1" placeholder=<?php echo "'$Adresse'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="adresse2" placeholder=" Adresse Ligne 2"></td>
+								<td><input type="text" id="adresse2" placeholder=<?php echo "'$Prenom'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="ville" placeholder=" Paris"></td>
+								<td><input type="number" id="codePostal" placeholder=<?php echo "'$CodePostal'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="number" id="codePostal" placeholder=" 75016"></td>
+								<td><input type="text" id="pays" placeholder=<?php echo "'$Pays'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="pays" placeholder=" France"></td>
-							</tr>
-							<tr align="center">
-								<td><input type="phone" id="number" placeholder=" 06 05 98 75 17"></td>
+								<td><input type="phone" id="number" placeholder=<?php echo "'$Telephone'";?>></td>
 							</tr>
 						</table>
-					</form>	
+					
 				</div>
 
 				<div class="col-md-1 col-md-1 col-sm-0">
@@ -90,19 +139,18 @@
 					<form>
 						<table align="center">
 							<tr align="center">
-								<td><input type="text" id="numCarte" placeholder=" 4974 1082 7832 8903"></td>
+								<td><input type="text" id="numCarte"  maxlength="19" placeholder=<?php echo substr_replace($NumeroCarte, '**********', 0, -4);?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="nomCarte" placeholder=" Vincent Dupont"></td>
+								<td><input type="text" id="nomCarte" placeholder=<?php echo "'$NomCarte'";?>></td>
 							</tr>
 							<tr align="center">
-								<td style="color: grey;">Date d'expiration :  <input type="date" id="dateCatre" placeholder="06/20"></td>
+								<td style="color: grey;">Date d'expiration :  <input type="text" pattern="{2}/{2}[0-9]" maxlength="5" id="dateCatre" placeholder=<?php echo "'$ExpirationCarte'";?>></td>
 							</tr>
 							<tr align="center">
-								<td style="color: grey;">Code secret à 3 chiffres :  <input type="number" style="width: 60px;" id="cvv" placeholder="XXX"></td>
+								<td style="color: grey;">Code secret à 3 chiffres :  <input type="number" style="width: 60px;" id="CVV" placeholder="CVV"></td>
 							</tr>
-						</table>
-					</form>	
+						</table>	
 				</div>
 			</div>
 
@@ -111,7 +159,9 @@
 				<div class="col-lg-8 col-md-8 col-sm-12">
 						<div align="center">
 							<p><br><br></p>
-							<a href="#"><button type="submit" class="btn" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;">ENREGISTRER</button></a>
+							<a href="#"><button type="submit" class="btn" name="modification" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;">ENREGISTRER
+							</form>	
+						    </button></a>
 						</div>
 					<div><p><br><br><br></p></div>
 				</div>

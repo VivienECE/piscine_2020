@@ -65,11 +65,11 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 			</div>
 			<div class="row">
 				<div class="menu">
-			 		<a href="mesInfos.html">Mes informations</a>
-					<a href="modesPaiement.html">Mes modes de paiement</a>
-					<a href="mesCommandes.html">Mes commandes</a>
-					<a href="aide.html">Aide</a>
-					<a href="deconnexion.html">Deconnexion</a>
+			 		<a href="mesInfos.php">Mes informations</a>
+					<a href="modesPaiement.php">Mes modes de paiement</a>
+					<a href="mesCommandes.php">Mes commandes</a>
+					<a href="aide.php">Aide</a>
+					<a href="deconnexion.php">Deconnexion</a>
 				</div>
 			</div>
 		</div>

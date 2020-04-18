@@ -91,11 +91,11 @@ mysqli_close($db_handle);?>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg">
+				      <img align="center" <?php echo "src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg">
+				      <img align="center" <?php echo "src='$Image'";?>>
 				    </div>
 				  </div>
 
@@ -110,8 +110,8 @@ mysqli_close($db_handle);?>
 			<div class="col-md-7 col-md-7 col-sm-11">
 				<p>
 					<h4><?php echo "$Nom";?></h4><br>
-					<?php echo "$Nom";?><br><br>
-					<?php echo "$Nom";?><br> 
+					<?php echo "$idItem";?><br><br>
+					<?php echo "$Description";?><br> 
 				</p>
 			</div>
 
@@ -143,7 +143,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

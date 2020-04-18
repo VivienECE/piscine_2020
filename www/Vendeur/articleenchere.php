@@ -24,9 +24,7 @@ $IdEnchere = $data['IdEnchere'];}
 
 $nom=array(); $prenom=array(); $prix=array();
 
-$sql= "SELECT Nom, Prenom, Prix
-FROM offreenchere
-join acheteur ON offreenchere.IdAcheteur = acheteur.IdAcheteur ";
+$sql= "SELECT Nom, Prenom, Prix FROM offreenchere join acheteur ON offreenchere.IdAcheteur = acheteur.IdAcheteur join enchere ON enchere.IdEnchere = offreenchere.IdEnchere WHERE idItem = $idItem  ";
 if($debug){echo $sql;}
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
@@ -39,29 +37,6 @@ function display_item($nom,$prenom,$prix)
 {
 	echo "	<p id='titre'> Faite par $prenom $nom : <strong>$prix €</strong><br></p>";
 }
-
-/*
-if (isset($_POST["button"])) {
-	if($debug){echo "<br>"."button";}
-	$prix = htmlspecialchars($_POST["enchere"]);
-	$sql="SELECT * from `offreenchere` WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
-	if($debug){echo "<br>".$sql;}
-	$result=mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
-	{
-		$sql="INSERT INTO `offreenchere`(`IdEnchere`, `IdAcheteur`, `Prix`) VALUES ($IdEnchere,$IdAcheteur,$prix)";
-		if($debug){echo "<br>".$sql;}
-		$result=mysqli_query($db_handle, $sql);
-		$msg="Offre envoyée";
-	}else if($prix>mysqli_fetch_assoc($result)["Prix"]){
-		$sql="UPDATE `offreenchere` SET `Prix` = $prix WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
-		if($debug){echo "<br>".$sql;}
-		$result=mysqli_query($db_handle, $sql);
-		$msg="Offre mise à jour";}
-	else{$msg="Veuillez surencherir";}
-}*/
-// Display the decrypted string 
-//fermer la connexion
 mysqli_close($db_handle);?>
 
 <!DOCTYPE html>

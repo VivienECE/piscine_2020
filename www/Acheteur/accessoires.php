@@ -105,7 +105,7 @@ mysqli_close($db_handle);?>
 	<div class="container features">
 		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE ACESSOIRE DEPUIS LA BDD-->
 					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
-
+		</div></div>
 	<footer class="page-footer">
 			<div class="container">
 				<div class="row">

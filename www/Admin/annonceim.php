@@ -6,53 +6,45 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = false;
+
 $idItem = $_GET['id']; 
 session_start();
-$IdAcheteur=$_SESSION['IdAcheteur'];
 $msg="";
 
-$sql= "SELECT IdVendeur, Nom, Description, Image, PrixFinal, IdMeilleureOffre
+$sql= "SELECT Nom, Description, Image, PrixFinal, IdAchatImmediat
 FROM item
-	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
+	join achatimmediat ON item.IdItem = achatimmediat.IdItem
 	WHERE item.IdItem=$idItem";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
-$IdVendeur = $data['IdVendeur'];
 $Nom = $data['Nom'];
 $Description = $data['Description'];
 $Image = $data['Image'];
 $PrixFinal = $data['PrixFinal'];
-$IdMeilleureOffre = $data['IdMeilleureOffre'];}
+$IdAchatImmediat = $data['IdAchatImmediat'];}
 if($debug){echo "debug:true";}
-
-if (isset($_POST["button"])) {
+if (isset($_POST["supprimer"])) {
 	if($debug){echo "<br>"."button";}
-	$prix = htmlspecialchars($_POST["enchere"]);
-	$sql="SELECT * from `negocie` WHERE IdAcheteur=$IdAcheteur AND IdMeilleureOffre=$IdMeilleureOffre";
-	if($debug){echo "<br>".$sql;}
-	$result=mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
-	{
-		$sql="INSERT INTO `negocie`( `IdVendeur`, `IdAcheteur`, `IdMeilleureOffre`, `EtapeNegociation`, `prix`) VALUES ($IdVendeur,$IdAcheteur,$IdMeilleureOffre, 1, $prix)";
-		if($debug){echo "<br>".$sql;}
-		$result=mysqli_query($db_handle, $sql);
-		$msg="Proposition envoyée";
-	}else{$msg="Veuillez attendre la réponse du vendeur";}
-	
+	$sql="DELETE * from `item` WHERE IdItem=$idItem";
+	$result = mysqli_query($db_handle, $sql);
+	$msg="Article supprimé";	
 }
 
 
+
 //fermer la connexion
-mysqli_close($db_handle);?><!DOCTYPE html>
+mysqli_close($db_handle);?>
+
+<!DOCTYPE html>
 <html>
 <head>
-	<title>ECEbay article</title>
+	<title>ECEbay annonce</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
-	<link rel="stylesheet" type="text/css" href="acheteur.css">
+	<link rel="stylesheet" type="text/css" href="admin.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
 </head>
 <body>
@@ -63,11 +55,9 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueiladmin.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="Vendeurs.php">VENDEURS</a></li>
+			        <li class="ici"><a class="nav-link" href="Annonces.php">ANNONCES</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -76,6 +66,8 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 
 	<div class="container features">
 		<div class="row">
+		<div class="col-lg-9 col-md-9 col-sm-12">
+		<div class="row">	
 			<div class="col-lg-4 col-md-4 col-sm-12">
 				<div align="center" id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
@@ -91,11 +83,11 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg">
+				      <img align="center" <?php echo "src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg">
+				      <img align="center" <?php echo "src='$Image'";?>>
 				    </div>
 				  </div>
 
@@ -107,37 +99,31 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 				</div>
 			</div>
 
-			<div class="col-md-7 col-md-7 col-sm-11">
+			<div class="col-md-6 col-md-6 col-sm-11">
 				<p>
 					<h4><?php echo "$Nom";?></h4><br>
 					<?php echo "$idItem";?><br><br>
-					<?php echo "$Description";?> <br> 
+					<?php echo "$Description";?><br> 
 				</p>
 			</div>
-
-			<div class="col-md-1 col-md-1 col-sm-1">
-				<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>
+			<div class="col-md-1 col-md-1 col-sm-0">
+				<hr id="V" style="height: 200px;">
 			</div>
 		</div>
-		
-		<hr style="width: 500px;">
 
 		<div class="row">
 			<div align="center" class="col-md-12 col-md-12 col-sm-12">
-				<p><br><h3>Proposez une offre au vendeur !</h3></p>
+				<p><br><h3><?php echo "$PrixFinal"." €";?></h3></p>
 			</div>
 		</div>
-
-		<div class="row">
-			<div align="center" class="col-md-10 col-md-10 col-sm-10">
-				<form method="post">
-				<br><p style="font-weight: bold; font-size: 22px; color: grey;">Votre offre : <input type="number" style="width: 60px;" name="enchere" required>  €</p>
-				<?php echo "$msg";?>
-			</div>
-			<div align="right" class="col-md-2 col-md-2 col-sm-2">
-				<br><br><br><a href="#"><button type="submit" name="button"class="btn"> Envoyer au vendeur</button></a>
+		</div>
+		<div align="center" class="col-lg-3 col-md-3 col-sm-12">
+			<div><p><br><br><br></p></div>
+			<form method="post"> <!-- <form> indspensable pour que le PHP detecte l'appuie du bouton -->
+				<br><a href="#"><button type="submit" name="supprimer" class="btn" style="background-color: red; color: white; width: 250px;"> SUPPRIMER </button></a>
 			</form>
-			</div>
+			<br><?php echo "$msg";?>	
+		</div>
 		</div>
 	</div>
 

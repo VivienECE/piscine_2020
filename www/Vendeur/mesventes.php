@@ -89,8 +89,8 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-				 	<li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
-			        <li class="ici"><a class="nav-link" href="mesventes.html">MES VENTES</a></li>
+				 	<li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			        <li class="ici"><a class="nav-link" href="mesventes.php">MES VENTES</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -106,7 +106,7 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 		<div class="row">
 			<div align="center" class="col-md-12 col-md-12 col-sm-12">
 				<hr style="width: 400px; margin-bottom: 20px;">
-				<a href="nouvellevente.html"><h3>Nouvelle vente</h3></a>	
+				<a href="nouvellevente.php"><h3>Nouvelle vente</h3></a>	
 				<hr style="width: 400px; margin-top: 20px;">
 			</div>
 		</div>

@@ -1,8 +1,62 @@
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+$idItem = $_GET['id']; 
+session_start();
+$IdVendeur=$_SESSION['IdVendeur'];
+
+$sql= "SELECT Nom, Description, Image, PrixFinal,IdMeilleureOffre
+FROM item
+	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
+	WHERE item.IdItem=$idItem";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Nom = $data['Nom'];
+$Description = $data['Description'];
+$Image = $data['Image'];
+$PrixFinal = $data['PrixFinal'];
+$IdEnchere = $data['IdMeilleureOffre'];}
+
+$nom=array(); $prenom=array(); $prix=array();
+
+$sql= "SELECT Nom, Prenom, Prix FROM negocie join acheteur ON negocie.IdAcheteur = acheteur.IdAcheteur join meilleureoffre ON meilleureoffre.Idmeilleureoffre = negocie.Idmeilleureoffre WHERE idItem = $idItem  ";
+if($debug){echo $sql;}
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($nom,$data['Nom']);
+array_push($prenom,$data['Prenom']);
+array_push($prix,$data['Prix']);
+}
+
+function display_item($nom,$prenom,$prix) 
+{
+	echo "	<p id='titre'> 
+						$prenom $nom vous a proposé : <strong>$prix €</strong><br>
+						<form method='post'>
+						<a href='#''><img src='images/yes.png' width='30' height='30'></a>
+						<a href='#''><img src='images/no.png' width='30' height='30'></a>
+						<br>
+						Contre-offre : <input style='width: 75px' type='text' name='contre'> € 
+						 <input type='submit' class='submit3' alt='Submit button' name='button3' value='' />
+						</form>
+					</p>
+					<div class='row'>
+						<hr style='width: 200px; margin-top: 30px;'>
+					</div>";
+}
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<title>ECEbay compte</title>
 	<meta charset="utf-8">
+
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
@@ -18,8 +72,8 @@
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-				 	<li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
-			        <li class="ici"><a class="nav-link" href="mesventes.html">MES VENTES</a></li>
+				 	<li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			        <li class="ici"><a class="nav-link" href="mesventes.php">MES VENTES</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -41,7 +95,7 @@
 						  <!-- Wrapper for slides -->
 						  <div class="carousel-inner">
 						    <div class="carousel-item active">
-						      <img align="center" src="images/montre.jpg">
+						    	<img align="center" <?php echo "src='$Image'";?>>
 						    </div>
 
 						    <div class="carousel-item">
@@ -63,11 +117,9 @@
 			
 					<div class="col-md-6 col-md-6 col-sm-12">
 						<p>
-							<h4>Collections archéologiques et objets d'Extrême-Orient</h4><br>
-							45928546<br><br>
-							DESCRIPTION DESCRIPTION DESCRIPTION <br> 
-							DESCRIPTION DESCRIPTION DESCRIPTION <br>
-							DESCRIPTION DESCRIPTION DESCRIPTION <br>
+							<h4><?php echo "$Nom";?></h4><br>
+							<?php echo "$idItem";?><br><br>
+							<?php echo "$Description";?> <br> 
 						</p>
 					</div>
 				</div>
@@ -86,33 +138,7 @@
 			<div class="col-md-4 col-md-4 col-sm-12" style="background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;">
 				<h5><br> Proposition(s) :</h5><br>
 				<div class="addScroll2" align="center">
-					<p id="titre"> 
-						Jean-Pierre vous a proposé : <strong>50 €</strong><br>
-						<a href="#"><img src="images/yes.png" width="30" height="30"></a>
-						<a href="#"><img src="images/no.png" width="30" height="30"></a><br>
-						Contre-offre : <input style="width: 75px" type="text" name="contre"> € 
-						<a href="#"><img src="images/yes.png" width="20" height="20"></a>
-					</p>
-					<div class="row">
-						<hr style="width: 200px; margin-top: 30px;">
-					</div>
-					<p id="titre"> 
-						Jean-Pierre vous a proposé : <strong>50 €</strong><br>
-						<a href="#"><img src="images/yes.png" width="30" height="30"></a>
-						<a href="#"><img src="images/no.png" width="30" height="30"></a><br>
-						Contre-offre : <input style="width: 75px" type="text" name="contre"> € 
-						<a href="#"><img src="images/yes.png" width="20" height="20"></a>
-					</p>
-					<div class="row">
-						<hr style="width: 200px; margin-top: 30px;">
-					</div>
-					<p id="titre"> 
-						Jean-Pierre vous a proposé : <strong>50 €</strong><br>
-						<a href="#"><img src="images/yes.png" width="30" height="30"></a>
-						<a href="#"><img src="images/no.png" width="30" height="30"></a><br>
-						Contre-offre : <input style="width: 75px" type="text" name="contre"> € 
-						<a href="#"><img src="images/yes.png" width="20" height="20"></a>
-					</p>
+					<?php for($i = 0;$i < sizeof($nom);$i++){display_item($nom[$i],$prenom[$i],$prix[$i]);}?>
 				</div> 
 			</div>
 		</div>

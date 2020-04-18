@@ -88,10 +88,10 @@
       color: #C4BDE3;
     } 
 
-    .carousel-inner img{
+    .carousel-inner img, .carousel-item img{
       align-items: center;
-      width: 200px;
-      height: 200px;
+      width: 150px;
+      height: 150px;
     }
 
     

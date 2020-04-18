@@ -1,4 +1,24 @@
-<!DOCTYPE html>
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+session_start();
+$id=$_SESSION['IdAcheteur'];
+if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
+
+$sql= "SELECT Prenom, Nom FROM acheteur WHERE IdAcheteur=$id ";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+ $prenom = $data['Prenom'];
+ $nom = $data['Nom'];}
+
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +55,7 @@
 			<div class="col-md-3 col-md-3 col-sm-1"><p></p></div>
 			<div align="center" class="col-md-5 col-md-5 col-sm-12" style="background-image: url(images/tableau.jpg); border-radius: 1.5rem ">
 				<p><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
-				<p><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #C4BDE3; border-radius: 2rem;">A très bientôt Jean-Pierre Segado !</button><br><br></p>
+				<p><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #C4BDE3; border-radius: 2rem;">A très bientôt <?php echo "$prenom $nom";?> !</button><br><br></p>
 			</div>
 		</div>
 	</div>

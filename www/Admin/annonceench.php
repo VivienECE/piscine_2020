@@ -9,12 +9,11 @@ $debug = false;
 
 $idItem = $_GET['id']; 
 session_start();
-$IdAcheteur=$_SESSION['IdAcheteur'];
 $msg="";
 
-$sql= "SELECT Nom, Description, Image, PrixFinal, IdAchatImmediat
+$sql= "SELECT Nom, Description, Image, PrixFinal, IdEnchere
 FROM item
-	join achatimmediat ON item.IdItem = enchere.IdItem
+	join enchere ON item.IdItem = enchere.IdItem
 	WHERE item.IdItem=$idItem";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
@@ -22,7 +21,7 @@ $Nom = $data['Nom'];
 $Description = $data['Description'];
 $Image = $data['Image'];
 $PrixFinal = $data['PrixFinal'];
-$IdAchatImmediat = $data['IdEnchere'];}
+$IdEnchere = $data['IdEnchere'];}
 if($debug){echo "debug:true";}
 if (isset($_POST["supprimer"])) {
 	if($debug){echo "<br>"."button";}
@@ -79,7 +78,7 @@ mysqli_close($db_handle);?>
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img align="center" class="img-fluid" <?php echo"src='$Image'";?>>
+				      <img align="center"<?php echo"src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
@@ -99,7 +98,7 @@ mysqli_close($db_handle);?>
 				</div>
 			</div>
 
-			<div class="col-md-7 col-md-7 col-sm-11">
+			<div class="col-md-6 col-md-6 col-sm-11">
 				<p>
 					<h4><?php echo "$Nom";?></h4><br>
 					<?php echo "$idItem";?><br><br>
@@ -131,7 +130,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

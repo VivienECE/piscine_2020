@@ -9,12 +9,11 @@ $debug = false;
 
 $idItem = $_GET['id']; 
 session_start();
-$IdAcheteur=$_SESSION['IdAcheteur'];
 $msg="";
 
-$sql= "SELECT Nom, Description, Image, PrixFinal, IdAchatImmediat
+$sql= "SELECT Nom, Description, Image, PrixFinal, IdMeilleureOffre
 FROM item
-	join achatimmediat ON item.IdItem = meilleureoffre.IdItem
+	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
 	WHERE item.IdItem=$idItem";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
@@ -22,7 +21,7 @@ $Nom = $data['Nom'];
 $Description = $data['Description'];
 $Image = $data['Image'];
 $PrixFinal = $data['PrixFinal'];
-$IdAchatImmediat = $data['IdMeilleureOffre'];}
+$IdMeilleureOffre = $data['IdMeilleureOffre'];}
 if($debug){echo "debug:true";}
 if (isset($_POST["supprimer"])) {
 	if($debug){echo "<br>"."button";}
@@ -56,9 +55,9 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueiladmin.html">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="vendeurs.html">VENDEURS</a></li>
-			        <li class="ici"><a class="nav-link" href="annonces.html">ANNONCES</a></li>
+			         <li ><a class="nav-link" href="accueiladmin.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="Aendeurs.php">VENDEURS</a></li>
+			        <li class="ici"><a class="nav-link" href="Annonces.php">ANNONCES</a></li>
 			     </ul>
 			</div>
 	</nav>

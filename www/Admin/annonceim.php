@@ -9,7 +9,6 @@ $debug = false;
 
 $idItem = $_GET['id']; 
 session_start();
-$IdAcheteur=$_SESSION['IdAcheteur'];
 $msg="";
 
 $sql= "SELECT Nom, Description, Image, PrixFinal, IdAchatImmediat
@@ -39,7 +38,7 @@ mysqli_close($db_handle);?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>ECEbay accueil</title>
+	<title>ECEbay annonce</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -78,7 +77,7 @@ mysqli_close($db_handle);?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner2">
+				  <div class="carousel-inner">
 				    <div class="carousel-item active">
 				      <img align="center" <?php echo "src='$Image'";?>>
 				    </div>
@@ -135,7 +134,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

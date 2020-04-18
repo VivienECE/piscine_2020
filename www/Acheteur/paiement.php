@@ -147,9 +147,9 @@ mysqli_close($db_handle);?>
                 
                 <div class="col-md-6 col-md-6 col-sm-8">
                 	<p style="margin-left: 10px; font-size: 18px; font-weight: bold; color: grey"> 
-                		<?php echo"
-	                		$Prenom $Nom <br>
-	                	$NumeroCarte <br> 
+                	    <?php echo"
+	                	$Prenom $Nom <br>
+	                	".str_repeat('*', strlen($NumeroCarte) - 4) . substr($NumeroCarte, -4)." <br> 
 	                	$ExpirationCarte <br>	"?>
                 	</p>
                 </div>

@@ -11,6 +11,57 @@ $IdAcheteur=$_SESSION['IdAcheteur'];
 $IdUtilisateur= $_SESSION['IdUtilisateur'];
 $msg="";
 
+//Lorsque l'on appuie sur enregistré, récupère les infos si elles sont renseigné.
+//Ajouter les modifs sql dans chaque if...
+if (isset($_POST["modification"])) { 
+		if(isset($_POST["newpseudo"])){$newpseudo = htmlspecialchars($_POST["newpseudo"]);}
+		if(isset($_POST["newmotdepasse"])){$newmotdepasse = sha1($_POST["newmotdepasse"]);}
+		if(isset($_POST["oldmotdepasse"])){$oldmotdepasse = sha1($_POST["oldmotdepasse"]);}
+		if(isset($_POST["newnom"])){$newnom = htmlspecialchars($_POST["newnom"]);
+			$sql="UPDATE `acheteur` SET `Nom` = '$newnom' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newnom)>1){$result = mysqli_query($db_handle, $sql);}}
+
+		if(isset($_POST["newprenom"])){$newprenom = htmlspecialchars($_POST["newprenom"]);
+			$sql="UPDATE `acheteur` SET `Prenom` = '$newprenom' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newprenom)>1){$result = mysqli_query($db_handle, $sql);}}
+
+		if(isset($_POST["newadresse"])){$newadresse = htmlspecialchars($_POST["newadresse"]);
+			$sql="UPDATE `acheteur` SET `Adresse` = '$newadresse' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newadresse)>1){$result = mysqli_query($db_handle, $sql);}}
+
+		if(isset($_POST["newcodepostal"])){$newcodepostal = htmlspecialchars($_POST["newcodepostal"]);
+			$sql="UPDATE `acheteur` SET `CodePostal` = '$newcodepostal' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newcodepostal)>1){$result = mysqli_query($db_handle, $sql);}}
+
+		if(isset($_POST["newpays"])){$newpays = htmlspecialchars($_POST["newpays"]);
+			$sql="UPDATE `acheteur` SET `Pays` = '$newpays' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newpays)>1){$result = mysqli_query($db_handle, $sql);}}
+
+		if(isset($_POST["newtelephone"])){$newtelephone = htmlspecialchars($_POST["newtelephone"]);
+			$sql="UPDATE `acheteur` SET `Telephone` = '$newtelephone' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newtelephone)>3){$result = mysqli_query($db_handle, $sql);}}
+
+		//$typedecarte = htmlspecialchars($_POST["typedecarte"]);
+		if(isset($_POST["newnumerocarte"])){
+			$newnumerocarte = htmlspecialchars($_POST["newnumerocarte"]);
+			$newnumerocarte = str_replace(' ', '', $newnumerocarte);
+			if(strlen($newnumerocarte)>10){
+			$sql="UPDATE `acheteur` SET `NumeroCarte` = '$newnumerocarte' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			$result = mysqli_query($db_handle, $sql);}}
+
+		if(isset($_POST["newnomcarte"])){$newnomcarte= htmlspecialchars($_POST["newnomcarte"]);
+			$sql="UPDATE `acheteur` SET `CodedeSecurite` = '$newnomcarte' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newnomcarte)>1){$result = mysqli_query($db_handle, $sql);}}
+
+		if(isset($_POST["newcodedesecurite"])){
+			$newcodedesecurite = htmlspecialchars($_POST["newcodedesecurite"]);
+			$sql="UPDATE `acheteur` SET `CodedeSecurite` = '$newcodedesecurite' WHERE `acheteur`.`IdAcheteur` = IdAcheteur";
+			if(strlen($newcodedesecurite)>2){$result = mysqli_query($db_handle, $sql);}}
+		if(isset($_POST["newexpirationcarte"])){$newexpirationcarte = htmlspecialchars($_POST["newexpirationcarte"]);}
+		//$MM = htmlspecialchars($_POST["MM"]);$YY = htmlspecialchars($_POST["YY"]);
+		//$expirationcarte = $MM.'/'.$YY;
+}
+
 $sql= "SELECT pseudo, motdepasse
 FROM utilisateur WHERE IdUtilisateur=$IdUtilisateur";
 $result = mysqli_query($db_handle, $sql);
@@ -35,26 +86,6 @@ $NomCarte = $data['NomCarte'];
 $ExpirationCarte = $data['ExpirationCarte'];
 $CodedeSecurite = $data['CodedeSecurite'];}
 
-//Lorsque l'on appuie sur enregistré, récupère les infos si elles sont renseigné.
-//Ajouter les modifs sql dans chaque if...
-if (isset($_POST["modification"])) { 
-		if(isset($_POST["newpseudo"])){$newpseudo = htmlspecialchars($_POST["newpseudo"]);}
-		if(isset($_POST["newmotdepasse"])){$newmotdepasse = sha1($_POST["newmotdepasse"]);}
-		if(isset($_POST["oldmotdepasse"])){$oldmotdepasse = sha1($_POST["oldmotdepasse"]);}
-		if(isset($_POST["newnom"])){$newnom = htmlspecialchars($_POST["newnom"]);}
-		if(isset($_POST["newprenom"])){$newprenom = htmlspecialchars($_POST["newprenom"]);}
-		if(isset($_POST["newadresse"])){$newadresse = htmlspecialchars($_POST["newadresse"]);}
-		if(isset($_POST["newcodepostal"])){$newcodepostal = htmlspecialchars($_POST["newcodepostal"]);}
-		if(isset($_POST["newpays"])){$newpays = htmlspecialchars($_POST["newpays"]);}
-		if(isset($_POST["newtelephone"])){$newtelephone = htmlspecialchars($_POST["newtelephone"]);}
-		//$typedecarte = htmlspecialchars($_POST["typedecarte"]);
-		if(isset($_POST["newnumerocarte"])){$newnumerocarte = htmlspecialchars($_POST["newnumerocarte"]);}
-		if(isset($_POST["newnomcarte"])){$newnomcarte= htmlspecialchars($_POST["newnomcarte"]);}
-		//$MM = htmlspecialchars($_POST["MM"]);$YY = htmlspecialchars($_POST["YY"]);
-		//$expirationcarte = $MM.'/'.$YY;
-		if(isset($_POST["newcodedesecurite"])){$newcodedesecurite = htmlspecialchars($_POST["newcodedesecurite"]);}
-		if(isset($_POST["newexpirationcarte"])){$newexpirationcarte = htmlspecialchars($_POST["newexpirationcarte"]);}
-}
 // Display the decrypted string 
 //fermer la connexion
 mysqli_close($db_handle);?>
@@ -132,25 +163,25 @@ mysqli_close($db_handle);?>
 					<div><p><br></p></div>
 						<table align="center">
 							<tr align="center">
-								<td><input type="text" id="prenom" name="newprenom" placeholder= <?php echo "'$Prenom'";?>></td>
+								<td><input type="text" minlength="1" id="prenom" name="newprenom" placeholder= <?php echo "'$Prenom'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="nom" name="newnom" placeholder=<?php echo "'$Nom'";?>></td>
+								<td><input type="text" minlength="1" id="nom" name="newnom" placeholder=<?php echo "'$Nom'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="adresse1" name="newadresse" placeholder=<?php echo "'$Adresse'";?>></td>
+								<td><input type="text" minlength="1" id="adresse1" name="newadresse" placeholder=<?php echo "'$Adresse'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="adresse2" placeholder=<?php echo "'$Prenom'";?>></td>
+								<td><input type="text" minlength="1" id="adresse2" placeholder=<?php echo "";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="number" id="codePostal" name="newcodepostal" placeholder=<?php echo "'$CodePostal'";?>></td>
+								<td><input type="number" minlength="1" id="codePostal" name="newcodepostal" placeholder=<?php echo "'$CodePostal'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="text" id="pays" name="newpays" placeholder=<?php echo "'$Pays'";?>></td>
+								<td><input type="text" minlength="1" id="pays" name="newpays" placeholder=<?php echo "'$Pays'";?>></td>
 							</tr>
 							<tr align="center">
-								<td><input type="phone" id="number" name="newtelephone" placeholder=<?php echo "'$Telephone'";?>></td>
+								<td><input type="phone" minlength="1" id="number" name="newtelephone" placeholder=<?php echo "'$Telephone'";?>></td>
 							</tr>
 						</table>
 					
@@ -166,7 +197,7 @@ mysqli_close($db_handle);?>
 					<p id="carte" align="center"><img src="images/visa.png"><img src="images/MC.png"><img src="images/AE.png"><img src="images/paypal.png"></p>
 						<table align="center">
 							<tr align="center">
-								<td><input type="text" id="numCarte"  maxlength="19" name="newnumerocarte" placeholder=<?php echo substr_replace($NumeroCarte, '**********', 0, -4);?>></td>
+								<td><input type="text" id="numCarte" pattern="[0-9\s]{13,19}" minlength="13" maxlength="19" name="newnumerocarte" placeholder=<?php echo str_repeat('*', strlen($NumeroCarte) - 4) . substr($NumeroCarte, -4);?>></td>
 							</tr>
 							<tr align="center">
 								<td><input type="text" id="nomCarte" name="newnomcarte" placeholder=<?php echo "'$NomCarte'";?>></td>

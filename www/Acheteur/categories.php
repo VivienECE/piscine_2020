@@ -18,56 +18,45 @@
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.html">ACCUEIL</a></li>
-			        <li class="ici"><a class="nav-link" href="categories.html">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.html"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.html"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
+			        <li class="ici"><a class="nav-link" href="categories.php">CATEGORIES</a></li>
+			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
 
-	<div><br><h2>TYPES D'OBJET</h2><br><br></p></div>
+	<div><p><br><h2>TYPES D'OBJET</h2><br><br></p></div>
 
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-3 col-md-4 col-sm-12">
-				<p align="center"><a href="tresors.html"><button type="button" class="btn">FERAILLES ET TRESORS</button></a></p>
+			<div class="col-lg-4 col-md-4 col-sm-12" id="barre">
+				<a href="tresors.php"><button type="button" class="btn">FERAILLES ET TRESORS</button>
 			</div>
-
-			<hr id="V" style="height: 50px; margin-top: 0px;">
 
 			<div class="col-lg-4 col-md-4 col-sm-12">
-				<p align="center"><a href="musee.html"><button type="button" class="btn">MUSEE</button></a></p>
+				<a href="musee.php"><button type="button" class="btn ">MUSEE</button>
 			</div>
 
-			<hr id="V" style="height: 50px; margin-top: 0px;">
-
-			<div class="col-lg-3 col-md-4 col-sm-12 ">
-				<p align="center"><a href="accessoires.html"><button type="button" class="btn">ACCESSOIRES VIP</button></a></p>
+			<div class="col-lg-4 col-md-4 col-sm-12 ">
+				<a href="accessoires.php"><button type="button" class="btn">ACCESSOIRES VIP</button>
 			</div>
-			<br><br><br>
 		</div>
 
-		<hr style="width: 1000px; color: #E2E2E2">
-
-		<div><p><br><h2>TYPES DE VENTE</h2><br><br></p></div>
+		<div><p><br><br><br><h2>TYPES DE VENTE</h2><br><br></p></div>
 
 		<div class="row">
-			<div class="col-lg-3 col-md-3 col-sm-12">
-				<p align="center"><a href="enchere.html"><button type="button" class="btn ">VENTES AUX ENCHERES</button></a></p>
+			<div class="col-lg-4 col-md-4 col-sm-12">
+				<a href="enchere.php"><button type="button" class="btn ">VENTES AUX ENCHERES</button>
 			</div>
-
-			<hr id="V" style="height: 50px; margin-top: 0px;">
 
 			<div class="col-lg-4 col-md-4 col-sm-12">
-				<p align="center"><a href="meilleureoffre.html"><button type="button" class="btn">MEILLEURES OFFRES</button></a></p>
+				<a href="meilleureoffre.php"><button type="button" class="btn">MEILLEURES OFFRES</button>
 			</div>
 
-			<hr id="V" style="height: 50px; margin-top: 0px;">
-
-			<div class="col-lg-3 col-md-3 col-sm-12">
-				<p align="center"><a href="achatimmediat.html"><button type="button" class="btn">VENTES IMMEDIATES</button></a></p>
+			<div class="col-lg-4 col-md-4 col-sm-12">
+				<a href="achatimmediat.php"><button type="button" class="btn">VENTES IMMEDIATES</button>
 			</div>
 		</div>
 	</div>

@@ -6,14 +6,18 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
+function get_file_extension($file) {
 
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$typeitem=array();$hrefitem=array();
+return;
+}
+
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$hrefitem=array();
 
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join enchere ON item.IdItem = enchere.IdItem
-	WHERE Categorie='tresor'";
+	WHERE Categorie='accessoire'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -25,7 +29,7 @@ array_push($hrefitem,"clicEncheres.php");}
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
-	WHERE Categorie='tresor'";
+	WHERE Categorie='accessoire'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -37,7 +41,7 @@ array_push($hrefitem,"clicOffre.php");}
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join achatimmediat ON item.IdItem = achatimmediat.IdItem
-	WHERE Categorie='tresor'";
+	WHERE Categorie='accessoire'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -46,6 +50,7 @@ array_push($imageitem,$data['Image']);
 array_push($prixitem,$data['PrixFinal']."€");
 array_push($hrefitem,"clicImmediat.php");}
 
+//Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 
 {
 	echo "	<div class='col-md-4 col-md-4 col-sm-12'>
@@ -59,6 +64,7 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem)
 				</div>
 			</div>";
 }
+
 // Display the decrypted string 
 session_start();
 
@@ -94,10 +100,10 @@ mysqli_close($db_handle);?>
 			</div>
 	</nav>
 
-	<div><p><br><h1>FERAILLES ET TRESORS</h1><br><br></p></div>
+	<div><p><br><h1>ACCESSOIRES VIP</h1><br><br></p></div>
 
 	<div class="container features">
-				<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE TRESOR DEPUIS LA BDD-->
+		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE ACESSOIRE DEPUIS LA BDD-->
 					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
 
 	<footer class="page-footer">

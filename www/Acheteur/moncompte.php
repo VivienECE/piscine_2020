@@ -5,70 +5,24 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$debug = true;
-
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$typeitem=array();$hrefitem=array();
-
-
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
-FROM item
-	join enchere ON item.IdItem = enchere.IdItem
-	WHERE Categorie='tresor'";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-array_push($iditem,$data['IdItem']);
-array_push($nomitem,$data['Nom']);
-array_push($imageitem,$data['Image']);
-array_push($prixitem,"Vente aux enchères !");
-array_push($hrefitem,"clicEncheres.php");}
-
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
-FROM item
-	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
-	WHERE Categorie='tresor'";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-array_push($iditem,$data['IdItem']);
-array_push($nomitem,$data['Nom']);
-array_push($imageitem,$data['Image']);
-array_push($prixitem,"Proposez une offre au vendeur !");
-array_push($hrefitem,"clicOffre.php");}
-
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
-FROM item
-	join achatimmediat ON item.IdItem = achatimmediat.IdItem
-	WHERE Categorie='tresor'";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-array_push($iditem,$data['IdItem']);
-array_push($nomitem,$data['Nom']);
-array_push($imageitem,$data['Image']);
-array_push($prixitem,$data['PrixFinal']."€");
-array_push($hrefitem,"clicImmediat.php");}
-
-function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 
-{
-	echo "	<div class='col-md-4 col-md-4 col-sm-12'>
-				<div align='center' class='thumbnail'>
-					<a href='$hrefitem"."?id=$iditem' target='_blank' ><img src=$imageitem class='img-fluid'>
-					<div class='caption'>
-						<p id='id'>$iditem</p>
-						<p id='titre'>$nomitem</p>
-						<p id='prix'>$prixitem</p>
-						</div></a>
-				</div>
-			</div>";
-}
-// Display the decrypted string 
+$debug = false;
 session_start();
+$id=$_SESSION['IdAcheteur'];
+if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
+
+$sql= "SELECT Prenom, Nom FROM `acheteur` WHERE IdAcheteur=$id ";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+ $Prenom = $data['Prenom'];
+ $Nom = $data['Nom'];}
 
 //fermer la connexion
-mysqli_close($db_handle);?>
+mysqli_close($db_handle);?><!DOCTYPE html>
 
 <!DOCTYPE html>
 <html>
 <head>
-	<title>ECEbay panier</title>
+	<title>ECEbay compte</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
@@ -89,16 +43,43 @@ mysqli_close($db_handle);?>
 			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
 			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
 			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			        <li class="ici"><a  class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
 
-	<div><p><br><h1>FERAILLES ET TRESORS</h1><br><br></p></div>
+	<div><p><br><br></p></div>
 
-	<div class="container features">
-				<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE TRESOR DEPUIS LA BDD-->
-					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
+	<div><p><h1>VOTRE COMPTE</h1><br></p></div>
+
+	<div class="container">
+	<div class="row">
+		<div class="col-md-4 col-md-4 col-sm-12">
+			<div class="row">
+				<div class="col-md-6 col-md-6 col-sm-6">
+					<img align="center" src="images/compte.png" height="100" width="100">
+				</div>
+				<div class="col-md-6 col-md-6 col-sm-6" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
+					<p><br>Bonjour<br><?php echo "$Prenom $Nom "; ?></p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="menu">
+			 		<a href="mesInfos.html">Mes informations</a>
+					<a href="modesPaiement.html">Mes modes de paiement</a>
+					<a href="mesCommandes.html">Mes commandes</a>
+					<a href="aide.html">Aide</a>
+					<a href="deconnexion.html">Deconnexion</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-2 col-md-2 col-sm-12"></div>
+		<div class="col-md-5 col-md-5 col-sm-12" style="background-image: url(images/tableau.jpg); border-radius: 2rem ">
+			<p><br>                <button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #C4BDE3; border-radius: 2rem;">BIENVENUE SUR VOTRE COMPTE</button></p>
+		</div>
+	</div></div>
+
+	<div><p><br><br></p></div>
 
 	<footer class="page-footer">
 			<div class="container">

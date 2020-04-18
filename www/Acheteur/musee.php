@@ -10,24 +10,8 @@ function get_file_extension($file) {
 
 return;
 }
-//$sql= "SELECT IdItem, PrixFinal, DateFinal FROM enchere where ...?";
-//$result = mysqli_query($db_handle, $sql);
 
-/**
-$sql= "SELECT * FROM enchere where IdItem = 1";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Eprix= $data['PrixFinal'];
-$Edatefinal= $data['DateFin'];}
-$sql= "SELECT * FROM item where IdItem = 1";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Enom= $data['Nom'];
-$Eimage= $data['Image'];
-$Ecategorie= $data['Categorie'];}**/
-//ENCHERE
-
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$hrefitem=array();
 
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
@@ -39,7 +23,8 @@ while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
-array_push($prixitem,"Vente aux enchères !");}
+array_push($prixitem,"Vente aux enchères !");
+array_push($hrefitem,"clicEncheres.php");}
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
@@ -50,7 +35,8 @@ while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
-array_push($prixitem,"Proposez une offre au vendeur !");}
+array_push($prixitem,"Proposez une offre au vendeur !");
+array_push($hrefitem,"clicOffre.php");}
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
@@ -61,14 +47,15 @@ while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
-array_push($prixitem,$data['PrixFinal']."€");}
+array_push($prixitem,$data['PrixFinal']."€");
+array_push($hrefitem,"clicImmediat.php");}
 
 //Code HTML de l'affichage
-function display_item($iditem,$nomitem,$imageitem,$prixitem) 
+function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 
 {
 	echo "	<div class='col-md-4 col-md-4 col-sm-12'>
 				<div align='center' class='thumbnail'>
-					<a href='images/antiquite.jpg' target='_blank' ><img src=$imageitem class='img-fluid'>
+					<a href='$hrefitem"."?id=$iditem' target='_blank' ><img src=$imageitem class='img-fluid'>
 					<div class='caption'>
 						<p id='id'>$iditem</p>
 						<p id='titre'>$nomitem</p>
@@ -104,11 +91,11 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.html">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.html">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.html"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.html"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
+			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -117,7 +104,7 @@ mysqli_close($db_handle);?>
 
 	<div class="container features">
 		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE MUSEE DEPUIS LA BDD-->
-					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i]);}?>
+					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
 
 	<footer class="page-footer">
 			<div class="container">

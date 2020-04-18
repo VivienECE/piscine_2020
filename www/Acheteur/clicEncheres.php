@@ -1,3 +1,52 @@
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+$idItem = $_GET['id']; 
+session_start();
+$IdAcheteur=$_SESSION['IdAcheteur'];
+$msg="";
+
+$sql= "SELECT Nom, Description, Image, PrixFinal,IdEnchere
+FROM item
+	join enchere ON item.IdItem = enchere.IdItem
+	WHERE item.IdItem=$idItem";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Nom = $data['Nom'];
+$Description = $data['Description'];
+$Image = $data['Image'];
+$PrixFinal = $data['PrixFinal'];
+$IdEnchere = $data['IdEnchere'];}
+
+if (isset($_POST["button"])) {
+	if($debug){echo "<br>"."button";}
+	$prix = htmlspecialchars($_POST["enchere"]);
+	$sql="SELECT * from `offreenchere` WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
+	if($debug){echo "<br>".$sql;}
+	$result=mysqli_query($db_handle, $sql);
+	if (mysqli_num_rows($result) == 0)
+	{
+		$sql="INSERT INTO `offreenchere`(`IdEnchere`, `IdAcheteur`, `Prix`) VALUES ($IdEnchere,$IdAcheteur,$prix)";
+		if($debug){echo "<br>".$sql;}
+		$result=mysqli_query($db_handle, $sql);
+		$msg="Offre envoyée";
+	}else if($prix>mysqli_fetch_assoc($result)["Prix"]){
+		$sql="UPDATE `offreenchere` SET `Prix` = $prix WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
+		if($debug){echo "<br>".$sql;}
+		$result=mysqli_query($db_handle, $sql);
+		$msg="Offre mise à jour";}
+	else{$msg="Veuillez surencherir";}
+	
+}
+// Display the decrypted string 
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +67,11 @@
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.html">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.html">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.html"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.html"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
+			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -42,11 +91,11 @@
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img align="center" src="images/antiquite.jpg" class="img-fluid">
+				      <img align="center" <?php echo "src='$Image'";?> class="img-fluid">
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg" class="img-fluid">
+				      <img align="center"  src="images/antiquite.jpg" class="img-fluid">
 				    </div>
 
 				    <div class="carousel-item">
@@ -64,11 +113,9 @@
 
 			<div class="col-md-7 col-md-7 col-sm-11">
 				<p>
-					<h4>Collections archéologiques et objets d'Extrême-Orient</h4><br>
-					45928546<br><br>
-					DESCRIPTION DESCRIPTION DESCRIPTION <br> 
-					DESCRIPTION DESCRIPTION DESCRIPTION <br>
-					DESCRIPTION DESCRIPTION DESCRIPTION <br>
+					<h4><?php echo "$Nom";?></h4><br>
+					<?php echo "$idItem";?><br><br>
+					<?php echo "$Description";?> <br> 
 				</p>
 			</div>
 
@@ -78,7 +125,13 @@
 		</div>
 
 
-		<hr style="width: 500px;">
+		<div class="row">
+			<div class="col-md-4 col-md-4 col-sm-0"><p></p></div>	
+			<div class="col-md-4 col-md-4 col-sm-0">
+				<br><p id="barreH">barre</p>
+			</div>
+			<div class="col-md-4 col-md-4 col-sm-0"><p></p></div>
+		</div>
 
 		<div class="row">
 			<div align="center" class="col-md-12 col-md-12 col-sm-12">
@@ -88,10 +141,12 @@
 
 		<div class="row">
 			<div align="center" class="col-md-10 col-md-10 col-sm-10">
-				<br><p style="font-weight: bold; font-size: 22px; color: grey;">Jusqu'à quel prix seriez-vous prêt à aller ? <input type="number" style="width: 60px;" name="enchere">  €</p>
+				<form method=post>
+				<br><p style="font-weight: bold; font-size: 22px; color: grey;">Jusqu'à quel prix seriez-vous prêt à aller ? <input type="number" style="width: 60px;" name="enchere" required>  €</p><?php echo "$msg";?>
 			</div>
 			<div align="right" class="col-md-2 col-md-2 col-sm-2">
-				<br><br><br><a href="#"><button type="button" class="btn"> Valider l'enchère</button></a>
+				<br><br><br><a href="#"><button type="submit" name="button" class="btn"> Valider l'enchère</button></a>
+			</form>
 			</div>
 		</div>
 	</div>

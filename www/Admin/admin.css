@@ -68,18 +68,16 @@
     }
 
 
-  #barreH{
-    font-size: 1.5px;
-    background-color: #C4BDE3;
-    color: #C4BDE3;
-  }
-
-  #barreV{
-    font-size: 18px;
-    background-color:#C4BDE3; 
-    color: #C4BDE3; 
-    line-height: 0px;
-  }
+      hr { 
+      display: block;
+      margin-left: 2em;
+      margin-right: 2em;
+      border-style: outset;
+      border-width: 2px;
+      width: 1px;
+      height: 300px;
+      color: #C4BDE3;
+    } 
 
     .carousel-inner img{
       align-items: center;
@@ -87,7 +85,6 @@
       height: 200px;
     }
 
-    
     .carousel-control-prev-icon {
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23111' viewBox='0 0 8 8'%3E%3Cpath d='M5.25 0l-4 4 4 4 1.5-1.5-2.5-2.5 2.5-2.5-1.5-1.5z'/%3E%3C/svg%3E");
     }

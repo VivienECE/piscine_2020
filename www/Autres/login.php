@@ -13,14 +13,28 @@ if (isset($_POST["button"])) {
 		$pseudo = htmlspecialchars($_POST["pseudo"]);
 		$motdepasse = sha1($_POST["motdepasse"]);
 		if ($db_found) {
-			//Recherche login/mdp, a developper pour differencier admin/acheteur/vendeur
-			$sql = "SELECT * FROM utilisateur WHERE pseudo = '$pseudo' AND motdepasse = '$motdepasse'";
+			$sql = "SELECT utilisateur.IdUtilisateur, IdAcheteur FROM utilisateur join acheteur ON utilisateur.idUtilisateur = acheteur.idUtilisateur WHERE pseudo = '$pseudo' AND motdepasse = '$motdepasse' ";
 			$result = mysqli_query($db_handle, $sql);
 			if (mysqli_num_rows($result) != 0) {
-				// Use openssl_encrypt() function to encrypt the data 
-				$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
-				//header("Location: ../Acheteur/accueil.php");
-			}else {$erreur = "Erreur dans le nom d'utilisateur ou le mot de passe";}
+				session_start();
+				while ($data = mysqli_fetch_assoc($result)){
+				$_SESSION['IdUtilisateur'] = $data['IdUtilisateur'];
+				$_SESSION['IdAcheteur'] = $data['IdAcheteur'];}
+
+				header("Location: ../Acheteur/accueil.php");
+			exit;}
+
+			$sql = "SELECT utilisateur.IdUtilisateur, IdVendeur FROM utilisateur join vendeur ON utilisateur.idUtilisateur = vendeur.idUtilisateur WHERE pseudo = '$pseudo' AND motdepasse = '$motdepasse' ";
+			$result = mysqli_query($db_handle, $sql);
+			if (mysqli_num_rows($result) != 0) {
+				session_start();
+				while ($data = mysqli_fetch_assoc($result)){
+				$_SESSION['IdUtilisateur'] = $data['IdUtilisateur'];
+				$_SESSION['IdVendeur'] = $data['IdVendeur'];}
+				header("Location: ../Vendeur/accueil.php");
+				exit;}
+
+			$erreur = "Erreur dans le nom d'utilisateur ou le mot de passe";
 		}
 		else {echo "Database not found";}
 	}

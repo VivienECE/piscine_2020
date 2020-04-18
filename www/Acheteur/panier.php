@@ -5,23 +5,79 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$debug = true;
+$debug = false;
 session_start();
+$idAcheteur = $_SESSION['IdAcheteur'];
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $typeitem=array();
 
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();
-
-
+if (isset($_POST["delete"])) {
+	$IdItem = htmlspecialchars($_POST["IdItem"]);
+	$sql = "SELECT IdSelectionne FROM `selectionne` 
+	join achatimmediat ON achatimmediat.IdAchatImmediat = selectionne.IdAchatImmediat
+	WHERE IdAcheteur=$idAcheteur AND IdItem=$IdItem ";
+	$result = mysqli_query($db_handle, $sql);
+	$sql = "DELETE FROM `selectionne` WHERE IdSelectionne=".mysqli_fetch_assoc($result)["IdSelectionne"] ;
+	if($debug){echo "<br>".$sql;}
+	//$result = mysqli_query($db_handle, $sql);
+	if(!mysqli_query($db_handle, $sql))
+	{
+		$sql = "SELECT IdNegociation FROM `negocie` 
+		join meilleureoffre ON MeilleureOffre.IdMeilleureOffre = negocie.IdMeilleureOffre
+		WHERE IdAcheteur=$idAcheteur AND IdItem=$IdItem ";
+		if($debug){echo "<br>".$sql;}
+		$result = mysqli_query($db_handle, $sql);
+		$sql = "DELETE FROM `negocie` WHERE IdNegociation=".mysqli_fetch_assoc($result)["IdNegociation"] ;
+		if(!mysqli_query($db_handle, $sql))
+		{
+			$sql = "SELECT IdOffre FROM `offreenchere` 
+			join enchere ON enchere.IdEnchere = offreenchere.IdEnchere
+			WHERE IdAcheteur=$idAcheteur AND IdItem=$IdItem ";
+			if($debug){echo "<br>".$sql;}
+			$result = mysqli_query($db_handle, $sql);
+			$sql = "DELETE FROM `offreenchere` WHERE IdOffre=".mysqli_fetch_assoc($result)["IdOffre"] ;
+			$result = mysqli_query($db_handle, $sql);
+		}
+	}
+	
+}
+$PrixTotal=0;
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
 	join achatimmediat ON achatimmediat.IdItem = item.IdItem
     join selectionne ON achatimmediat.IdAchatImmediat = selectionne.IdAchatImmediat
-    WHERE selectionne.IdAcheteur=22";
+    WHERE selectionne.IdAcheteur=$idAcheteur";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
-array_push($prixitem,$data['PrixFinal']);}
+array_push($prixitem,$data['PrixFinal']);
+$PrixTotal+=$data['PrixFinal'];}
+
+$sql= "SELECT item.IdItem, Nom, Image, Prix
+FROM item
+	join enchere ON enchere.IdItem = item.IdItem
+    join offreenchere ON enchere.IdEnchere = offreenchere.IdEnchere
+    WHERE offreenchere.IdAcheteur=$idAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($iditem,$data['IdItem']);
+array_push($nomitem,$data['Nom']);
+array_push($imageitem,$data['Image']);
+array_push($prixitem, "Votre offre sur cette enchere est de ".$data['Prix']);}
+
+$sql= "SELECT item.IdItem, Nom, Image, Prix
+FROM item
+	join meilleureoffre ON MeilleureOffre.IdItem = item.IdItem
+    join negocie ON MeilleureOffre.IdMeilleureOffre = negocie.IdMeilleureOffre
+    WHERE negocie.IdAcheteur=$idAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($iditem,$data['IdItem']);
+array_push($nomitem,$data['Nom']);
+array_push($imageitem,$data['Image']);
+array_push($prixitem, "Proposition en attente. Vous avez proposé ".$data['Prix']);}
+
 
 
 //Code HTML de l'affichage
@@ -34,6 +90,10 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem)
 
 			<div class='col-md-5 col-md-5 col-sm-12'>
 				$nomitem<p id='id'>$iditem</p>
+				<form method='post'>
+					<input type='hidden' name='IdItem' value=$iditem />
+					<button type='submit' name='delete' class='btn'> Supprimer </button>
+				</form>
 			</div>
 
 			<div class='col-md-2 col-md-2 col-sm-3'>
@@ -68,11 +128,11 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.html">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.html">CATEGORIES</a></li>
-			        <li class="ici"><a class="nav-link" href="panier.html"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.html"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
+			        <li class="ici"><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -95,10 +155,10 @@ mysqli_close($db_handle);?>
 		<div class="row">
 			<div class="col-md-3 col-md-3 col-sm-3"><p></p></div>
 			<div class="col-md-6 col-md-6 col-sm-6">
-				<p id="total" align="center"><br>Total : 385,50 €</p>
+				<p id="total" align="center"><br><?php echo "Total : ".$PrixTotal." €"?></p>
 			</div>
 			<div class="col-md-3 col-md-3 col-sm-6">
-				<br><br><a href="paiement.html"><button type="button" class="btn">Passer à la commande</button></a>
+				<br><br><a href="paiement.php"><button type="button" class="btn">Passer à la commande</button></a>
 			</div>
 		</div>
 	</div>

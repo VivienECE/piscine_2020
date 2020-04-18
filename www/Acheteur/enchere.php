@@ -6,55 +6,40 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
+function get_file_extension($file) {
 
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$typeitem=array();
+return;
+}
+//DECLARATION DES LISTES
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $hrefitem=array();
 
+//RECUPERE DANS LA BDD CHAQUE ARTICLE EN ENCHERE
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
-	join enchere ON item.IdItem = enchere.IdItem
-	WHERE Categorie='tresor'";
+	join enchere ON item.IdItem = enchere.IdItem";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
-array_push($prixitem,"Vente aux enchères !");}
+array_push($prixitem,"Vente aux enchères !");
+array_push($hrefitem,"clicencheres");}
 
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
-FROM item
-	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
-	WHERE Categorie='tresor'";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-array_push($iditem,$data['IdItem']);
-array_push($nomitem,$data['Nom']);
-array_push($imageitem,$data['Image']);
-array_push($prixitem,"Proposez une offre au vendeur !");}
-
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
-FROM item
-	join achatimmediat ON item.IdItem = achatimmediat.IdItem
-	WHERE Categorie='tresor'";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-array_push($iditem,$data['IdItem']);
-array_push($nomitem,$data['Nom']);
-array_push($imageitem,$data['Image']);
-array_push($prixitem,$data['PrixFinal']."€");}
-
-function display_item($iditem,$nomitem,$imageitem,$prixitem) 
+//Code HTML de l'affichage de chaque article
+function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 
 {
 	echo "	<div class='col-md-4 col-md-4 col-sm-12'>
 				<div align='center' class='thumbnail'>
-					<a href='images/antiquite.jpg' target='_blank' ><img src=$imageitem class='img-fluid'>
+					<a href='$hrefitem"."?id=$iditem' target='_blank' ><img src=$imageitem class='img-fluid'>
 					<div class='caption'>
 						<p id='id'>$iditem</p>
 						<p id='titre'>$nomitem</p>
-						<p id='prix'>$prixitem</p>
+						<p id='prix'>Vente aux enchères!</p>
 						</div></a>
 				</div>
 			</div>";
 }
+
 // Display the decrypted string 
 session_start();
 
@@ -90,11 +75,11 @@ mysqli_close($db_handle);?>
 			</div>
 	</nav>
 
-	<div><p><br><h1>FERAILLES ET TRESORS</h1><br><br></p></div>
+	<div><p><br><h1>VENTES AUX ENCHERES</h1><br><br></p></div>
 
 	<div class="container features">
-				<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE TRESOR DEPUIS LA BDD-->
-					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i]);}?>
+		<div class="row">
+			<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
 
 	<footer class="page-footer">
 			<div class="container">

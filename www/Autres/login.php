@@ -31,7 +31,11 @@ if (isset($_POST["button"])) {
 				while ($data = mysqli_fetch_assoc($result)){
 				$_SESSION['IdUtilisateur'] = $data['IdUtilisateur'];
 				$_SESSION['IdVendeur'] = $data['IdVendeur'];}
-				header("Location: ../Vendeur/accueil.php");
+				$IdVendeur=$_SESSION['IdVendeur'];
+				$sql="SELECT COUNT(*) as ventes FROM `item` WHERE IdVendeur=$IdVendeur";
+				$result=mysqli_query($db_handle, $sql);
+				if(mysqli_fetch_assoc($result)["ventes"]!=0){header("Location: ../Vendeur/mesventes.php");}
+				else {header("Location: ../Vendeur/mesventesVIDES.php");}
 				exit;}
 
 			$erreur = "Erreur dans le nom d'utilisateur ou le mot de passe";

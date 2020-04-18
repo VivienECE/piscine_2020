@@ -1,3 +1,5 @@
+<!-- Conserver ce php -->
+
 <?php
 //identifier votre BDD
 $database = "ecebay";
@@ -6,39 +8,9 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = false;
-$idItem = $_GET['id']; 
+// Display the decrypted string 
 session_start();
-$IdAcheteur=$_SESSION['IdAcheteur'];
-$msg="";
-
-$sql= "SELECT Nom, Description, Image, PrixFinal, IdAchatImmediat
-FROM item
-	join achatimmediat ON item.IdItem = achatimmediat.IdItem
-	WHERE item.IdItem=$idItem";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Nom = $data['Nom'];
-$Description = $data['Description'];
-$Image = $data['Image'];
-$PrixFinal = $data['PrixFinal'];
-$IdAchatImmediat = $data['IdAchatImmediat'];}
-if($debug){echo "debug:true";}
-if (isset($_POST["panier"])) {
-	if($debug){echo "<br>"."button";}
-	$sql="SELECT * from `selectionne` WHERE IdAcheteur=$IdAcheteur AND IdAchatImmediat=$IdAchatImmediat";
-	$result=mysqli_query($db_handle, $sql);
-	$result = mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
-	{
-		$sql="INSERT INTO `selectionne`( `IdAcheteur`, `IdAchatImmediat`) VALUES ($IdAcheteur,$IdAchatImmediat)";
-		if($debug){echo $sql;}
-		$result=mysqli_query($db_handle, $sql);
-		$msg="Article ajouté au panier";
-	}else{$msg="Article déja dans le panier";}
-	
-}
-
-
+if($debug){echo "ID:".$_SESSION['IdAdmin'];}
 
 //fermer la connexion
 mysqli_close($db_handle);?>
@@ -46,13 +18,13 @@ mysqli_close($db_handle);?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>ECEbay article</title>
+	<title>ECEbay accueil</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
-	<link rel="stylesheet" type="text/css" href="acheteur.css">
+	<link rel="stylesheet" type="text/css" href="admin.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
 </head>
 <body>
@@ -63,12 +35,9 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
-			     </ul>
+			        <li class="ici"><a class="nav-link" href="accueiladmin.html">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="Vendeurs.php">VENDEURS</a></li>
+			        <li><a class="nav-link" href="Annonces.php">ANNONCES</a></li>
 			</div>
 	</nav>
 
@@ -76,8 +45,9 @@ mysqli_close($db_handle);?>
 
 	<div class="container features">
 		<div class="row">
-			<div class="col-lg-4 col-md-4 col-sm-12">
-				<div align="center" id="myCarousel1" class="carousel slide" data-ride="carousel">
+			<div class="col-lg-5 col-md-5 col-sm-12">
+				<a href="Annonces.php"><h3 class="feature-title">Annonces<br><br><br></h3></a>
+				<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
 				    <li data-target="#myCarousel1" data-slide-to="1"></li>
@@ -85,17 +55,29 @@ mysqli_close($db_handle);?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
+				  <div align="center" class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img align="center" <?php echo "src='$Image'";?>>
+				      <img src="images/piece.jpg" alt="Monnaie grecque">
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" <?php echo "src='$Image'";?>>
+				      <img src="images/antiquite.jpg" alt="Antiquité">
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" <?php echo "src='$Image'";?>>
+				      <img src="images/montre.jpg" alt="Montre">
+				    	<a href="vendeursolo.html" target="_blank" >
+				      <img align="center" src="images/piece.jpg" alt="Monnaie grecque">
+				    </div>
+
+				    <div class="carousel-item">
+				    <a href="vendeursolo.html" target="_blank" >
+				      <img align="center" src="images/antiquite.jpg" alt="Antiquité">
+				    </div>
+
+				    <div class="carousel-item">
+				    	<a href="vendeursolo.html" target="_blank" >
+				      <img align="center" src="images/montre.jpg" alt="Montre">
 				    </div>
 				  </div>
 
@@ -107,36 +89,49 @@ mysqli_close($db_handle);?>
 				</div>
 			</div>
 
-			<div class="col-md-7 col-md-7 col-sm-11">
-				<p>
-					<h4><?php echo "$Nom";?></h4><br>
-					<?php echo "$idItem";?><br><br>
-					<?php echo "$Description";?><br> 
-				</p>
+			<div class="col-lg-1 col-md-1 col-sm-0">
+				<hr id="V" style="height: 300px;">
 			</div>
+			
+			<div class="col-lg-5 col-md-5 col-sm-12">
+				<a href="Vendeurs.php"><h3 class="feature-title">Vendeurs<br><br><br></h3></a>
+				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
+				  <ul class="carousel-indicators">
+				    <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
+				    <li data-target="#myCarousel2" data-slide-to="1"></li>
+				    <li data-target="#myCarousel2" data-slide-to="2"></li>
+				  </ul>
 
-			<div class="col-md-1 col-md-1 col-sm-1">
-				<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>
-			</div>
-		</div>
+				  <!-- Wrapper for slides -->
+				  <div align="center" class="carousel-inner">
+				    <div class="carousel-item active">
+				    <a href="vendeursolo.html" target="_blank" >
+				      <img src="images/clem.jpg" alt="Clémence">
+				    </div>
 
-		<div class="row">
-			<div align="center" class="col-md-12 col-md-12 col-sm-12">
-				<p><br><h3><?php echo "$PrixFinal"." €";?></h3></p>
-			</div>
-		</div>
+				    <div class="carousel-item">
+				    	<a href="vendeursolo.html" target="_blank" >
+				      <img src="images/clem.jpg" alt="Clémence">
+				    </div>
 
-		<div class="row">
-			<div align="right" class="col-md-12 col-md-12 col-sm-12">
-				<form method="post"> <!-- <form> indspensable pour que le PHP detecte l'appuie du bouton -->
-					<br><a href="#"><button type="submit" name="panier" class="btn"> Ajouter au panier </button></a>
-			    </form>
-				<br><?php echo "$msg";?>
+				    <div class="carousel-item">
+				   <a href="vendeursolo.html" target="_blank" >
+				      <img src="images/clem.jpg" alt="Clémence">
+				    </div>
+				  </div>
+
+				  <!-- Left and right controls -->
+				  <a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
+				    <span class="carousel-control-prev-icon"></span></a>
+				  <a class="carousel-control-next" href="#myCarousel2" data-slide="next">
+				    <span class="carousel-control-next-icon"></span>
+				  </a>
+				</div>
 			</div>
-		</div>
+			
 	</div>
 
-	<div><p><br></p></div>
+	<div><p><br><br><br></p></div></div>
 
 	<footer class="page-footer">
 			<div class="container">

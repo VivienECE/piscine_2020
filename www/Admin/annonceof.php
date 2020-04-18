@@ -1,3 +1,41 @@
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+
+$idItem = $_GET['id']; 
+session_start();
+$IdAcheteur=$_SESSION['IdAcheteur'];
+$msg="";
+
+$sql= "SELECT Nom, Description, Image, PrixFinal, IdAchatImmediat
+FROM item
+	join achatimmediat ON item.IdItem = meilleureoffre.IdItem
+	WHERE item.IdItem=$idItem";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Nom = $data['Nom'];
+$Description = $data['Description'];
+$Image = $data['Image'];
+$PrixFinal = $data['PrixFinal'];
+$IdAchatImmediat = $data['IdMeilleureOffre'];}
+if($debug){echo "debug:true";}
+if (isset($_POST["supprimer"])) {
+	if($debug){echo "<br>"."button";}
+	$sql="DELETE * from `item` WHERE IdItem=$idItem";
+	$result = mysqli_query($db_handle, $sql);
+	$msg="Article supprimé";	
+}
+
+
+
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,12 +56,13 @@
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li class="ici"><a class="nav-link" href="accueiladmin.html">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="accueiladmin.html">ACCUEIL</a></li>
 			        <li><a class="nav-link" href="vendeurs.html">VENDEURS</a></li>
-			        <li><a class="nav-link" href="annonces.html">ANNONCES</a></li>
+			        <li class="ici"><a class="nav-link" href="annonces.html">ANNONCES</a></li>
 			     </ul>
 			</div>
 	</nav>
+
 
 	<div><p><br><br><br></p></div>
 
@@ -42,15 +81,15 @@
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img align="center" src="images/antiquite.jpg" class="img-fluid">
+				      <img align="center" class="img-fluid" <?php echo "src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg" class="img-fluid">
+				      <img align="center" class="img-fluid" <?php echo "src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg" class="img-fluid">
+				      <img align="center" class="img-fluid" <?php echo "src='$Image'";?>>
 				    </div>
 				  </div>
 
@@ -64,13 +103,11 @@
 
 			<div class="col-md-7 col-md-7 col-sm-11">
 				<p>
-					<h4>Collections archéologiques et objets d'Extrême-Orient</h4><br>
-					45928546<br><br>
-					DESCRIPTION DESCRIPTION DESCRIPTION <br> 
-					DESCRIPTION DESCRIPTION DESCRIPTION <br>
-					DESCRIPTION DESCRIPTION DESCRIPTION <br>
+					<h4><?php echo "$Nom";?></h4><br>
+					<?php echo "$idItem";?><br><br>
+					<?php echo "$Description";?><br> 
 				</p>
-				<p><br><h3>Vente aux enchères</h3></p>
+				<p><br><h3>Proposotion d'offre</h3></p>
 			</div>
 
 			<div class="col-md-1 col-md-1 col-sm-0">
@@ -81,7 +118,10 @@
 
 		<div align="center" class="col-lg-3 col-md-3 col-sm-12">
 			<div><p><br><br><br></p></div>
-			<button type="submit" class="btn" style="background-color: red; color: white; width: 250px;"> SUPPRIMER </button></a>
+			<form method="post"> <!-- <form> indspensable pour que le PHP detecte l'appuie du bouton -->
+				<br><a href="#"><button type="submit" name="supprimer" class="btn" style="background-color: red; color: white; width: 250px;"> SUPPRIMER </button></a>
+			</form>
+			<br><?php echo "$msg";?>
 		</div>
 		</div>
 	</div>

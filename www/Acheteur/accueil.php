@@ -73,23 +73,24 @@ for($i = 0;$i < sizeof($OffreIdItem);$i++)
 function display_item($Nom,$Image,$Prix) 
 {
 	echo  "
-		  <div class='carousel-inner'>
+		  <div class='carousel-inner' align='center'>
 		       <div class='carousel-item active'>
-		       <span> <br>$Nom[0] </span>
-		      <img src='$Image[0]' >
-			  <span> $Prix[0] € </span>
-		    </div>
+		      		<img src='$Image[0]' >
+		      		<p id='titre'> $Nom[0] </p>
+			  		<p id='prix'> $Prix[0] € <br><br></p>
+		    	</div>
 
 		       <div class='carousel-item'>
-		       <span> <br>$Nom[1] </span>
-		      <img src='$Image[1]';>
-			  <span> $Prix[1] € </span>
-		    </div>
-		    <div class='carousel-item'>
-		       <span> <br>$Nom[2] </span>
-		      <img src='$Image[2]' >
-			  <span> $Prix[2] € </span>
-		    </div>
+			      <img src='$Image[1]' >
+		      		<p id='titre'> $Nom[1] </p>
+			  		<p id='prix'> $Prix[1] € <br><br></p>
+			    </div>
+
+			    <div class='carousel-item'>
+			       <img src='$Image[2]' >
+		      		<p id='titre'> $Nom[2] </p>
+			  		<p id='prix'> $Prix[2] € <br><br></p>
+			    </div>
 		  </div>";
 }
 
@@ -130,8 +131,8 @@ mysqli_close($db_handle);?>
 	<div class="container features">
 		<div class="row">
 			<!-- ENCHERE -->
-			<div class="col-lg-4 col-md-4 col-sm-12">
-				<a href="enchere.php"><h3 class="feature-title">Ventes aux enchères<br><br><br><br></h3></a>
+			<div class="col-lg-3 col-md-3 col-sm-12">
+				<a href="enchere.php"><h3 class="feature-title">Ventes aux enchères<br><br><br></h3></a>
 				<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
@@ -150,6 +151,11 @@ mysqli_close($db_handle);?>
 				  </a>
 				</div>
 			</div>
+
+			<div class="col-lg-1 col-md-1 col-sm-0">
+				<br><hr id="V" style="height: 330px;">
+			</div>
+
 			<!-- IMMEDIAT -->
 			<div class="col-lg-4 col-md-4 col-sm-12">
 				<a href="achatimmediat.php"><h3 class="feature-title">Ventes immédiates<br><br><br><br></h3></a>
@@ -172,8 +178,12 @@ mysqli_close($db_handle);?>
 				</div>
 			</div>
 
+			<div class="col-lg-1 col-md-1 col-sm-0">
+				<br><hr id="V" style="height: 330px;">
+			</div>
+
 			<!-- OFFRES -->
-			<div class="col-lg-4 col-md-4 col-sm-12">
+			<div class="col-lg-3 col-md-3 col-sm-12">
 				<a href="meilleureoffre.php"><h3 class="feature-title">Meilleures offres<br><br><br><br></h3></a>
 				<div id="myCarousel3" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
@@ -202,7 +212,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

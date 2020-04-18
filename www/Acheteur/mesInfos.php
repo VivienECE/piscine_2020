@@ -70,11 +70,11 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.html">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.html">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.html"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.html"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li class="ici"><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
+			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+			        <li class="ici"><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -129,9 +129,8 @@ mysqli_close($db_handle);?>
 				</div>
 
 				<div class="col-md-1 col-md-1 col-sm-0">
-				<div><p><br><br><br></p></div>
-				<p><span id="barreV" class="text-right">l<br>l<br>l<br>l<br>l<br>l<br>l<br>l<br>l<br>l<br>l</span></p>
-			</div>
+					<hr id="V" style="height: 300px;">
+				</div>
 
 				<div class="col-lg-4 col-md-4 col-sm-12">
 					<div><p><br></p></div>
@@ -176,7 +175,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

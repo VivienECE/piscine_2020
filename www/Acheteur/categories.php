@@ -31,32 +31,42 @@
 
 	<div class="container">
 		<div class="row">
-			<div class="col-lg-4 col-md-4 col-sm-12" id="barre">
-				<a href="tresors.php"><button type="button" class="btn">FERAILLES ET TRESORS</button>
+			<div class="col-lg-3 col-md-3 col-sm-12">
+				<p align="center"><a href="tresors.php"><button type="button" class="btn">FERAILLES ET TRESORS</button></a></p>
 			</div>
+
+			<hr id="V" style="height: 50px; margin-top: 0px;">
 
 			<div class="col-lg-4 col-md-4 col-sm-12">
-				<a href="musee.php"><button type="button" class="btn ">MUSEE</button>
+				<p align="center"><a href="musee.php"><button type="button" class="btn ">MUSEE</button></a></p>
 			</div>
 
-			<div class="col-lg-4 col-md-4 col-sm-12 ">
-				<a href="accessoires.php"><button type="button" class="btn">ACCESSOIRES VIP</button>
+			<hr id="V" style="height: 50px; margin-top: 0px;">
+
+			<div class="col-lg-3 col-md-3 col-sm-12 ">
+				<p align="center"><a href="accessoires.php"><button type="button" class="btn">ACCESSOIRES VIP</button></a></p>
 			</div>
 		</div>
 
-		<div><p><br><br><br><h2>TYPES DE VENTE</h2><br><br></p></div>
+		<hr style="width: 1000px; color: #E2E2E2">
+
+		<div><p><br><br><h2>TYPES DE VENTE</h2><br><br></p></div>
 
 		<div class="row">
-			<div class="col-lg-4 col-md-4 col-sm-12">
-				<a href="enchere.php"><button type="button" class="btn ">VENTES AUX ENCHERES</button>
+			<div class="col-lg-3 col-md-3 col-sm-12">
+				<p align="center"><a href="enchere.php"><button type="button" class="btn ">VENTES AUX ENCHERES</button></a></p>
 			</div>
 
-			<div class="col-lg-4 col-md-4 col-sm-12">
-				<a href="meilleureoffre.php"><button type="button" class="btn">MEILLEURES OFFRES</button>
-			</div>
+			<hr id="V" style="height: 50px; margin-top: 0px;">
 
 			<div class="col-lg-4 col-md-4 col-sm-12">
-				<a href="achatimmediat.php"><button type="button" class="btn">VENTES IMMEDIATES</button>
+				<p align="center"><a href="meilleureoffre.php"><button type="button" class="btn">MEILLEURES OFFRES</button></a>
+			</div>
+
+			<hr id="V" style="height: 50px; margin-top: 0px;">
+
+			<div class="col-lg-3 col-md-3 col-sm-12">
+				<p align="center"><a href="achatimmediat.php"><button type="button" class="btn">VENTES IMMEDIATES</button></a></p>
 			</div>
 		</div>
 	</div>
@@ -68,7 +78,7 @@
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

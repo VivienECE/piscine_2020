@@ -32,9 +32,9 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem)
 				<div align='center' class='thumbnail'>
 					<a href='$hrefitem"."?id=$iditem' target='_blank' ><img src=$imageitem class='img-fluid'>
 					<div class='caption'>
-						<p id='id'>$iditem</p>
+						<p id='id'><br>$iditem</p>
 						<p id='titre'>$nomitem</p>
-						<p id='prix'>Vente aux enchères!</p>
+						<p id='prix'>Vente aux enchères!<br></p>
 						</div></a>
 				</div>
 			</div>";
@@ -80,13 +80,13 @@ mysqli_close($db_handle);?>
 	<div class="container features">
 		<div class="row">
 			<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
-
+		</div></div>
 	<footer class="page-footer">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

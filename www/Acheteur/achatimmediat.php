@@ -19,7 +19,7 @@ array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($prixitem,$data['PrixFinal']."€");
-array_push($hrefitem,"clicimmediat");}
+array_push($hrefitem,"clicimmediat.php");}
 
 //Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 

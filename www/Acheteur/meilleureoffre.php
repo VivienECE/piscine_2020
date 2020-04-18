@@ -19,7 +19,7 @@ array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($prixitem,"Vente aux enchères !");
-array_push($hrefitem,"clicoffre");}
+array_push($hrefitem,"clicoffre.php");}
 
 //Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 

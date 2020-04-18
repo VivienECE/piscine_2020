@@ -23,7 +23,7 @@ array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($prixitem,"Vente aux enchères !");
-array_push($hrefitem,"clicencheres");}
+array_push($hrefitem,"clicencheres.php");}
 
 //Code HTML de l'affichage de chaque article
 function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 

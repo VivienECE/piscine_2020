@@ -9,6 +9,7 @@ $debug = false;
 $idItem = $_GET['id']; 
 session_start();
 $IdAcheteur=$_SESSION['IdAcheteur'];
+$msg="";
 
 $sql= "SELECT Nom, Description, Image, PrixFinal,IdEnchere
 FROM item

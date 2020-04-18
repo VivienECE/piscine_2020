@@ -8,11 +8,11 @@ $db_found = mysqli_select_db($db_handle, $database);
 $debug = false;
 session_start();
 $idAcheteur = $_SESSION['IdAcheteur'];
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $typeitem=array();
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $typeitem=array(); $idachat=array();
 
 //ITEM
 $PrixTotal=0;
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
+$sql= "SELECT item.IdItem, Nom, Image, PrixFinal, achatimmediat.IdAchatImmediat
 FROM item
 	join achatimmediat ON achatimmediat.IdItem = item.IdItem
     join selectionne ON achatimmediat.IdAchatImmediat = selectionne.IdAchatImmediat
@@ -22,6 +22,7 @@ while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
+array_push($idachat,$data['IdAchatImmediat']);
 array_push($prixitem,$data['PrixFinal']);
 $PrixTotal+=$data['PrixFinal'];}
 
@@ -40,6 +41,23 @@ $CodePostal = $data['CodePostal'];
 $NomCarte = $data['NomCarte'];
 $ExpirationCarte = $data['ExpirationCarte'];}
 
+if (isset($_POST["confirmer"])) {
+	if($debug){echo "COMMANDE:";}
+	for($i=0;$i<sizeof($idachat);$i++)
+	{
+		$sql =  "UPDATE `item` SET `Statut` = 'Vendu!' WHERE `item`.`IdItem` = $iditem[$i] ";
+		$result = mysqli_query($db_handle, $sql);
+		$sql =  "DELETE FROM `selectionne` WHERE `IdAchatImmediat` = $idachat[$i] ";
+		if($debug){echo "<br>".$sql."<br>";}
+		$result = mysqli_query($db_handle, $sql);
+		$sql =  "DELETE FROM `favoris` WHERE `IdItem` = $iditem[$i] ";
+		if($debug){echo "<br>".$sql."<br>";}
+		$result = mysqli_query($db_handle, $sql);
+		$sql =  "INSERT INTO `commandes`(`IdItem`, `IdAcheteur`, `NomPrenom`, `Adresse`, `CP`, `Pays`, `Livraison`, `Prix`) VALUES ($iditem[$i],$idAcheteur,'$Nom $Prenom','$Adresse','$CodePostal','$Pays',CURRENT_DATE()+INTERVAL 1 WEEK,'$prixitem[$i]')";
+		if($debug){echo "<br>".$sql."<br>";}
+		$result = mysqli_query($db_handle, $sql);
+	}
+}
 //Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$prixitem) 
 {
@@ -61,6 +79,8 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem)
 }
 
 
+
+
 // Display the decrypted string 
 //fermer la connexion
 mysqli_close($db_handle);?>
@@ -78,6 +98,7 @@ mysqli_close($db_handle);?>
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
 </head>
 <body>
+	<form method="post">
 	<nav class="navbar navbar-expand-md">
 		<a class="navbar-brand" href="#"><img src="images/logoblanc.png" width="109" height="30"></a>
 		<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
@@ -191,7 +212,7 @@ mysqli_close($db_handle);?>
 		
 		<div class="row">
 			<div class="col-md-12 col-md-12 col-sm-12" align="center">
-            	<p><br><br><br><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Confirmer la commande </button></p>
+            	<p><br><br><br><button type="sumbit" name="confirmer" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Confirmer la commande </button></p></form>
             </div>
 		</div>
 		

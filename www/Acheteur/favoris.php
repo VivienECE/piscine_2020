@@ -29,7 +29,6 @@ array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($prixitem,$data['PrixFinal']);
-array_push($hrefitem,"clicEncheres.php");
 array_push($hrefitem,"clicImmediat.php");}
 
 $sql= "SELECT item.IdItem, Nom, Image

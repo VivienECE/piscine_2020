@@ -13,7 +13,8 @@ $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $hrefi
 //RECUPERE DANS LA BDD CHAQUE ARTICLE EN ENCHERE
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal, DateFin
 FROM item
-	join enchere ON item.IdItem = enchere.IdItem";
+	join enchere ON item.IdItem = enchere.IdItem
+	WHERE Statut='En cours!'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);

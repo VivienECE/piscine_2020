@@ -13,7 +13,7 @@ session_start();
 if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
 $EnchereIdItem=array(); $EncherePrix=array(); $EnchereDate=array(); $EnchereNom=array();$EnchereImage=array();$EnchereCategorie=array();
 
-$sql= "SELECT IdItem,PrixFinal,DateFin FROM enchere";
+$sql= "SELECT item.IdItem,PrixFinal,DateFin FROM enchere join item ON item.IdItem = enchere.IdItem WHERE item.Statut='En cours!'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($EnchereIdItem,$data['IdItem']);
@@ -33,7 +33,8 @@ for($i = 0;$i < sizeof($EnchereIdItem);$i++)
 //IMMEDIAT
 $ImmediatIdItem=array(); $ImmediatPrix=array(); $ImmediatDate=array(); $ImmediatNom=array();$ImmediatImage=array();$ImmediatCategorie=array();
 
-$sql= "SELECT IdItem,PrixFinal,DateFin FROM achatimmediat";
+$sql= "SELECT item.IdItem,PrixFinal,DateFin FROM achatimmediat join item ON item.IdItem = achatimmediat.IdItem WHERE item.Statut='En cours!'";
+	if($debug){echo "<br>".$sql."<br>";}
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($ImmediatIdItem,$data['IdItem']);
@@ -42,7 +43,8 @@ array_push($ImmediatDate,$data['DateFin']);}
 
 for($i = 0;$i < sizeof($ImmediatIdItem);$i++)
 {
-	$sql= "SELECT Nom,Image,Categorie FROM item where IdItem=".$ImmediatIdItem[$i];
+	$sql= "SELECT Nom,Image,Categorie FROM item IdItem=".$ImmediatIdItem[$i];
+	if($debug){echo "<br>".$sql."<br>";}
 	$result = mysqli_query($db_handle, $sql);
 	while ($data = mysqli_fetch_assoc($result)){
 		array_push($ImmediatNom,$data['Nom']);
@@ -53,7 +55,7 @@ for($i = 0;$i < sizeof($ImmediatIdItem);$i++)
 //OFFRE
 $OffreIdItem=array(); $OffrePrix=array(); $OffreDate=array(); $OffreNom=array();$OffreImage=array();$OffreCategorie=array();
 
-$sql= "SELECT IdItem,PrixFinal,DateFin FROM meilleureoffre";
+$sql= "SELECT item.IdItem,PrixFinal,DateFin FROM meilleureoffre join item ON item.IdItem = meilleureoffre.IdItem WHERE item.Statut='En cours!'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($OffreIdItem,$data['IdItem']);

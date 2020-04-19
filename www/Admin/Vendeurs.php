@@ -35,6 +35,7 @@ for($i = 0;$i < sizeof($idVendeur);$i++)
 
 //barre de recherche
 
+
 if(isset($_POST["recherche"])){
 	$recherche = htmlspecialchars(($_POST["recherche"]));
 	if($db_found){
@@ -79,6 +80,7 @@ function display_item($idVendeur,$nomVendeur,$prenomVendeur,$idUtilisateur,$href
 			</div>";
 }
 // Display the decrypted string 
+
 //fermer la connexion
 mysqli_close($db_handle);?>
 

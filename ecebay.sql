@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 19 avr. 2020 à 17:28
+
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -94,7 +94,11 @@ CREATE TABLE IF NOT EXISTS `acheteur` (
 --
 
 INSERT INTO `acheteur` (`IdAcheteur`, `IdUtilisateur`, `Nom`, `Prenom`, `Adresse`, `CodePostal`, `Pays`, `Telephone`, `TypeDeCarte`, `NumeroCarte`, `NomCarte`, `ExpirationCarte`, `CodedeSecurite`, `ImageProfil`) VALUES
+
 (1, 1, 'DURANT', 'Vincent', '5 allÃ©e des peupliers', '91000', 'France', '0938732343', 'visa', '2346472437243777', 'Detournay', '05/21', '333', 'images/imageprofil_1');
+
+(1, 1, 'Vivien', 'DETOURNAY', '5 allÃ©e', '91090', 'France', '0193093283', 'visa', '3823234432213', 'Detournay', '05/21', '222', 'images/imageprofil_1');
+
 
 -- --------------------------------------------------------
 
@@ -186,6 +190,7 @@ CREATE TABLE IF NOT EXISTS `favoris` (
 INSERT INTO `favoris` (`IdFavoris`, `IdAcheteur`, `IdItem`) VALUES
 (74, 1, 6),
 (76, 1, 11);
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -214,10 +219,17 @@ CREATE TABLE IF NOT EXISTS `item` (
 
 INSERT INTO `item` (`IdItem`, `IdVendeur`, `Nom`, `Description`, `Categorie`, `PrixInitial`, `Date`, `Statut`, `Image`, `Video`) VALUES
 (1, 1, 'Montre de luxe', 'Montre de mon arrière, arrière...grand-père. En état de marche.', 'accessoire', 150, '2020-04-16', 'En cours!', '../items/images/item_1.png', NULL),
+
 (2, 1, 'New York', 'Peinture à l\'huile', 'musee', 1000, '2020-04-16', 'Vendu!', '../items/images/item_2.png', NULL),
 (3, 1, 'Bidonville', 'Illustration', 'musee', 90, '2020-04-17', 'En cours!', '../items/images/item_3.png', NULL),
 (4, 1, 'Strange Farm', 'Illustration', 'musee', 80, '2020-04-17', 'Vendu!', '../items/images/item_4.png', NULL),
 (5, 1, 'Futuristic Street', 'Illustration', 'musee', 80, '2020-04-17', 'Vendu!', '../items/images/item_5.png', NULL),
+
+(2, 1, 'New York', 'Peinture à l\'huile', 'musee', 1000, '2020-04-16', 'En cours!', '../items/images/item_2.png', NULL),
+(3, 1, 'Bidonville', 'Illustration', 'musee', 90, '2020-04-17', 'En cours!', '../items/images/item_3.png', NULL),
+(4, 1, 'Strange Farm', 'Illustration', 'musee', 80, '2020-04-17', 'En cours!', '../items/images/item_4.png', NULL),
+(5, 1, 'Futuristic Street', 'Illustration', 'musee', 80, '2020-04-17', 'En cours!', '../items/images/item_5.png', NULL),
+
 (6, 1, 'Rapiere', 'Rapiere du XVII', 'musee', 300, '2020-04-17', 'En cours!', '../items/images/item_6.png', NULL),
 (7, 45, 'Solitude Falling', 'Illustration', 'musee', 80, '2020-04-17', 'En cours!', '../items/images/item_7.png', NULL),
 (8, 78, 'Bague', 'Bague en diamant', 'accessoire', 1500, '2020-04-17', 'En cours!', '../items/images/item_8.png', NULL),

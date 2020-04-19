@@ -65,7 +65,7 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem)
 //barre de recherche
 
 $recherche = isset($_POST["recherche"])? $_POST["recherche"] : "";
-if($_POST["Rechercher"]){
+if(isset($_POST["Rechercher"])){
 	if($db_found){
 		$sql = "SELECT * FROM item WHERE Nom OR Description OR Categorie LIKE '%$recherche%'";
 		

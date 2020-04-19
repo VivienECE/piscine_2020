@@ -73,16 +73,17 @@ mysqli_close($db_handle);?>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
 	<link rel="stylesheet" type="text/css" href="acheteur.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
+
 	<script type="text/javascript">
 	// Set the date we're counting down to
-	var date = <?php echo '$Datefin';?>;
+	var date = <?php echo json_encode($DateFin);?>;
 	// Update the count down every 1 second
 	var x = setInterval(function() 
 	{
 		// Get today's date and time
 		var now = new Date().getTime();
 		// Find the distance between now and the count down date
-		var countDownDate = new Date("Jan 5, 2061 15:37:25").getTime();
+		var countDownDate = new Date(date).getTime();
 		var distance = countDownDate - now; 
 		if (distance <= 0) {document.getElementById("timer").innerHTML = "Expiré";}
 		else
@@ -117,7 +118,6 @@ mysqli_close($db_handle);?>
 	</nav>
 
 	<div><p><br><br><br></p></div>
-	<h2 id="timer" style="color:red"></h2>
 	<div class="container features">
 		<div class="row">
 			<div class="col-lg-4 col-md-4 col-sm-12">
@@ -158,7 +158,7 @@ mysqli_close($db_handle);?>
 					<?php echo "$Description";?> <br> 
 				</p>
 			</div>
-
+			
 			<form name= "1" method="POST">
 				<div class="col-md-1 col-md-1 col-sm-1">
 					<!--
@@ -181,7 +181,7 @@ mysqli_close($db_handle);?>
 
 		<div class="row">
 			<div align="center" class="col-md-12 col-md-12 col-sm-12">
-				<p><br><h3 id=timer>Vente aux enchères !</h3></p>
+				<p><br><h3 id=timer></h3></p>
 			</div>
 		</div>
 

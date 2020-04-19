@@ -10,7 +10,6 @@ $debug = true;
 $iditem=array(); $nomitem=array(); $imageitem=array(); $etatitem=array(); $hrefitem=array();
 
 
-
 $sql= "SELECT item.IdItem, Nom, Image, Statut
 FROM item
 join achatimmediat ON item.IdItem = achatimmediat.IdItem ";
@@ -67,7 +66,7 @@ function display_item($iditem,$nomitem,$imageitem,$etatitem,$hrefitem)
 session_start();
 
 //fermer la connexion
-mysqli_close($db_handle);?><!DOCTYPE html>
+mysqli_close($db_handle);?>
 
 <!DOCTYPE html>
 <html>

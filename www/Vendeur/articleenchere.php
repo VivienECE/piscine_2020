@@ -59,8 +59,8 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-				 	<li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
-			        <li class="ici"><a class="nav-link" href="mesventes.html">MES VENTES</a></li>
+				 	<li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			        <li class="ici"><a class="nav-link" href="mesventes.php">MES VENTES</a></li>
 			     </ul>
 			</div>
 	</nav>

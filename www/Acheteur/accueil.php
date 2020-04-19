@@ -43,7 +43,7 @@ array_push($ImmediatDate,$data['DateFin']);}
 
 for($i = 0;$i < sizeof($ImmediatIdItem);$i++)
 {
-	$sql= "SELECT Nom,Image,Categorie FROM item IdItem=".$ImmediatIdItem[$i];
+	$sql= "SELECT Nom,Image,Categorie FROM item WHERE IdItem=".$ImmediatIdItem[$i];
 	if($debug){echo "<br>".$sql."<br>";}
 	$result = mysqli_query($db_handle, $sql);
 	while ($data = mysqli_fetch_assoc($result)){

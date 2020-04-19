@@ -1,25 +1,4 @@
-<?php
-//identifier votre BDD
-$database = "ecebay";
-//connectez-vous dans votre BDD
-//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
-$db_handle = mysqli_connect('localhost', 'root', '');
-$db_found = mysqli_select_db($db_handle, $database);
-$debug = false;
-session_start();
-$id=$_SESSION['IdAcheteur'];
-if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
-
-$sql= "SELECT Prenom, Nom FROM acheteur WHERE IdAcheteur=$id ";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
- $prenom = $data['Prenom'];
- $nom = $data['Nom'];}
-
-//fermer la connexion
-mysqli_close($db_handle);?>
-
-?>
+<!DOCTYPE html>
 <!DOCTYPE html>
 <html>
 <head>
@@ -44,22 +23,68 @@ mysqli_close($db_handle);?>
 			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
 			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
 			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li class="ici"><a  class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li class="ici"><a  class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
 
 	<div><p><br><br></p></div>
-	
+
+	<div><p><h1>Service client</h1><br></p></div>
+
 	<div class="container">
-		<div class="row">
-			<div class="col-md-3 col-md-3 col-sm-1"><p></p></div>
-			<div align="center" class="col-md-5 col-md-5 col-sm-12" style="background-image: url(images/tableau.jpg); border-radius: 1.5rem ">
-				<p><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
-				<p><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #C4BDE3; border-radius: 2rem;">A très bientôt <?php echo "$prenom $nom";?> !</button><br><br></p>
+	<div class="row">
+		<div class="col-md-3 col-md-3 col-sm-12">
+			<div class="row">
+				<div class="col-md-5 col-md-5 col-sm-5">
+					<img align="center" src="images/compte.png" height="80" width="80">
+				</div>
+				<div class="col-md-7 col-md-7 col-sm-7" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
+					<p><br>Jean-Pierre SEDADO</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="menuBIS">
+			 		<a href="mesInfos.php">Mes informations</a>
+					<a href="modesPaiements.php">Mes modes de paiement</a>
+					<a href="mesCommandes.php">Mes commandes</a>
+					<a href="aide.php">Aide</a>
+					<a href="deconnexion.php">Deconnexion</a>
+				</div>
 			</div>
 		</div>
-	</div>
+		<div class="col-md-2 col-md-2 col-sm-12"></div>
+		<div class="col-md-7 col-md-7 col-sm-12">
+			<p><h2>Vous rencontrez un problème ?<br>Contactez-nous !</h2><br><br><br><br></p>
+			<div class="row">
+				<div class="col-md-1 col-md-1 col-sm-1">
+					<img align="center" src="images/tel.png" height="50" width="50">
+				</div>
+				<div class="col-md-4 col-md-4 col-sm-4">
+					<p style="font-size: 20px; font-weight: bold;">0800 000 689 740</p>
+				</div>
+
+				<div class="col-md-1 col-md-1 col-sm-1"><p></p></div>
+
+				<div class="col-md-1 col-md-1 col-sm-1">
+					<img align="center" src="images/mail.png" height="50" width="50">
+				</div>
+				<div class="col-md-4 col-md-4 col-sm-4">
+					<a href="serviceclient@ecebay.com"><p style="font-size: 20px; font-weight: bold;">  serviceclient@ecebay.com</p></a>
+				</div>
+			</div>
+
+			<div id="aide" class="row" align="center">
+				<p>
+					<br><br><br><br><br>
+					<a href="#"><img src="images/twitter.png"></a> 
+					<a href="#"><img src="images/lin.png"></a>
+					<a href="#"><img src="images/fb.png"></a>
+					<a href="#"><img class="img-circle" src="images/insta.png"></a>
+				</p>
+			</div>
+		</div>
+	</div></div>
 
 	<div><p><br><br></p></div>
 
@@ -68,7 +93,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

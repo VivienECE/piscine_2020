@@ -104,10 +104,9 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem)
 }
 
 // Display the decrypted string 
-
-
 //fermer la connexion
 mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>

@@ -11,7 +11,7 @@ session_start();
 $IdAcheteur=$_SESSION['IdAcheteur'];
 $msg="";
 
-$sql= "SELECT Nom, Description, Image, PrixFinal,IdEnchere
+$sql= "SELECT Nom, Description, Image, PrixFinal,IdEnchere, DateFin
 FROM item
 	join enchere ON item.IdItem = enchere.IdItem
 	WHERE item.IdItem=$idItem";
@@ -21,27 +21,42 @@ $Nom = $data['Nom'];
 $Description = $data['Description'];
 $Image = $data['Image'];
 $PrixFinal = $data['PrixFinal'];
-$IdEnchere = $data['IdEnchere'];}
+$IdEnchere = $data['IdEnchere'];
+$DateFin = $data['DateFin'];}
 
 if (isset($_POST["button"])) {
 	if($debug){echo "<br>"."button";}
 	$prix = htmlspecialchars($_POST["enchere"]);
+	//recherche si l'acheteur n'a pas déja fais une enchere
 	$sql="SELECT * from `offreenchere` WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
 	if($debug){echo "<br>".$sql;}
 	$result=mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
+	if ($prix<=0) {$msg="Veuillez faire une offre valide";}
+	else if (mysqli_num_rows($result) == 0) //Si aucune enchère, en crée une
 	{
 		$sql="INSERT INTO `offreenchere`(`IdEnchere`, `IdAcheteur`, `Prix`) VALUES ($IdEnchere,$IdAcheteur,$prix)";
 		if($debug){echo "<br>".$sql;}
 		$result=mysqli_query($db_handle, $sql);
 		$msg="Offre envoyée";
-	}else if($prix>mysqli_fetch_assoc($result)["Prix"]){
+	}else if($prix>mysqli_fetch_assoc($result)["Prix"]){ //Si déja
 		$sql="UPDATE `offreenchere` SET `Prix` = $prix WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
 		if($debug){echo "<br>".$sql;}
 		$result=mysqli_query($db_handle, $sql);
 		$msg="Offre mise à jour";}
 	else{$msg="Veuillez surencherir";}
-	
+}
+
+//Si on appuie sur le bouton favoris
+if (isset($_POST["favoris"]))
+{
+	$sql="SELECT `IdAcheteur`, `IdItem` from `favoris` WHERE IdAcheteur=$IdAcheteur AND IdItem=$idItem";
+	$result=mysqli_query($db_handle, $sql);
+	if (mysqli_num_rows($result) == 0)
+	{
+		$sql = "INSERT  INTO `favoris` (`IdAcheteur`, `IdItem`) VALUES ($IdAcheteur, $idItem)";
+		if($debug){echo "<br>".$sql;}
+		$result=mysqli_query($db_handle, $sql);
+	}
 }
 // Display the decrypted string 
 //fermer la connexion
@@ -58,6 +73,32 @@ mysqli_close($db_handle);?>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
 	<link rel="stylesheet" type="text/css" href="acheteur.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
+
+	<script type="text/javascript">
+	// Set the date we're counting down to
+	var date = <?php echo json_encode($DateFin);?>;
+	// Update the count down every 1 second
+	var x = setInterval(function() 
+	{
+		// Get today's date and time
+		var now = new Date().getTime();
+		// Find the distance between now and the count down date
+		var countDownDate = new Date(date).getTime();
+		var distance = countDownDate - now; 
+		if (distance <= 0) {document.getElementById("timer").innerHTML = "Expiré";}
+		else
+		{
+			// Time calculations for days, hours, minutes and seconds
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			// Display the result in the element with id="timer+..."
+			document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s ";
+		} 
+	}, 1000);
+	</script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-md">
@@ -77,7 +118,6 @@ mysqli_close($db_handle);?>
 	</nav>
 
 	<div><p><br><br><br></p></div>
-
 	<div class="container features">
 		<div class="row">
 			<div class="col-lg-4 col-md-4 col-sm-12">
@@ -118,17 +158,22 @@ mysqli_close($db_handle);?>
 					<?php echo "$Description";?> <br> 
 				</p>
 			</div>
-
-			<div class="col-md-1 col-md-1 col-sm-1">
-				<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>
-			</div>
+			
+			<form name= "1" method="POST">
+				<div class="col-md-1 col-md-1 col-sm-1">
+					<!--
+					<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>-->
+					<input type="hidden" name="favoris" value="add">
+					<input type='image' src="images/favoris.png" width="30" height="30" onFocus='form.submit' name='favoris'/>
+				</div>
+			</form>
 		</div>
 
 		<hr style="width: 500px;">
 
 		<div class="row">
 			<div align="center" class="col-md-12 col-md-12 col-sm-12">
-				<p><br><h3>Vente aux enchères !</h3></p>
+				<p><br><h3 id=timer></h3></p>
 			</div>
 		</div>
 

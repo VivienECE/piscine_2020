@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  Dim 19 avr. 2020 à 16:28
+-- Généré le :  Dim 19 avr. 2020 à 17:28
 -- Version du serveur :  5.7.26
 -- Version de PHP :  7.2.18
 
@@ -94,9 +94,7 @@ CREATE TABLE IF NOT EXISTS `acheteur` (
 --
 
 INSERT INTO `acheteur` (`IdAcheteur`, `IdUtilisateur`, `Nom`, `Prenom`, `Adresse`, `CodePostal`, `Pays`, `Telephone`, `TypeDeCarte`, `NumeroCarte`, `NomCarte`, `ExpirationCarte`, `CodedeSecurite`, `ImageProfil`) VALUES
-
 (1, 1, 'DURANT', 'Vincent', '5 allÃ©e des peupliers', '91000', 'France', '0938732343', 'visa', '2346472437243777', 'Detournay', '05/21', '333', 'images/imageprofil_1');
-
 
 -- --------------------------------------------------------
 
@@ -179,15 +177,15 @@ CREATE TABLE IF NOT EXISTS `favoris` (
   `IdAcheteur` int(8) NOT NULL,
   `IdItem` int(8) NOT NULL,
   PRIMARY KEY (`IdFavoris`)
-) ENGINE=MyISAM AUTO_INCREMENT=76 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=77 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `favoris`
 --
 
 INSERT INTO `favoris` (`IdFavoris`, `IdAcheteur`, `IdItem`) VALUES
-(75, 1, 8),
-(74, 1, 6);
+(74, 1, 6),
+(76, 1, 11);
 
 -- --------------------------------------------------------
 
@@ -327,7 +325,14 @@ CREATE TABLE IF NOT EXISTS `selectionne` (
   `IdAcheteur` int(8) NOT NULL,
   `IdAchatImmediat` int(8) NOT NULL,
   PRIMARY KEY (`IdSelectionne`)
-) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+
+--
+-- Déchargement des données de la table `selectionne`
+--
+
+INSERT INTO `selectionne` (`IdSelectionne`, `IdAcheteur`, `IdAchatImmediat`) VALUES
+(28, 1, 5);
 
 -- --------------------------------------------------------
 
@@ -376,7 +381,7 @@ CREATE TABLE IF NOT EXISTS `vendeur` (
 
 INSERT INTO `vendeur` (`IdVendeur`, `IdUtilisateur`, `Nom`, `Prenom`, `ImageProfil`, `ImageFond`) VALUES
 (1, 2, 'PIERRE', 'Loic', '../items/profil/imageprofil_1.png\r\n', NULL),
-(2, 78, 'SIMONS', 'Trysha', '../items/profil/imageprofil_2.png\r\n', NULL);
+(2, 3, 'SIMONS', 'Trysha', '../items/profil/imageprofil_2.png\r\n', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

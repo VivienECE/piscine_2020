@@ -6,49 +6,54 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
-function get_file_extension($file) {
-
-return;
-}
 
 $idVendeur=array(); $idUtilisateur=array(); $nomVendeur=array(); $prenomVendeur=array(); $photoVendeur=array(); $fondVendeur=array(); $hrefVendeur=array(); $nbItem=array(); 
 
-$sql= "SELECT vendeur.IdVendeur, Nom, Prenom, ImageProfil, ImageFond
-FROM vendeur";
+$sql= "SELECT vendeur.IdVendeur, Nom, Prenom, ImageProfil, ImageFond, utilisateur.IdUtilisateur
+FROM vendeur
+join utilisateur on utilisateur.IdUtilisateur=vendeur.IdUtilisateur";
 $result = mysqli_query($db_handle, $sql);
+if($debug){echo $sql."<br>";}
 while ($data = mysqli_fetch_assoc($result)){
 array_push($idVendeur,$data['IdVendeur']);
 array_push($prenomVendeur,$data['Prenom']);
 array_push($nomVendeur,$data['Nom']);
 array_push($photoVendeur,$data['ImageProfil']);
 array_push($fondVendeur,$data["ImageFond"]);
+array_push($idUtilisateur,$data["IdUtilisateur"]);
 array_push($hrefVendeur,"vendeursolo.php");
 }
+print_r($photoVendeur);
 
 for($i = 0;$i < sizeof($idVendeur);$i++)
 	{
-		$sqlItem="SELECT COUNT(*) as ventes FROM 'item' WHERE IdVendeur=$idVendeur[$i]"; //REQUETE
+		$sqlItem="SELECT COUNT(*) as ventes FROM item WHERE IdVendeur=$idVendeur[$i]"; //REQUETE
+		if($debug){echo $sqlItem."<br>";}
 		$result=mysqli_query($db_handle, $sqlItem); //EXECUTION DE LA REQUETE
-		array_push($nbItem,mysqli_fetch_assoc($result)["Ventes"]); //RECUPERE LE NB D'ITEM
+		array_push($nbItem,mysqli_fetch_assoc($result)["ventes"]); //RECUPERE LE NB D'ITEM
 	}
 
 //barre de recherche
 
-$recherche = isset($_POST["recherche"])? $_POST["recherche"] : "";
-if($_POST["recherche"]){
+if(isset($_POST["recherche"])){
+	$recherche = htmlspecialchars(($_POST["recherche"]));
 	if($db_found){
-		$sql = "SELECT * FROM vendeur WHERE Nom OR Prenom LIKE '%$recherche%'";
-		
+		$sql = "SELECT vendeur.IdVendeur, Nom, Prenom, ImageProfil, ImageFond, utilisateur.IdUtilisateur FROM vendeur join utilisateur on utilisateur.IdUtilisateur=vendeur.IdUtilisateur WHERE Nom OR Prenom LIKE '%$recherche%'
+				";
+		if($debug){echo $sql."<br>";}
 		$result = mysqli_query($db_handle, $sql);
 		ob_end_clean();
 		//regarder s'il y a des résultats
-		if(mysqli_num_rows($result) != 0){
+		if(mysqli_num_rows($result) == 0){
 			echo "<div class='col-md-4 col-md-4 col-sm-12'>
 					<br><br><h5>Aucun vendeur ne correspond à votre recherche.<br>
-					</div>";
+					</div>";	
 		}else{
 			while($data = mysqli_fetch_assoc($result)){
-				display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem);
+				$idventemp=$data['IdVendeur'];
+				$sqlItem="SELECT COUNT(*) as ventes FROM item WHERE IdVendeur=$idventemp"; //REQUETE
+				$itemresult=mysqli_query($db_handle, $sqlItem); //EXECUTION DE LA REQUETE
+				display_item($data['IdVendeur'],$data['Nom'],$data['Prenom'],$data['IdUtilisateur'],"vendeursolo.php",  mysqli_fetch_assoc($itemresult)["ventes"], $data['ImageProfil']);
 			}
 		}
 
@@ -73,10 +78,7 @@ function display_item($idVendeur,$nomVendeur,$prenomVendeur,$idUtilisateur,$href
 				</div>
 			</div>";
 }
-
 // Display the decrypted string 
-session_start();
-
 //fermer la connexion
 mysqli_close($db_handle);?>
 
@@ -113,12 +115,12 @@ mysqli_close($db_handle);?>
 		<div class="row">
 			<div class="col-md-3 col-md-3 col-sm-0"></div>
 			<form method="post">
-		      <input type="text" placeholder="  Rechercher..." name="recherche" style="width: 500px;">
-		      <button name="recherche" class="btn" type="submit"><img src="images/loupe.png" width="20" height="20"></span></button><br><br>
+		      <input type="text" placeholder="  Rechercher..." name="recherche" style="width: 500px;" required>
+		      <button class="btn" type="submit"><img src="images/loupe.png" width="20" height="20"></span></button><br><br>
 			</form>
 		</div>
 		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE ACESSOIRE DEPUIS LA BDD-->
-					<?php for($i = 0;$i < sizeof($idVendeur);$i++){display_item($idVendeur[$i],$nomVendeur[$i],$prenomVendeur[$i],$idUtilisateur[$i],$hrefVendeur[$i], $nbItem[$i], $photoVendeur[$i]) ;}?>
+					<?php for($i=0;$i<sizeof($idVendeur);$i++){display_item($idVendeur[$i],$nomVendeur[$i],$prenomVendeur[$i],$idUtilisateur[$i],$hrefVendeur[$i], $nbItem[$i], $photoVendeur[$i]) ;}?>
 
 		</div></div>
 	<footer class="page-footer">

@@ -99,11 +99,11 @@ mysqli_close($db_handle);?>
 						    </div>
 
 						    <div class="carousel-item">
-						      <img align="center" src="images/montre.jpg">
+						      <img align="center" <?php echo "src='$Image'";?>>
 						    </div>
 
 						    <div class="carousel-item">
-						      <img align="center" src="images/montre.jpg">
+						      <img align="center" <?php echo "src='$Image'";?>>
 						    </div>
 						  </div>
 
@@ -152,7 +152,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

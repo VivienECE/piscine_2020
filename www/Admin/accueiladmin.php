@@ -9,6 +9,62 @@ $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = false;
 // Display the decrypted string 
+
+$IdVendeur=array();$ImageVendeur=array();
+$sql= "SELECT IdVendeur, ImageProfil FROM vendeur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($IdVendeur,$data['IdVendeur']);
+array_push($ImageVendeur,$data['ImageProfil']);}
+
+$IdItem=array();$Nom=array();$Image=array();
+$sql= "SELECT item.IdItem, item.Image, item.Nom FROM item
+join meilleureoffre on item.IdItem = meilleureoffre.IdItem";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($IdItem,$data['IdItem']);
+array_push($Image,$data['Image']);
+array_push($Nom,$data['Nom']);}
+
+$sql= "SELECT item.IdItem, item.Image, item.Nom FROM item
+join enchere on item.IdItem = enchere.IdItem";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($IdItem,$data['IdItem']);
+array_push($Image,$data['Image']);
+array_push($Nom,$data['Nom']);}
+
+$sql= "SELECT item.IdItem, item.Image, item.Nom FROM item
+join achatimmediat on item.IdItem = achatimmediat.IdItem";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($IdItem,$data['IdItem']);
+array_push($Image,$data['Image']);
+array_push($Nom,$data['Nom']);}
+
+function display_item($IdItem,$Image,$i)
+{
+	if($i==0) //Le première article va dans la première slide
+	{
+		echo "<div class='carousel-item active'>
+			<img src='$Image'>
+			</div>";
+	}
+	else
+	{
+		echo "<div class='carousel-item'>
+			<img src='$Image'>
+			</div>";
+	}
+
+}
+
+function carousel_define($carouselName,$i)
+{
+    echo"<li data-target='$carouselName' data-slide-to='$i'></li>";
+}
+
+
 session_start();
 if($debug){echo "ID:".$_SESSION['IdAdmin'];}
 
@@ -50,35 +106,12 @@ mysqli_close($db_handle);?>
 				<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel1" data-slide-to="1"></li>
-				    <li data-target="#myCarousel1" data-slide-to="2"></li>
+				     <?php for($i = 1;$i <= sizeof($IdItem);$i++){carousel_define("#myCarousel1",$i);}?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
 				  <div align="center" class="carousel-inner">
-				    <div class="carousel-item active">
-				      <img src="images/piece.jpg" alt="Monnaie grecque">
-				    </div>
-
-				    <div class="carousel-item">
-				      <img src="images/antiquite.jpg" alt="Antiquité">
-				    </div>
-
-				    <div class="carousel-item">
-				      <img src="images/montre.jpg" alt="Montre">
-				    	<a href="vendeursolo.html" target="_blank" >
-				      <img align="center" src="images/piece.jpg" alt="Monnaie grecque">
-				    </div>
-
-				    <div class="carousel-item">
-				    <a href="vendeursolo.html" target="_blank" >
-				      <img align="center" src="images/antiquite.jpg" alt="Antiquité">
-				    </div>
-
-				    <div class="carousel-item">
-				    	<a href="vendeursolo.html" target="_blank" >
-				      <img align="center" src="images/montre.jpg" alt="Montre">
-				    </div>
+				    <?php for($i = 0;$i < sizeof($IdItem);$i++){display_item($IdItem[$i],$Image[$i],$i);}?>
 				  </div>
 
 				  <!-- Left and right controls -->
@@ -98,26 +131,12 @@ mysqli_close($db_handle);?>
 				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel2" data-slide-to="1"></li>
-				    <li data-target="#myCarousel2" data-slide-to="2"></li>
+				    <?php for($i = 1;$i <= sizeof($IdVendeur);$i++){carousel_define("#myCarousel2",$i);}?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
 				  <div align="center" class="carousel-inner">
-				    <div class="carousel-item active">
-				    <a href="vendeursolo.html" target="_blank" >
-				      <img src="images/clem.jpg" alt="Clémence">
-				    </div>
-
-				    <div class="carousel-item">
-				    	<a href="vendeursolo.html" target="_blank" >
-				      <img src="images/clem.jpg" alt="Clémence">
-				    </div>
-
-				    <div class="carousel-item">
-				   <a href="vendeursolo.html" target="_blank" >
-				      <img src="images/clem.jpg" alt="Clémence">
-				    </div>
+				    <?php for($i = 0;$i < sizeof($IdVendeur);$i++){display_item($IdVendeur[$i],$ImageVendeur[$i],$i);}?>
 				  </div>
 
 				  <!-- Left and right controls -->

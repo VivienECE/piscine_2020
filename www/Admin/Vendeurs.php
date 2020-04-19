@@ -32,9 +32,35 @@ for($i = 0;$i < sizeof($idVendeur);$i++)
 		array_push($nbItem,mysqli_fetch_assoc($result)["Ventes"]); //RECUPERE LE NB D'ITEM
 	}
 
+//barre de recherche
+
+$recherche = isset($_POST["recherche"])? $_POST["recherche"] : "";
+if($_POST["recherche"]){
+	if($db_found){
+		$sql = "SELECT * FROM vendeur WHERE Nom OR Prenom LIKE '%$recherche%'";
+		
+		$result = mysqli_query($db_handle, $sql);
+		ob_end_clean();
+		//regarder s'il y a des résultats
+		if(mysqli_num_rows($result) != 0){
+			echo "<div class='col-md-4 col-md-4 col-sm-12'>
+					<br><br><h5>Aucun vendeur ne correspond à votre recherche.<br>
+					</div>";
+		}else{
+			while($data = mysqli_fetch_assoc($result)){
+				display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem);
+			}
+		}
+
+}else{
+	echo "Database not found.";
+}
+
+}
+
 
 //Code HTML de l'affichage
-function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 
+function display_item($idVendeur,$nomVendeur,$prenomVendeur,$idUtilisateur,$hrefVendeur, $nbItem, $photoVendeur) 
 {
 	echo "	<div class='col-md-4 col-md-4 col-sm-12'>
 				<div align='center' class='thumbnail'>
@@ -85,18 +111,14 @@ mysqli_close($db_handle);?>
 
 	<div class="container features">
 		<div class="row">
-			<div class="col-md-3 col-md-3 col-sm-3"></div>
-			<div class="col-md-5 col-md-5 col-sm-5">
-				<p align="center">
-					<input class="form-control" id="myInput" type="text" placeholder="Rechercher..." style="width: 505px;">
-				</p>
-			</div>
-			<div class="col-md-1 col-md-1 col-sm-1">
-				<a href="#"><img src="images/loupe.png" width="20" height="20"></a>
-			</div>
+			<div class="col-md-3 col-md-3 col-sm-0"></div>
+			<form method="post">
+		      <input type="text" placeholder="  Rechercher..." name="recherche" style="width: 500px;">
+		      <button name="recherche" class="btn" type="submit"><img src="images/loupe.png" width="20" height="20"></span></button><br><br>
+			</form>
 		</div>
 		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE ACESSOIRE DEPUIS LA BDD-->
-					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
+					<?php for($i = 0;$i < sizeof($idVendeur);$i++){display_item($idVendeur[$i],$nomVendeur[$i],$prenomVendeur[$i],$idUtilisateur[$i],$hrefVendeur[$i], $nbItem[$i], $photoVendeur[$i]) ;}?>
 
 		</div></div>
 	<footer class="page-footer">

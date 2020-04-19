@@ -62,8 +62,34 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem)
 			</div>";
 }
 
+//barre de recherche
+
+$recherche = isset($_POST["recherche"])? $_POST["recherche"] : "";
+if($_POST["Rechercher"]){
+	if($db_found){
+		$sql = "SELECT * FROM item WHERE Nom OR Description OR Categorie LIKE '%$recherche%'";
+		
+		$result = mysqli_query($db_handle, $sql);
+		ob_end_clean();
+		//regarder s'il y a des résultats
+		if(mysqli_num_rows($result) != 0){
+			echo "<div class='col-md-4 col-md-4 col-sm-12'>
+					<br><br><h5>Aucun article ne correspond à votre recherche.<br>
+					</div>";
+		}else{
+			while($data = mysqli_fetch_assoc($result)){
+				display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem);
+			}
+		}
+
+}else{
+	echo "Database not found.";
+}
+
+}
+
 // Display the decrypted string 
-session_start();
+ob_start();
 
 //fermer la connexion
 mysqli_close($db_handle);?>
@@ -89,7 +115,7 @@ mysqli_close($db_handle);?>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
 			         <li ><a class="nav-link" href="accueiladmin.php">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="Aendeurs.php">VENDEURS</a></li>
+			        <li><a class="nav-link" href="Vendeurs.php">VENDEURS</a></li>
 			        <li class="ici"><a class="nav-link" href="Annonces.php">ANNONCES</a></li>
 			     </ul>
 			</div>
@@ -100,14 +126,10 @@ mysqli_close($db_handle);?>
 	<div class="container features">
 		<div class="row">
 			<div class="col-md-3 col-md-3 col-sm-3"></div>
-			<div class="col-md-5 col-md-5 col-sm-5">
-				<p align="center">
-					<input class="form-control" id="myInput" type="text" placeholder="Rechercher..." style="width: 505px;"><br>
-				</p>
-			</div>
-			<div class="col-md-1 col-md-1 col-sm-1">
-				<a href="#"><img src="images/loupe.png" width="20" height="20"></a>
-			</div>
+			<form method="post">
+		      <input type="text" placeholder="  Rechercher..." name="recherche" style="width: 500px;">
+		      <button name="Rechercher" class="btn" type="submit"><img src="images/loupe.png" width="20" height="20"></span></button><br><br>
+			</form>
 		</div>
 		<div class="row"> <!--AFFICHAGE DE TT LES ARTICLES CATEGORIE ACESSOIRE DEPUIS LA BDD-->
 					<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
@@ -117,7 +139,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

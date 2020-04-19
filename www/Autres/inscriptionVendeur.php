@@ -10,7 +10,7 @@ return substr(strrchr($file,'.'),1);
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $doublon = false;
-$debug = false;
+$debug = true;
 
 //Recupération des données du formulaires
 if (isset($_POST["button"])) {
@@ -60,19 +60,19 @@ if (isset($_POST["button"])) {
 				}
 				//Deplace l'image dans nos fichiers www/vendeur/images, si succès: Ajout du reste des infos dans la BDD, redirection à l'acceuil
 				else if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
-				    $sql= "INSERT INTO utilisateur (`Pseudo`, `MotDePasse`) VALUES ('$pseudo','$motdepasse')";
+				    $sql= "INSERT INTO utilisateur (`Pseudo`,`Email`, `MotDePasse`) VALUES ('$pseudo','$email','$motdepasse')";
 					$result = mysqli_query($db_handle, $sql);
 					$sql= "SELECT IdUtilisateur FROM utilisateur WHERE pseudo = '$pseudo'";
 					$result = mysqli_query($db_handle, $sql);
 					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
 					$nom_image = $uploaddir . 'imageprofil_'. $idutilisateur."." . get_file_extension($image); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
 					rename($uploadfile,$nom_image);
-					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Email`,`Image` ) VALUES ('$idutilisateur','$email','$nom_image')";
+					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`ImageProfil` ) VALUES ('$idutilisateur','$nom_image')";
 				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
-					header("Location: ../Vendeur/accueil.php");
+					header("Location: ../Vendeur/mesventesVIDE.php");
 				} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
 				else {
 				   $erreur = "Image trop volumineuse";

@@ -18,8 +18,8 @@
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-				 	<li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
-			        <li class="ici"><a class="nav-link" href="mesventes.html">MES VENTES</a></li>
+				 	<li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			        <li class="ici"><a class="nav-link" href="mesventesVIDE.php">MES VENTES</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -29,7 +29,7 @@
 	<div><p><h1>Vous n'avez pas encore mis d'objet à vendre</h1><br><br></p></div>
 	<div class="container">
 		<div align="center" class="col-md-12 col-md-12 col-sm-12">
-			<a href="nouvellevente.html"><img src="images\plus.png" width="80" height="80"><br><br><h3>Je me lance !</h3></a>
+			<a href="nouvellevente.php"><img src="images\plus.png" width="80" height="80"><br><br><h3>Je me lance !</h3></a>
 		</div>
 	</div>
 

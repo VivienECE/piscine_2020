@@ -6,15 +6,12 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
-function get_file_extension($file) {
 
-return;
-}
 //DECLARATION DES LISTES
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $hrefitem=array();
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $hrefitem=array();$datefin=array();
 
 //RECUPERE DANS LA BDD CHAQUE ARTICLE EN ENCHERE
-$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
+$sql= "SELECT item.IdItem, Nom, Image, PrixFinal, DateFin
 FROM item
 	join enchere ON item.IdItem = enchere.IdItem";
 $result = mysqli_query($db_handle, $sql);
@@ -23,10 +20,11 @@ array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($prixitem,"Vente aux enchères !");
-array_push($hrefitem,"clicencheres.php");}
+array_push($hrefitem,"clicencheres.php");
+array_push($datefin,$data['DateFin']);}
 
 //Code HTML de l'affichage de chaque article
-function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 
+function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem,$i) 
 {
 	echo "	<div class='col-md-4 col-md-4 col-sm-12'>
 				<div align='center' class='thumbnail'>
@@ -34,7 +32,7 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem)
 					<div class='caption'>
 						<p id='id'>$iditem</p>
 						<p id='titre'>$nomitem</p>
-						<p id='prix'>Vente aux enchères!</p>
+						<p id='timer"."$i' style='color:red'></p>
 						</div></a>
 				</div>
 			</div>";
@@ -57,8 +55,38 @@ mysqli_close($db_handle);?>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
 	<link rel="stylesheet" type="text/css" href="acheteur.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
+	<script type="text/javascript">
+	// Set the date we're counting down to
+	var dates = <?php echo json_encode($datefin);?>;
+	// Update the count down every 1 second
+	var x = setInterval(function() 
+	{
+		// Get today's date and time
+		var now = new Date().getTime();
+		for(i=0;i<3;i++)
+		{
+			// Find the distance between now and the count down date
+			var countDownDate = new Date(dates[i]).getTime();
+			var distance = countDownDate - now; 
+			if (distance <= 0) {document.getElementById("timer"+i).innerHTML = "Expiré";}
+			else
+			{
+				// Time calculations for days, hours, minutes and seconds
+				var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+				var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+				var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+				var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+				// Display the result in the element with id="timer+..."
+				document.getElementById("timer"+i).innerHTML = days + "d " + hours + "h "
+				+ minutes + "m " + seconds + "s ";
+			} 
+		}
+	}, 1000);
+	</script>
+
 </head>
 <body>
+	<script src="time.js"></script>
 	<nav class="navbar navbar-expand-md">
 		<a class="navbar-brand" href="#"><img src="images/logoblanc.png" width="109" height="30"></a>
 		<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
@@ -74,12 +102,11 @@ mysqli_close($db_handle);?>
 			     </ul>
 			</div>
 	</nav>
-
 	<div><p><br><h1>VENTES AUX ENCHERES</h1><br><br></p></div>
 
 	<div class="container features">
 		<div class="row">
-			<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
+			<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i],$i);}?>
 
 	<footer class="page-footer">
 			<div class="container">

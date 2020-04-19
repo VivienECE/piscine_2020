@@ -35,7 +35,7 @@ for($i = 0;$i < sizeof($idVendeur);$i++)
 //barre de recherche
 
 $recherche = isset($_POST["recherche"])? $_POST["recherche"] : "";
-if($_POST["recherche"]){
+if(isset($_POST["recherche"])){
 	if($db_found){
 		$sql = "SELECT * FROM vendeur WHERE Nom OR Prenom LIKE '%$recherche%'";
 		
@@ -75,7 +75,7 @@ function display_item($idVendeur,$nomVendeur,$prenomVendeur,$idUtilisateur,$href
 }
 
 // Display the decrypted string 
-session_start();
+ob_start();
 
 //fermer la connexion
 mysqli_close($db_handle);?>

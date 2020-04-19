@@ -26,22 +26,36 @@ $IdEnchere = $data['IdEnchere'];}
 if (isset($_POST["button"])) {
 	if($debug){echo "<br>"."button";}
 	$prix = htmlspecialchars($_POST["enchere"]);
+	//recherche si l'acheteur n'a pas déja fais une enchere
 	$sql="SELECT * from `offreenchere` WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
 	if($debug){echo "<br>".$sql;}
 	$result=mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
+	if ($prix<=0) {$msg="Veuillez faire une offre valide";}
+	else if (mysqli_num_rows($result) == 0) //Si aucune enchère, en crée une
 	{
 		$sql="INSERT INTO `offreenchere`(`IdEnchere`, `IdAcheteur`, `Prix`) VALUES ($IdEnchere,$IdAcheteur,$prix)";
 		if($debug){echo "<br>".$sql;}
 		$result=mysqli_query($db_handle, $sql);
 		$msg="Offre envoyée";
-	}else if($prix>mysqli_fetch_assoc($result)["Prix"]){
+	}else if($prix>mysqli_fetch_assoc($result)["Prix"]){ //Si déja
 		$sql="UPDATE `offreenchere` SET `Prix` = $prix WHERE IdAcheteur=$IdAcheteur AND IdEnchere=$IdEnchere";
 		if($debug){echo "<br>".$sql;}
 		$result=mysqli_query($db_handle, $sql);
 		$msg="Offre mise à jour";}
 	else{$msg="Veuillez surencherir";}
-	
+}
+
+//Si on appuie sur le bouton favoris
+if (isset($_POST["favoris"]))
+{
+	$sql="SELECT `IdAcheteur`, `IdItem` from `favoris` WHERE IdAcheteur=$IdAcheteur AND IdItem=$idItem";
+	$result=mysqli_query($db_handle, $sql);
+	if (mysqli_num_rows($result) == 0)
+	{
+		$sql = "INSERT  INTO `favoris` (`IdAcheteur`, `IdItem`) VALUES ($IdAcheteur, $idItem)";
+		if($debug){echo "<br>".$sql;}
+		$result=mysqli_query($db_handle, $sql);
+	}
 }
 // Display the decrypted string 
 //fermer la connexion
@@ -119,11 +133,15 @@ mysqli_close($db_handle);?>
 				</p>
 			</div>
 
-			<div class="col-md-1 col-md-1 col-sm-1">
-				<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>
-			</div>
+			<form name= "1" method="POST">
+				<div class="col-md-1 col-md-1 col-sm-1">
+					<!--
+					<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>-->
+					<input type="hidden" name="favoris" value="add">
+					<input type='image' src="images/favoris.png" width="30" height="30" onFocus='form.submit' name='favoris'/>
+				</div>
+			</form>
 		</div>
-
 		<hr style="width: 500px;">
 
 		<div class="row">

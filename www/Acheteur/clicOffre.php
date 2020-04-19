@@ -40,10 +40,22 @@ if (isset($_POST["button"])) {
 	}else{$msg="Veuillez attendre la réponse du vendeur";}
 	
 }
-
-
+//Si on appuie sur le bouton favoris
+if (isset($_POST["favoris"]))
+{
+	$sql="SELECT `IdAcheteur`, `IdItem` from `favoris` WHERE IdAcheteur=$IdAcheteur AND IdItem=$idItem";
+	$result=mysqli_query($db_handle, $sql);
+	if (mysqli_num_rows($result) == 0)
+	{
+		$sql = "INSERT  INTO `favoris` (`IdAcheteur`, `IdItem`) VALUES ($IdAcheteur, $idItem)";
+		if($debug){echo "<br>".$sql;}
+		$result=mysqli_query($db_handle, $sql);
+	}
+}
 //fermer la connexion
-mysqli_close($db_handle);?><!DOCTYPE html>
+mysqli_close($db_handle);?>
+
+<!DOCTYPE html>
 <html>
 <head>
 	<title>ECEbay article</title>
@@ -115,9 +127,14 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 				</p>
 			</div>
 
-			<div class="col-md-1 col-md-1 col-sm-1">
-				<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>
-			</div>
+			<form name= "1" method="POST">
+				<div class="col-md-1 col-md-1 col-sm-1">
+					<!--
+					<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>-->
+					<input type="hidden" name="favoris" value="add">
+					<input type='image' src="images/favoris.png" width="30" height="30" onFocus='form.submit' name='favoris'/>
+				</div>
+			</form>
 		</div>
 		
 		<hr style="width: 500px;">

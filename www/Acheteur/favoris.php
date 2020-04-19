@@ -1,3 +1,93 @@
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+session_start();
+$idAcheteur = $_SESSION['IdAcheteur'];
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $typeitem=array(); $hrefitem=array();
+
+if (isset($_POST["delete"])) {
+	if($debug){echo "DELETE";}
+	$IdItem = htmlspecialchars($_POST["IdItem"]);
+	$sql = "DELETE FROM `favoris` WHERE IdItem=$IdItem AND IdAcheteur=$idAcheteur" ;
+	if($debug){echo "<br>".$sql;}
+	$result = mysqli_query($db_handle, $sql);
+}
+
+$sql= "SELECT item.IdItem, Nom, Image, PrixFinal
+FROM item
+	join achatimmediat ON achatimmediat.IdItem = item.IdItem
+    join favoris ON favoris.IdItem = item.IdItem
+    WHERE favoris.IdAcheteur=$idAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($iditem,$data['IdItem']);
+array_push($nomitem,$data['Nom']);
+array_push($imageitem,$data['Image']);
+array_push($prixitem,$data['PrixFinal']);
+array_push($hrefitem,"clicImmediat.php");}
+
+$sql= "SELECT item.IdItem, Nom, Image
+FROM item
+	join enchere ON enchere.IdItem = item.IdItem
+    join favoris ON item.IdItem = favoris.IdItem
+    WHERE favoris.IdAcheteur=$idAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($iditem,$data['IdItem']);
+array_push($nomitem,$data['Nom']);
+array_push($imageitem,$data['Image']);
+array_push($prixitem, "Enchere");
+array_push($hrefitem,"clicEncheres.php");}
+
+$sql= "SELECT item.IdItem, Nom, Image
+FROM item
+	join meilleureoffre ON MeilleureOffre.IdItem = item.IdItem
+    join favoris ON favoris.IdItem = item.IdItem
+    WHERE favoris.IdAcheteur=$idAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+array_push($iditem,$data['IdItem']);
+array_push($nomitem,$data['Nom']);
+array_push($imageitem,$data['Image']);
+array_push($prixitem, "Prix negociable");
+array_push($hrefitem,"clicOffre.php");}
+
+
+//Code HTML de l'affichage
+function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem) 
+{
+	echo "  <div class='col-md-4 col-md-4 col-sm-12'>
+				<p align='center'><img src='images/favoris.png' height='50' width='50' style='margin-left: 70px;'></p>
+				<div align='center' class='thumbnail'>
+					<a href='$hrefitem"."?id=$iditem' target='_blank' >
+					<img src='$imageitem' class='img-fluid'>
+					<div class='caption'>
+						<p id='id'>$iditem</p>
+						<p id='titre'>$nomitem</p>
+						<p id='prix'>$prixitem</p>
+						<p align='center'>
+						</a>
+						<form name= '$iditem' method='POST'>
+							<input type='hidden' name='IdItem' value='$iditem'>
+							<input type='submit' src='images/croix.png' height='40' width='40'  onFocus='form.submit' name='delete' value='Supprimer'>
+						</form>
+					</div>
+				</p>
+				</div>
+			</div>";
+}
+
+
+
+// Display the decrypted string 
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,11 +108,11 @@
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.html">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.html">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.html"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li class="ici"><a  class="nav-link" href="favoris.html"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
+			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+			        <li class="ici"><a  class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -33,64 +123,7 @@
 
 	<div class="container features">
 		<div class="row">
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<p align="center"><img src="images/favoris.png" height="50" width="50" style="margin-left: 70px;"></p>
-				<div align="center" class="thumbnail">
-					<a href="images/piece.jpg" target="_blank" >
-					<img src="images/piece.jpg" class="img-fluid">
-					<div class="caption">
-						<p id="id">45928548</p>
-						<p id="titre">Monnaie grecque antique</p>
-						<p id="prix">250,50 €</p>
-					</div></a>
-				</div>
-				<p align="center"><a href="#"><img  src="images/croix.png" height="40" width="40"> Retirer de mes favoris !</p></a>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<p align="center"><img src="images/favoris.png" height="50" width="50" style="margin-left: 70px;"></p>
-				<div align="center" class="thumbnail">
-					<a href="images/antiquite.jpg" target="_blank" >
-					<img src="images/antiquite.jpg" class="img-fluid">
-					<div class="caption">
-						<p id="id">45928546</p>
-						<p id="titre">Collections archéologiques et objets d'Extrême-Orient</p>
-						<p id="prix">1 589 €</p>
-					</div></a>
-				</div>
-				<p align="center"><a href="#"><img  src="images/croix.png" height="40" width="40"> Retirer de mes favoris !</p></a>
-			</div>
-
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<p align="center"><img src="images/favoris.png" height="50" width="50" style="margin-left: 70px;"></p>
-				<div  align="center" class="thumbnail">
-					<a href="images/montre.jpg" target="_blank" >
-					<img src="images/montre.jpg" class="img-fluid">
-					<div class="caption">
-						<p id="id">45928547</p>
-						<p id="titre">Montre KS de poche</p>
-						<p id="prix">399,99 €</p>
-					</div></a>
-				</div>
-				<p align="center"><a href="#"><img  src="images/croix.png" height="40" width="40"> Retirer de mes favoris !</p></a>
-			</div>
-		</div>
-		<div><br></div>
-		<div class="row">
-			<div class="col-md-4 col-md-4 col-sm-12">
-				<p align="center"><img src="images/favoris.png" height="50" width="50" style="margin-left: 70px;"></p>
-				<div align="center" class="thumbnail">
-					<a href="images/piece.jpg" target="_blank" >
-					<img src="images/piece.jpg" class="img-fluid">
-					<div class="caption">
-						<p id="id">45928548</p>
-						<p id="titre">Monnaie grecque antique</p>
-						<p id="prix">250,50 €</p>
-					</div>
-				</div>
-				<p align="center"><a href="#"><img  src="images/croix.png" height="40" width="40"> Retirer de mes favoris !</p></a>
-			</div>
-			
+			<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$hrefitem[$i]);}?>
 		</div>
 	</div>
 

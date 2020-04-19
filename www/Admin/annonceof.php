@@ -6,14 +6,14 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = false;
+
 $idItem = $_GET['id']; 
 session_start();
-$IdAcheteur=$_SESSION['IdAcheteur'];
 $msg="";
 
-$sql= "SELECT Nom, Description, Image, PrixFinal, IdAchatImmediat
+$sql= "SELECT Nom, Description, Image, PrixFinal, IdMeilleureOffre
 FROM item
-	join achatimmediat ON item.IdItem = achatimmediat.IdItem
+	join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
 	WHERE item.IdItem=$idItem";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
@@ -21,35 +21,15 @@ $Nom = $data['Nom'];
 $Description = $data['Description'];
 $Image = $data['Image'];
 $PrixFinal = $data['PrixFinal'];
-$IdAchatImmediat = $data['IdAchatImmediat'];}
+$IdMeilleureOffre = $data['IdMeilleureOffre'];}
 if($debug){echo "debug:true";}
-if (isset($_POST["panier"])) {
+if (isset($_POST["supprimer"])) {
 	if($debug){echo "<br>"."button";}
-	$sql="SELECT * from `selectionne` WHERE IdAcheteur=$IdAcheteur AND IdAchatImmediat=$IdAchatImmediat";
-	$result=mysqli_query($db_handle, $sql);
+	$sql="DELETE * from `item` WHERE IdItem=$idItem";
 	$result = mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
-	{
-		$sql="INSERT INTO `selectionne`( `IdAcheteur`, `IdAchatImmediat`) VALUES ($IdAcheteur,$IdAchatImmediat)";
-		if($debug){echo $sql;}
-		$result=mysqli_query($db_handle, $sql);
-		$msg="Article ajouté au panier";
-	}else{$msg="Article déja dans le panier";}
-	
+	$msg="Article supprimé";	
 }
 
-//Si on appuie sur le bouton favoris
-if (isset($_POST["favoris"]))
-{
-	$sql="SELECT `IdAcheteur`, `IdItem` from `favoris` WHERE IdAcheteur=$IdAcheteur AND IdItem=$idItem";
-	$result=mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
-	{
-		$sql = "INSERT  INTO `favoris` (`IdAcheteur`, `IdItem`) VALUES ($IdAcheteur, $idItem)";
-		if($debug){echo "<br>".$sql;}
-		$result=mysqli_query($db_handle, $sql);
-	}
-}
 
 
 //fermer la connexion
@@ -58,13 +38,13 @@ mysqli_close($db_handle);?>
 <!DOCTYPE html>
 <html>
 <head>
-	<title>ECEbay article</title>
+	<title>ECEbay accueil</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
-	<link rel="stylesheet" type="text/css" href="acheteur.css">
+	<link rel="stylesheet" type="text/css" href="admin.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
 </head>
 <body>
@@ -75,19 +55,20 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.php">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			         <li ><a class="nav-link" href="accueiladmin.php">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="Aendeurs.php">VENDEURS</a></li>
+			        <li class="ici"><a class="nav-link" href="Annonces.php">ANNONCES</a></li>
 			     </ul>
 			</div>
 	</nav>
+
 
 	<div><p><br><br><br></p></div>
 
 	<div class="container features">
 		<div class="row">
+		<div class="col-lg-9 col-md-9 col-sm-12">
+			<div class="row">
 			<div class="col-lg-4 col-md-4 col-sm-12">
 				<div align="center" id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
@@ -99,15 +80,15 @@ mysqli_close($db_handle);?>
 				  <!-- Wrapper for slides -->
 				  <div class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img align="center" <?php echo "src='$Image'";?>>
+				      <img align="center" class="img-fluid" <?php echo "src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" <?php echo "src='$Image'";?>>
+				      <img align="center" class="img-fluid" <?php echo "src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" <?php echo "src='$Image'";?>>
+				      <img align="center" class="img-fluid" <?php echo "src='$Image'";?>>
 				    </div>
 				  </div>
 
@@ -125,31 +106,22 @@ mysqli_close($db_handle);?>
 					<?php echo "$idItem";?><br><br>
 					<?php echo "$Description";?><br> 
 				</p>
+				<p><br><h3>Proposotion d'offre</h3></p>
 			</div>
 
-			<form name= "1" method="POST">
-				<div class="col-md-1 col-md-1 col-sm-1">
-					<!--
-					<a class="fav" href="#"><img src="images/favoris.png" width="30" height="30"></a>-->
-					<input type="hidden" name="favoris" value="add">
-					<input type='image' src="images/favoris.png" width="30" height="30" onFocus='form.submit' name='favoris'/>
-				</div>
+			<div class="col-md-1 col-md-1 col-sm-0">
+				<hr id="V" style="height: 200px;">
+			</div>
+		</div>
+	</div>
+
+		<div align="center" class="col-lg-3 col-md-3 col-sm-12">
+			<div><p><br><br><br></p></div>
+			<form method="post"> <!-- <form> indspensable pour que le PHP detecte l'appuie du bouton -->
+				<br><a href="#"><button type="submit" name="supprimer" class="btn" style="background-color: red; color: white; width: 250px;"> SUPPRIMER </button></a>
 			</form>
+			<br><?php echo "$msg";?>
 		</div>
-
-		<div class="row">
-			<div align="center" class="col-md-12 col-md-12 col-sm-12">
-				<p><br><h3><?php echo "$PrixFinal"." €";?></h3></p>
-			</div>
-		</div>
-
-		<div class="row">
-			<div align="right" class="col-md-12 col-md-12 col-sm-12">
-				<form method="post"> <!-- <form> indspensable pour que le PHP detecte l'appuie du bouton -->
-					<br><a href="#"><button type="submit" name="panier" class="btn"> Ajouter au panier </button></a>
-			    </form>
-				<br><?php echo "$msg";?>
-			</div>
 		</div>
 	</div>
 
@@ -160,7 +132,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

@@ -40,7 +40,7 @@
 					<img align="center" src="images/compte.png" height="80" width="80">
 				</div>
 				<div class="col-md-7 col-md-7 col-sm-7" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
-					<p><br>Jean-Pierre SEDADO</p>
+					<p><br><?php echo "$Prenom $Nom" ?></p>
 				</div>
 			</div>
 			<div class="row">

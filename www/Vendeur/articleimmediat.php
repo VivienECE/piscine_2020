@@ -10,32 +10,39 @@ $idItem = $_GET['id'];
 session_start();
 $IdVendeur=$_SESSION['IdVendeur'];
 
-$sql= "SELECT Nom, Description, Image, PrixFinal,IdEnchere
+$sql= "SELECT Nom, Description, Image, PrixFinal,IdMeilleureOffre
 FROM item
-	join enchere ON item.IdItem = enchere.IdItem
+	join achatimmediat ON item.IdItem = achatimmediat.IdItem
 	WHERE item.IdItem=$idItem";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 $Nom = $data['Nom'];
 $Description = $data['Description'];
 $Image = $data['Image'];
+$Statut = $data['Statut'];
 $PrixFinal = $data['PrixFinal'];
-$IdEnchere = $data['IdEnchere'];}
+$IdAchatImmediat = $data['IdAchatImmediat'];}
 
 $nom=array(); $prenom=array(); $prix=array();
 
-$sql= "SELECT Nom, Prenom, Prix FROM offreenchere join acheteur ON offreenchere.IdAcheteur = acheteur.IdAcheteur join enchere ON enchere.IdEnchere = offreenchere.IdEnchere WHERE idItem = $idItem  ";
+$sql= "SELECT Nom, Prenom FROM achete join acheteur ON achete.IdAcheteur = acheteur.IdAcheteur join achatimmediat ON achatimmediat.IdAchatImmediat = achete.IdAchatImmediat WHERE idItem = $idItem  ";
 if($debug){echo $sql;}
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($nom,$data['Nom']);
 array_push($prenom,$data['Prenom']);
-array_push($prix,$data['Prix']);
 }
 
-function display_item($nom,$prenom,$prix) 
+function display_item($nom,$prenom,$PrixFinal) 
 {
-	echo "	<p id='titre'> Faite par $prenom $nom : <strong>$prix €</strong><br></p>";
+	if($Statut=='vendu'){
+		echo "<h5><br><br> Vendu à :</h5><br><br> 
+				<p id='nom'> $prenom $nom<br> $PrixFinal<br></p>";
+	}
+	else{
+		echo "<h5><br><br> Votre article est toujours en vente !</h5><br><br>";
+	}
+	
 }
 mysqli_close($db_handle);?>
 
@@ -59,8 +66,8 @@ mysqli_close($db_handle);?>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-				 	<li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
-			        <li class="ici"><a class="nav-link" href="mesventes.php">MES VENTES</a></li>
+				 	<li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
+			        <li class="ici"><a class="nav-link" href="mesventes.html">MES VENTES</a></li>
 			     </ul>
 			</div>
 	</nav>
@@ -82,7 +89,7 @@ mysqli_close($db_handle);?>
 						  <!-- Wrapper for slides -->
 						  <div class="carousel-inner">
 						    <div class="carousel-item active">
-						      <img align="center" <?php echo "src='$Image'";?>>
+						      <img align="center" src="images/montre.jpg">
 						    </div>
 
 						    <div class="carousel-item">
@@ -110,27 +117,14 @@ mysqli_close($db_handle);?>
 						</p>
 					</div>
 				</div>
-				<div class="row">
-					<div align="center" class="col-lg-12 col-md-12 col-sm-12">
-						<div><p><br><br><br></p></div>
-						<a href="#"><button type="submit" class="btn">SUPPRIMER</button></a>
-					</div>
-				</div>
 			</div>
 
 			<div class="col-md-1 col-md-1 col-sm-0">
 				<hr id="V" style="height: 300px;">
 			</div>
 
-			<div class="col-md-4 col-md-4 col-sm-12" style="background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;">
-				<h5><br> Dernière(s) enchère(s) :</h5><br>
-				<div class="addScroll" align="center"> 
-				<?php for($i = 0;$i < sizeof($nom);$i++){display_item($nom[$i],$prenom[$i],$prix[$i]);}?>
-				</div> 
-				<hr style="width: 200px;">
-				<div class="row">
-					<div class="col-md-12 col-md-12 col-sm-12" style="font-size: 20; font-weight: bold; text-align: center;">Expire dans 2 jours<a href="#"><button style="margin-left: 10px;" type="submit" class="btn"> Modifier </button></a><br></div>
-				</div>
+			<div align="center" class="col-md-4 col-md-4 col-sm-12" style="background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;">
+				<?php display_item($nom,$prenom,$PrixFinal);?>
 			</div>
 		</div>
 	</div>

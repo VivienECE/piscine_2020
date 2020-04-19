@@ -10,7 +10,7 @@ session_start();
 $id=$_SESSION['IdAcheteur'];
 if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
 
-$sql= "SELECT Prenom, Nom FROM `acheteur` WHERE IdAcheteur=$id ";
+$sql= "SELECT Prenom, Nom FROM acheteur WHERE IdAcheteur=$id ";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
  $Prenom = $data['Prenom'];
@@ -86,7 +86,7 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

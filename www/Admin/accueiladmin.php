@@ -1,3 +1,20 @@
+<!-- Conserver ce php -->
+
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+// Display the decrypted string 
+session_start();
+if($debug){echo "ID:".$_SESSION['IdAdmin'];}
+
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +24,7 @@
 	<link rel="stylesheet"href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
-	<link rel="stylesheet" type="text/css" href="acheteur.css">
+	<link rel="stylesheet" type="text/css" href="admin.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
 </head>
 <body>
@@ -18,12 +35,9 @@
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li class="ici"><a class="nav-link" href="accueil.html">ACCUEIL</a></li>
-			        <li><a class="nav-link" href="categories.html">CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.html"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.html"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.html">MON COMPTE</a></li>
-			     </ul>
+			        <li class="ici"><a class="nav-link" href="accueiladmin.html">ACCUEIL</a></li>
+			        <li><a class="nav-link" href="Vendeurs.php">VENDEURS</a></li>
+			        <li><a class="nav-link" href="Annonces.php">ANNONCES</a></li>
 			</div>
 	</nav>
 
@@ -31,8 +45,8 @@
 
 	<div class="container features">
 		<div class="row">
-			<div class="col-lg-3 col-md-3 col-sm-12">
-				<h3 class="feature-title">Ventes aux enchères<br><br><br></h3>
+			<div class="col-lg-5 col-md-5 col-sm-12">
+				<a href="Annonces.php"><h3 class="feature-title">Annonces<br><br><br></h3></a>
 				<div id="myCarousel1" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
@@ -41,16 +55,28 @@
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
+				  <div align="center" class="carousel-inner">
 				    <div class="carousel-item active">
+				      <img src="images/piece.jpg" alt="Monnaie grecque">
+				    </div>
+
+				    <div class="carousel-item">
+				      <img src="images/antiquite.jpg" alt="Antiquité">
+				    </div>
+
+				    <div class="carousel-item">
+				      <img src="images/montre.jpg" alt="Montre">
+				    	<a href="vendeursolo.html" target="_blank" >
 				      <img align="center" src="images/piece.jpg" alt="Monnaie grecque">
 				    </div>
 
 				    <div class="carousel-item">
+				    <a href="vendeursolo.html" target="_blank" >
 				      <img align="center" src="images/antiquite.jpg" alt="Antiquité">
 				    </div>
 
 				    <div class="carousel-item">
+				    	<a href="vendeursolo.html" target="_blank" >
 				      <img align="center" src="images/montre.jpg" alt="Montre">
 				    </div>
 				  </div>
@@ -63,12 +89,12 @@
 				</div>
 			</div>
 
-			<div class="col-lg-1 col-md-1 col-sm-12">
-				<hr id="V" style="height: 200px;">
+			<div class="col-lg-1 col-md-1 col-sm-0">
+				<hr id="V" style="height: 300px;">
 			</div>
-
-			<div class="col-lg-4 col-md-4 col-sm-12">
-				<h3 class="feature-title">Ventes immédiates<br><br><br><br></h3>
+			
+			<div class="col-lg-5 col-md-5 col-sm-12">
+				<a href="Vendeurs.php"><h3 class="feature-title">Vendeurs<br><br><br></h3></a>
 				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
@@ -77,17 +103,20 @@
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
+				  <div align="center" class="carousel-inner">
 				    <div class="carousel-item active">
-				      <img src="images/piece.jpg" alt="Monnaie grecque">
+				    <a href="vendeursolo.html" target="_blank" >
+				      <img src="images/clem.jpg" alt="Clémence">
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/antiquite.jpg" alt="Antiquité">
+				    	<a href="vendeursolo.html" target="_blank" >
+				      <img src="images/clem.jpg" alt="Clémence">
 				    </div>
 
 				    <div class="carousel-item">
-				      <img src="images/montre.jpg" alt="Montre">
+				   <a href="vendeursolo.html" target="_blank" >
+				      <img src="images/clem.jpg" alt="Clémence">
 				    </div>
 				  </div>
 
@@ -99,41 +128,7 @@
 				  </a>
 				</div>
 			</div>
-
-			<hr id="V" style="height: 300px;">
-
-			<div class="col-lg-3 col-md-3 col-sm-12">
-				<h3 class="feature-title">Meilleures offres<br><br><br><br></h3>
-				<div id="myCarousel3" class="carousel slide" data-ride="carousel">
-				  <ul class="carousel-indicators">
-				    <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel3" data-slide-to="1"></li>
-				    <li data-target="#myCarousel3" data-slide-to="2"></li>
-				  </ul>
-
-				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
-				    <div class="carousel-item active">
-				      <img align="center" src="images/piece.jpg" alt="Monnaie grecque">
-				    </div>
-
-				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg" alt="Antiquité">
-				    </div>
-
-				    <div class="carousel-item">
-				      <img align="center" src="images/montre.jpg" alt="Montre">
-				    </div>
-				  </div>
-
-				  <!-- Left and right controls -->
-				  <a class="carousel-control-prev" href="#myCarousel3" data-slide="prev">
-				    <span class="carousel-control-prev-icon"></span></a>
-				  <a class="carousel-control-next" href="#myCarousel3" data-slide="next">
-				    <span class="carousel-control-next-icon"></span>
-				  </a>
-				</div>
-			</div>
+			
 	</div>
 
 	<div><p><br><br><br></p></div></div>
@@ -143,7 +138,7 @@
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

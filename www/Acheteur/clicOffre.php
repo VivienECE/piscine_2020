@@ -136,15 +136,8 @@ mysqli_close($db_handle);?>
 				</div>
 			</form>
 		</div>
-
-
-		<div class="row">
-			<div class="col-md-4 col-md-4 col-sm-0"><p></p></div>	
-			<div class="col-md-4 col-md-4 col-sm-0">
-				<br><p id="barreH">barre</p>
-			</div>
-			<div class="col-md-4 col-md-4 col-sm-0"><p></p></div>
-		</div>
+		
+		<hr style="width: 500px;">
 
 		<div class="row">
 			<div align="center" class="col-md-12 col-md-12 col-sm-12">
@@ -172,7 +165,7 @@ mysqli_close($db_handle);?>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

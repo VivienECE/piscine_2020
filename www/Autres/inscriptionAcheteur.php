@@ -6,11 +6,11 @@ return substr(strrchr($file,'.'),1);
 }
 $inipath = php_ini_loaded_file();
 
-if ($inipath) {
-    echo 'Loaded php.ini: ' . $inipath;
-} else {
-   echo 'A php.ini file is not loaded';
-}
+#if ($inipath) {
+ #   echo 'Loaded php.ini: ' . $inipath;
+#} else {
+#   echo 'A php.ini file is not loaded';
+#}
 //identifier votre BDD
 $database = "ecebay";
 $uploaddir = '../acheteur/images/';

@@ -1,4 +1,16 @@
-<!DOCTYPE html>
+<?php
+session_start();
+$IdAcheteur=$_SESSION['IdAcheteur'];
+
+$sql= "SELECT Nom, Prenom
+FROM acheteur WHERE IdAcheteur=$IdAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Nom = $data['Nom'];
+$Prenom = $data['Nom'];}
+session_destroy();
+
+?>
 <!DOCTYPE html>
 <html>
 <head>

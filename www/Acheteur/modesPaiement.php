@@ -7,17 +7,32 @@ $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = false;
 session_start();
-$id=$_SESSION['IdAcheteur'];
-if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
+$IdAcheteur=$_SESSION['IdAcheteur'];
+$IdUtilisateur= $_SESSION['IdUtilisateur'];
+$msg="";
 
-$sql= "SELECT Prenom, Nom FROM `acheteur` WHERE IdAcheteur=$id ";
+$sql= "SELECT pseudo, motdepasse
+FROM utilisateur WHERE IdUtilisateur=$IdUtilisateur";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
- $Prenom = $data['Prenom'];
- $Nom = $data['Nom'];}
+$Pseudo = $data['pseudo'];
+}
 
+$sql= "SELECT Nom, Prenom, TypeDeCarte, NumeroCarte, NomCarte, ExpirationCarte, CodedeSecurite
+FROM acheteur WHERE IdAcheteur=$IdAcheteur";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+$Nom = $data['Nom'];
+$Prenom = $data['Prenom'];
+$NumeroCarte = $data['NumeroCarte'];
+$TypeDeCarte = $data['TypeDeCarte'];
+$NomCarte = $data['NomCarte'];
+$ExpirationCarte = $data['ExpirationCarte'];
+$CodedeSecurite = $data['CodedeSecurite'];}
+
+// Display the decrypted string 
 //fermer la connexion
-mysqli_close($db_handle);?><!DOCTYPE html>
+mysqli_close($db_handle);?>
 
 <!DOCTYPE html>
 <html>
@@ -50,21 +65,21 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 
 	<div><p><br><br></p></div>
 
-	<div><p><h1>VOTRE COMPTE</h1><br></p></div>
+	<div><p><h1>Mes modes de paiement</h1><br></p></div>
 
 	<div class="container">
 	<div class="row">
-		<div class="col-md-4 col-md-4 col-sm-12">
+		<div class="col-md-3 col-md-3 col-sm-12">
 			<div class="row">
-				<div class="col-md-6 col-md-6 col-sm-6">
-					<img align="center" src="images/compte.png" height="100" width="100">
+				<div class="col-md-5 col-md-5 col-sm-5">
+					<img align="center" src="images/compte.png" height="80" width="80">
 				</div>
-				<div class="col-md-6 col-md-6 col-sm-6" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
-					<p><br>Bonjour<br><?php echo "$Prenom $Nom "; ?></p>
+				<div class="col-md-7 col-md-7 col-sm-7" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
+					<p><br><?php echo "$Prenom $Nom" ?></p>
 				</div>
 			</div>
 			<div class="row">
-				<div class="menu">
+				<div class="menuBIS">
 			 		<a href="mesInfos.php">Mes informations</a>
 					<a href="modesPaiement.php">Mes modes de paiement</a>
 					<a href="mesCommandes.php">Mes commandes</a>
@@ -73,9 +88,52 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-2 col-md-2 col-sm-12"></div>
-		<div class="col-md-5 col-md-5 col-sm-12" style="background-image: url(images/tableau.jpg); border-radius: 2rem ">
-			<p><br>                <button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #C4BDE3; border-radius: 2rem;">BIENVENUE SUR VOTRE COMPTE</button></p>
+
+		<div class="col-md-1 col-md-1 col-sm-12"></div>
+
+		<div class="col-md-7 col-md-7 col-sm-12">
+			
+			<div class="row">
+				<div class="col-md-1 col-md-1 col-sm-4">
+					<img align="center" src="images/visa.png" height="30" width="50">
+					<img align="center" src="images/MC.png" height="30" width="50">
+					<img align="center" src="images/AE.png" height="30" width="50">
+				</div>
+                
+                <div class="col-md-6 col-md-6 col-sm-8">
+                	<p style="margin-left: 10px; font-size: 18px; font-weight: bold; color: grey"> 
+                	<?php echo"
+	                		$Prenom $Nom <br>
+	                	".str_repeat('*', strlen($NumeroCarte) - 4) . substr($NumeroCarte, -4)." <br> 
+	                	$ExpirationCarte <br>	"?>
+                </div>
+
+                <div class="col-md-5 col-md-5 col-sm-12" align="center">
+                	<p><br><br><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Modifier </button></p>
+                </div>
+			</div>
+
+			<div><p><br></p></div>
+
+			<div style="margin-left: 10px;" class="row">
+				<p style="font-size: 22px; font-weight: bold; text-shadow: rgba(0,0,0,0.1) 2px 2px;">
+					<a style="color: grey;" href="#"><img align="center" src="images/plus.png" height="30" width="30">   Ajouter une carte</p></a>
+			</div>
+
+			<hr style="width: 500px; margin-left: 10px;">
+
+			
+			<div class="row">
+				<div class="col-md-1 col-md-1 col-sm-1">
+					<img align="center" src="images/cheque.png" height="70" width="70">
+				</div>
+                
+                <div style="margin-left: 20px;" class="col-md-8 col-md-8 col-sm-8">
+                	<p style="font-size: 22px; font-weight: bold; text-shadow: rgba(0,0,0,0.1) 2px 2px; color: grey;"> Chèques de fidélité : 20 €</p>
+                	<p style="font-weight: bold; color:#C4BDE3;"> Pour vous remercier de nous être fidèle !</p>
+                </div>
+
+			</div>
 		</div>
 	</div></div>
 

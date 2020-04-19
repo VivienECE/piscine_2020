@@ -12,7 +12,8 @@ $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$hrefit
 
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal
 FROM item
-	join achatimmediat ON item.IdItem = achatimmediat.IdItem";
+	join achatimmediat ON item.IdItem = achatimmediat.IdItem
+	WHERE Statut='En cours!'";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);

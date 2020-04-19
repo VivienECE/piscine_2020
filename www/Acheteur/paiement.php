@@ -145,16 +145,19 @@ mysqli_close($db_handle);?>
 						<img align="center" src="images/AE.png" height="30" width="50">
 					</div>
                 
-                <div class="col-md-6 col-md-6 col-sm-8">
-                	<p style="margin-left: 10px; font-size: 18px; font-weight: bold; color: grey"> 
-                	    <?php echo"
-	                	$Prenom $Nom <br>
-	                	".str_repeat('*', strlen($NumeroCarte) - 4) . substr($NumeroCarte, -4)." <br> 
-	                	$ExpirationCarte <br>	"?>
-                	</p>
-                </div>
+                	<div class="col-md-6 col-md-6 col-sm-8">
+	                	<p style="margin-left: 10px; font-size: 18px; font-weight: bold; color: grey"> 
+	                	    <?php echo"
+		                	$Prenom $Nom <br>
+		                	".str_repeat('*', strlen($NumeroCarte) - 4) . substr($NumeroCarte, -4)." <br> 
+		                	$ExpirationCarte <br>	"?>
+	                	</p>
+	                </div>
+				</div>
+				<div class="row" >
+					<p align="center"><br><br><br><a href="mesInfos.php"><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Modifier </button></p></a>
+				</div>
 			</div>
-		</div>
 
 			<div div class="col-md-6 col-md-6 col-sm-12">
 				<div class="row">
@@ -186,29 +189,11 @@ mysqli_close($db_handle);?>
 	                	$Pays"?></p>
 	                </div>
 	                <div align="center" class="col-md-5 col-md-5 col-sm-8">
-	                	<p><br><br><br><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Modifier </button></p>
+	                	<p><br><br><br><a href="mesInfos.php"><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Modifier </button></p></a>
 	                </div>
 				</div>
 			</div>
-
-			
-				<div div class="col-md-6 col-md-6 col-sm-12">
-					<div class="row">
-						<div class="col-md-1 col-md-1 col-sm-4"><input type="radio" name="livraison"></div>
-		                <div class="col-md-6 col-md-6 col-sm-8">
-		                	<form method=post>
-		                	<p style="margin-left: 10px; font-size: 18px; font-weight: bold; color: grey"> 
-		                	Agnès Dupont <br>
-		                	186 avenue du Coq <br> 
-		                	92600 Asnières <br>
-		                	France</p>
-		                </div>
-		                <div class="col-md-5 col-md-5 col-sm-8">
-		                	<p><br><br><br><button align="center" type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Modifier </button></p></form>
-		                </div>
-					</div>
-				</div>
-			</div>
+		</div>
 		
 		<div class="row">
 			<div class="col-md-12 col-md-12 col-sm-12" align="center">

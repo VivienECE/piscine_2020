@@ -20,7 +20,7 @@ array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($etatitem,$data['Statut']);
-array_push($hrefitem,"articleimmediat");
+array_push($hrefitem,"articleimmediat.php");
 }
 
 $sql= "SELECT item.IdItem, Nom, Image, Statut
@@ -120,7 +120,7 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

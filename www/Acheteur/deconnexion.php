@@ -19,7 +19,6 @@ while ($data = mysqli_fetch_assoc($result)){
 //fermer la connexion
 mysqli_close($db_handle);?>
 
-?>
 <!DOCTYPE html>
 <html>
 <head>

@@ -168,7 +168,7 @@ mysqli_close($db_handle);?>
 				</div>
 			</form>
 		</div>
-
+		
 		<hr style="width: 500px;">
 
 		<div class="row">

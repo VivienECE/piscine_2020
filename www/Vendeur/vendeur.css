@@ -209,3 +209,29 @@
  input{
  	border-radius: 2rem;
  }
+
+/*Article Proposition Negociation */
+.submit1{ /* Le premier bouton */
+  border:none;
+  background-image:url(images/yes.png);
+  background-repeat:no-repeat;
+  background-position:top left;
+  width: 30px;
+  height: 30px;}
+
+.submit2{ /* Le second bouton */
+  border:none;
+  background-image:url(images/no.png);
+  background-repeat:no-repeat;
+  background-position:top left;
+  width: 30px;
+  height: 30px;}
+input.submit3{ /* 3 */
+  border:none;
+  vertical-align:middle;
+  background-image:url(images/yes.png);
+  background-color:'green';
+  background-repeat:no-repeat;
+  background-position:top left;
+  width: 30px;
+  height:30px;}

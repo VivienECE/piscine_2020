@@ -8,11 +8,14 @@ $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
 
 $iditem=array(); $nomitem=array(); $imageitem=array(); $etatitem=array(); $hrefitem=array();
-
+session_start();
+$IdVendeur=$_SESSION['IdVendeur'];
 
 $sql= "SELECT item.IdItem, Nom, Image, Statut
 FROM item
-join achatimmediat ON item.IdItem = achatimmediat.IdItem ";
+join achatimmediat ON item.IdItem = achatimmediat.IdItem
+WHERE item.IdVendeur = $IdVendeur ";
+if($debug){echo $sql;}
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -24,7 +27,8 @@ array_push($hrefitem,"articleimmediat.php");
 
 $sql= "SELECT item.IdItem, Nom, Image, Statut
 FROM item
-join enchere ON item.IdItem = enchere.IdItem ";
+join enchere ON item.IdItem = enchere.IdItem
+WHERE item.IdVendeur = $IdVendeur ";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -36,7 +40,8 @@ array_push($hrefitem,"articleenchere.php");
 
 $sql= "SELECT item.IdItem, Nom, Image, Statut
 FROM item
-join meilleureoffre ON item.IdItem = meilleureoffre.IdItem ";
+join meilleureoffre ON item.IdItem = meilleureoffre.IdItem
+WHERE item.IdVendeur = $IdVendeur ";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -61,9 +66,6 @@ function display_item($iditem,$nomitem,$imageitem,$etatitem,$hrefitem)
 				</div>
 			</div>";
 }
-
-// Display the decrypted string 
-session_start();
 
 //fermer la connexion
 mysqli_close($db_handle);?>

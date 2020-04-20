@@ -16,6 +16,8 @@ $debug = true;
 if (isset($_POST["button"])) {
 		$pseudo = htmlspecialchars($_POST["pseudo"]);
 		$motdepasse = sha1($_POST["motdepasse"]);
+		$nom = htmlspecialchars($_POST["nom"]);
+		$prenom = htmlspecialchars($_POST["prenom"]);
 		$email = htmlspecialchars($_POST["email"]);
 		
 		if ($db_found) {
@@ -48,12 +50,17 @@ if (isset($_POST["button"])) {
 					$sql= "SELECT IdUtilisateur FROM utilisateur WHERE pseudo = '$pseudo'";
 					$result = mysqli_query($db_handle, $sql);
 					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
-					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Email`,`Image` ) VALUES ('$idutilisateur','$email','images/compte.png')";
+					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil` ) VALUES ('$idutilisateur','$nom','$prenom','images/compte.png')";
 				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
+					$sql = "SELECT IdVendeur FROM vendeur WHERE IdUtilisateur = $idutilisateur";
+					$result = mysqli_query($db_handle, $sql);
+					if ($debug){echo $sql;}
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
-					header("Location: ../Vendeur/accueil.php");
+					$_SESSION['IdVendeur'] = mysqli_fetch_assoc($result)['IdVendeur'];
+					echo $_SESSION['IdVendeur'];
+					header("Location: ../Vendeur/mesventesVIDE.php");
 				}//sinon verifie le format
 				else if(get_file_extension($image)!="jpg"&&get_file_extension($image)!="png"&&get_file_extension($image)!="PNG"){
 				   $erreur = "Mauvais format d'image";
@@ -67,7 +74,7 @@ if (isset($_POST["button"])) {
 					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
 					$nom_image = $uploaddir . 'imageprofil_'. $idutilisateur."." . get_file_extension($image); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
 					rename($uploadfile,$nom_image);
-					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`ImageProfil` ) VALUES ('$idutilisateur','$nom_image')";
+					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil` ) VALUES ('$idutilisateur','$nom','$prenom','$nom_image')";
 				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
 					session_start();
@@ -134,10 +141,16 @@ mysqli_close($db_handle);?>
 								<td><input type="text" name="pseudo" placeholder=" Nom d'utilisateur" pattern=".{4,14}" maxlength='14' required></td>
 							</tr>
 							<tr align="center">
+								<td><input type="email" name="email" placeholder=" Email" maxlength='90' required></td>
+							</tr>
+							<tr align="center">
 								<td><input type="password" name="motdepasse" placeholder=" Mot de passe" pattern=".{10,30}" title="10 à 30 caractères" maxlength='30' required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="email" name="email" placeholder=" Email" pattern=".{1,30}" title="30 caractères max" maxlength='30' required></td>
+								<td><input type="nom" name="nom" placeholder=" Nom" pattern=".{1,30}" title="30 caractères max" maxlength='30' required></td>
+							</tr>
+							<tr align="center">
+								<td><input type="prenom" name="prenom" placeholder=" Prenom" pattern=".{1,30}" title="30 caractères max" maxlength='30' required></td>
 							</tr>
 						</table>
 

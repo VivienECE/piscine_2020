@@ -91,10 +91,11 @@ function Event(evt, div) {
 			<div class="row">
 				<div class="menuBIS">
 			 		<a href="mesInfos.php">Mes informations</a>
-					<a href="modesPaiements.php">Mes modes de paiement</a>
-					<a href="mesCommandes.php">Mes commandes</a>
-					<a href="aide.php">Aide</a>
-					<a href="deconnexion.php">Deconnexion</a>
+						<a href="modesPaiement.php">Mes modes de paiement</a>
+						<a href="mesoffres.php">Mes propositions d'offre</a>
+						<a href="mesCommandes.php">Mes commandes</a>
+						<a href="aide.php">Aide</a>
+						<a href="deconnexion.php">Déconnexion</a>
 				</div>
 			</div>
 		</div>
@@ -138,7 +139,7 @@ function Event(evt, div) {
 				<div class="row">
 					<div class="col-lg-8 col-md-8 col-sm-12">
 						<h6 class="text-uppercase font-weight-bold">Informations additionnelles</h6>
-						<p>Ce site est destiné à la vente de particuliers à particuuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
+						<p>Ce site est destiné à la vente de particuliers à particuliers. Il est formellement interdit aux professionnels de vendre leurs produits sur notre site.</p>
 
 						<p>Nous restons à l'écoute de nos clients et sommes disponible si ils rencontrent quelconque problème.</p>
 					</div>

@@ -5,32 +5,85 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$debug = false;
+$debug = true;
 session_start();
-$IdAcheteur=$_SESSION['IdAcheteur'];
-$IdUtilisateur= $_SESSION['IdUtilisateur'];
-$msg="";
+$idacheteur = $_SESSION['IdAcheteur'];
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$livraison=array();
 
-$sql= "SELECT pseudo, motdepasse
-FROM utilisateur WHERE IdUtilisateur=$IdUtilisateur";
+
+$sql= "SELECT item.IdItem, Nom, Image, Prix, IdVendeur, Livraison
+FROM commandes
+	join item ON item.IdItem = commandes.IdItem
+	WHERE IdAcheteur=$idacheteur";
+
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
-$Pseudo = $data['pseudo'];
+array_push($iditem,$data['IdItem']);
+array_push($nomitem,$data['Nom']);
+array_push($imageitem,$data['Image']);
+array_push($prixitem,$data['Prix']);
+array_push($livraison,$data['Livraison']);}
+
+if (isset($_POST["panier"])) {
+	if($debug){echo "<br>"."button";}
+	$sql="SELECT * from `selectionne` WHERE IdAcheteur=$IdAcheteur AND IdAchatImmediat=$IdAchatImmediat";
+	$result=mysqli_query($db_handle, $sql);
+	$result = mysqli_query($db_handle, $sql);
+	if (mysqli_num_rows($result) == 0)
+	{
+		$sql="INSERT INTO `selectionne`( `IdAcheteur`, `IdAchatImmediat`) VALUES ($IdAcheteur,$IdAchatImmediat)";
+		if($debug){echo $sql;}
+		$result=mysqli_query($db_handle, $sql);
+		$msg="Article ajouté au panier";
+	}else{$msg="Article déja dans le panier";}
+	
 }
 
-$sql= "SELECT Nom, Prenom, TypeDeCarte, NumeroCarte, NomCarte, ExpirationCarte, CodedeSecurite
-FROM acheteur WHERE IdAcheteur=$IdAcheteur";
-$result = mysqli_query($db_handle, $sql);
-while ($data = mysqli_fetch_assoc($result)){
-$Nom = $data['Nom'];
-$Prenom = $data['Prenom'];
-$NumeroCarte = $data['NumeroCarte'];
-$TypeDeCarte = $data['TypeDeCarte'];
-$NomCarte = $data['NomCarte'];
-$ExpirationCarte = $data['ExpirationCarte'];
-$CodedeSecurite = $data['CodedeSecurite'];}
+//Code HTML de l'affichage
+function display_item($iditem,$nomitem,$imageitem,$prixitem,$livraison) 
+{
+	echo "	<div class='col-md-2 col-md-2 col-sm-4'>
+					<img align='center' src='$imageitem' height='70' width='70' class='img-fluid'>
+				</div>
+                
+                <div class='col-md-6 col-md-6 col-sm-6'>
+                	<p style='font-size: 18px; font-weight: bold;'> $nomitem</p>
+                </div>
+
+                <div class='col-md-1 col-md-1 col-sm-0'>
+                	<hr id='V' style='height: 200px;'>
+                </div>";
+    if($offre== "acceptée"){//A CHANGER
+    	echo "<div class='col-md-3 col-md-3 col-sm-3' style='background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;'>
+                	<p id='titre'> 
+						Le vendeur a accepté votre offre au prix de : <strong>$prix €</strong><br>
+					</p>
+					<form method='post'> 
+					<br><button type='submit' name='panier' class='btn'> Ajouter au panier </button></a>
+			        </form>
+				    <br>$msg
+                </div>";
+    }
+    else{
+    	echo "<p id='titre'> 
+						Le vendeur vous a fait une contre-offre : <strong>$prix €</strong><br>
+						<form method='post'>
+						<a href='#''><img src='images/yes.png' width='30' height='30'></a>
+						<a href='#''><img src='images/no.png' width='30' height='30'></a>
+						<br>
+						Contre-offre : <input style='width: 75px' type='text' name='contre'> € 
+						 <input type='submit' class='submit3' alt='Submit button' name='button3' value='' />
+						</form>
+					</p>"
+    }
+
+    echo "<hr style='width: 500px; margin-left: 10px;'>";
+                
+}
 
 // Display the decrypted string 
+
+
 //fermer la connexion
 mysqli_close($db_handle);?>
 
@@ -72,17 +125,16 @@ mysqli_close($db_handle);?>
 		<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-			<div class="collapse navbar-collapse" id="main-navigation">
-				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
-			        <li><a class="nav-link" class="tablinks" onclick="Event(event, 'categories')" >CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li class="ici"><a  class="nav-link" href="moncompte.php">MON COMPTE</a></li>
-			     </ul>
-			</div>
+		<div class="collapse navbar-collapse" id="main-navigation">
+			 <ul class="nav navbar-nav navbar-right">
+		        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
+		        <li><a class="nav-link" class="tablinks" onclick="Event(event, 'categories')" >CATEGORIES</a></li>
+		        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+		        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+		        <li class="ici"><a  class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+		     </ul>
+		</div>
 	</nav>
-	
 
 	<div class="container">
 		<div class="row">
@@ -110,76 +162,39 @@ mysqli_close($db_handle);?>
 			</div>
 		</div>
 
-		<div><p><br><br><h1>Mes modes de paiement</h1><br></p></div>
-	<div class="row">
-		<div class="col-md-3 col-md-3 col-sm-12">
-			<div class="row">
-				<div class="col-md-5 col-md-5 col-sm-5">
-					<img align="center" src="images/compte.png" height="80" width="80">
+		<div><p><br><br><h1>Mes propositions d'offre</h1><br></p></div>
+		<div class="row">
+			<div class="col-md-3 col-md-3 col-sm-12">
+				<div class="row">
+					<div class="col-md-5 col-md-5 col-sm-5">
+						<img align="center" src="images/compte.png" height="80" width="80">
+					</div>
+					<div class="col-md-7 col-md-7 col-sm-7" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
+						<p><br><?php echo "$Prenom $Nom" ?></p>
+					</div>
 				</div>
-				<div class="col-md-7 col-md-7 col-sm-7" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
-					<p><br><?php echo "$Prenom $Nom" ?></p>
-				</div>
-			</div>
-			<div class="row">
-				<div class="menuBIS">
-			 		<a href="mesInfos.php">Mes informations</a>
+				<div class="row">
+					<div class="menuBIS">
+				 		<a href="mesInfos.php">Mes informations</a>
 						<a href="modesPaiement.php">Mes modes de paiement</a>
 						<a href="mesoffres.php">Mes propositions d'offre</a>
 						<a href="mesCommandes.php">Mes commandes</a>
 						<a href="aide.php">Aide</a>
 						<a href="deconnexion.php">Déconnexion</a>
+					</div>
 				</div>
 			</div>
+
+			<div class="col-md-2 col-md-2 col-sm-12"></div>
+
+			<div class="col-md-7 col-md-7 col-sm-12">
+				
+				<div class="row">
+						<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$livraison[$i]);}?>
+				</div>
+		    </div>
 		</div>
-
-		<div class="col-md-1 col-md-1 col-sm-12"></div>
-
-		<div class="col-md-7 col-md-7 col-sm-12">
-			
-			<div class="row">
-				<div class="col-md-1 col-md-1 col-sm-4">
-					<img align="center" src="images/visa.png" height="30" width="50">
-					<img align="center" src="images/MC.png" height="30" width="50">
-					<img align="center" src="images/AE.png" height="30" width="50">
-				</div>
-                
-                <div class="col-md-6 col-md-6 col-sm-8">
-                	<p style="margin-left: 10px; font-size: 18px; font-weight: bold; color: grey"> 
-                	<?php echo"
-	                		$Prenom $Nom <br>
-	                	".str_repeat('*', strlen($NumeroCarte) - 4) . substr($NumeroCarte, -4)." <br> 
-	                	$ExpirationCarte <br>	"?>
-                </div>
-
-                <div class="col-md-5 col-md-5 col-sm-12" align="center">
-                	<p><br><br><button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #B6B6BA; border-radius: 2rem;"> Modifier </button></p>
-                </div>
-			</div>
-
-			<div><p><br></p></div>
-
-			<div style="margin-left: 10px;" class="row">
-				<p style="font-size: 22px; font-weight: bold; text-shadow: rgba(0,0,0,0.1) 2px 2px;">
-					<a style="color: grey;" href="#"><img align="center" src="images/plus.png" height="30" width="30">   Ajouter une carte</p></a>
-			</div>
-
-			<hr style="width: 500px; margin-left: 10px;">
-
-			
-			<div class="row">
-				<div class="col-md-1 col-md-1 col-sm-1">
-					<img align="center" src="images/cheque.png" height="70" width="70">
-				</div>
-                
-                <div style="margin-left: 20px;" class="col-md-8 col-md-8 col-sm-8">
-                	<p style="font-size: 22px; font-weight: bold; text-shadow: rgba(0,0,0,0.1) 2px 2px; color: grey;"> Chèques de fidélité : 20 €</p>
-                	<p style="font-weight: bold; color:#C4BDE3;"> Pour vous remercier de nous être fidèle !</p>
-                </div>
-
-			</div>
-		</div>
-	</div></div>
+	</div>
 
 	<div><p><br><br></p></div>
 

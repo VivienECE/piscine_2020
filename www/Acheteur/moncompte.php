@@ -109,10 +109,11 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 			<div class="row">
 				<div class="menu">
 			 		<a href="mesInfos.php">Mes informations</a>
-					<a href="modesPaiement.php">Mes modes de paiement</a>
-					<a href="mesCommandes.php">Mes commandes</a>
-					<a href="aide.php">Aide</a>
-					<a href="deconnexion.php">Deconnexion</a>
+						<a href="modesPaiement.php">Mes modes de paiement</a>
+						<a href="mesoffres.php">Mes propositions d'offre</a>
+						<a href="mesCommandes.php">Mes commandes</a>
+						<a href="aide.php">Aide</a>
+						<a href="deconnexion.php">Déconnexion</a>
 				</div>
 			</div>
 		</div>

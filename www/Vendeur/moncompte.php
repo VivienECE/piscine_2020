@@ -1,3 +1,24 @@
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+session_start();
+$id=$_SESSION['IdVendeur'];
+if($debug){echo "ID:".$_SESSION['IdVendeur'];}
+
+$sql= "SELECT Prenom, Nom FROM vendeur WHERE IdVendeur=$id ";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+ $Prenom = $data['Prenom'];
+ $Nom = $data['Nom'];}
+
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +56,7 @@
 					<img align="center" src="images/compte.png" height="100" width="100">
 				</div>
 				<div class="col-md-6 col-md-6 col-sm-6" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
-					<p><br>Bonjour<br>Jean-Pierre SEDADO</p>
+					<p><br>Bonjour<br><?php $Prenom $Nom ?></p>
 				</div>
 			</div>
 			<div class="row">

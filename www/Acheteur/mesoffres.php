@@ -18,12 +18,6 @@ while ($data = mysqli_fetch_assoc($result)){
  $Nom = $data['Nom'];}
 
 //Recupère dans la BDD les negociations de l'acheteur qui utilise la session
-//Variable EtapeNegociation définit dans quelle camps est la proposition, lors de la première proposition EtapeNegociation=1
-//Elle s'incremente de 1 à chaque contre-offre, ou passe immédiatement à 0 si la proposition est supprimé/refusé par l'un des parties
-//EtapeNegociation impair -> Le vendeur doit faire une contre-offre
-//EtapeNegociation pair -> L'acheteur doit faire une contre-offre (sauf si EtapeNegociation=0 ou 6)
-//Etape negociation = 5: Le vendeur n'a plus le choix de la contre offre et dois soit accepter, soit refuser
-//Etape negociation = 6: L'offre est accepté, payé, l'étape negociation passe immédiatement à 6 si l'un des  partis accepte une proposition.
 $sql= "SELECT item.IdItem, Nom, Image, Prix, EtapeNegociation 
 FROM item
 	join meilleureoffre ON MeilleureOffre.IdItem = item.IdItem
@@ -37,6 +31,19 @@ array_push($imageitem,$data['Image']);
 array_push($etape,$data['EtapeNegociation']);
 array_push($prixitem, $data['Prix']);}
 
+if (isset($_POST['Proposer'])) //Si l'acheteur veut faire une contre-offre
+{
+	$PrixItem = htmlspecialchars($_POST["PRIX"]);
+	$IdItem = htmlspecialchars($_POST["ID"]);
+}
+//Variable EtapeNegociation définit dans quelle camps est la proposition, lors de la proposition initiale de l'acheteur -> EtapeNegociation=1
+//Elle s'incremente de 1 à chaque contre-offre, ou passe immédiatement à 0 si la proposition est supprimé/refusé par l'un des parties
+//EtapeNegociation impair -> Le vendeur doit faire une contre-offre
+//EtapeNegociation pair -> L'acheteur doit faire une contre-offre (sauf si EtapeNegociation=0 ou 6)
+//Etape negociation = 5: Le vendeur n'a plus le choix de la contre offre et dois soit accepter, soit refuser
+//Etape negociation = 6: L'offre est accepté, payé, l'étape negociation passe immédiatement à 6 si l'un des  partis accepte une proposition.
+
+//[SQL] 1 seul objet negocie entre acheteur et vendeur pour 1 item. 
 
 //Code HTML de l'affichage des offres
 function display_item($iditem,$nomitem,$imageitem,$prix,$etape) 
@@ -63,18 +70,20 @@ function display_item($iditem,$nomitem,$imageitem,$prix,$etape)
 				    <br>$msg
                 </div>";
     }
-    else if($etape%2==0){//Si offre refusé
+    else if($etape%2==0){//Si contre-offre reçu
     	echo "<p id='titre'> 
 						Le vendeur vous a fait une contre-offre : <strong>$prix €</strong><br>
 						<form method='post'>
 						<a href='#''><img src='images/yes.png' width='30' height='30'></a>
 						<a href='#''><img src='images/no.png' width='30' height='30'></a>
 						<br>
-						Contre-offre : <input style='width: 75px' type='text' name='contre'> € 
-						 <input type='submit' class='submit3' alt='Submit button' name='button3' value='Proposer' />
+						 Contre-offre : <input style='width: 75px' type='text' name='contre' required> € 
+						 <input type='hidden' name='ID' value='$iditem' />
+						 <input type='hidden' name='PRIX' value='$prix' />
+						 <input type='submit' class='submit3' alt='Submit button' name='Proposer' value='Proposer' />
 						</form>
 					</p>";}
-	else if($etape%2!=0){//Si offre refusé
+	else if($etape%2!=0){//Si offre/contre-offre en attente
     	echo "<p id='titre'> 
 						En attente de la réponse du vendeur. <br> Vous avez fait une offre de: <strong>$prix €</strong><br>
 					</p>";

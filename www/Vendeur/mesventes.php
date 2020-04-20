@@ -5,11 +5,14 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$debug = true;
+$debug = false;
+
+//DECLARATIONS LISTES
 $iditem=array(); $nomitem=array(); $imageitem=array(); $etatitem=array(); $hrefitem=array();
 session_start();
 $IdVendeur=$_SESSION['IdVendeur'];
 
+//RECUPERE TOUTES LES ANNONCES DU VENDEUR ENCHERE/VENTE IMMEDIATE/OFFRE
 $sql= "SELECT item.IdItem, Nom, Image, Statut
 FROM item
 join achatimmediat ON item.IdItem = achatimmediat.IdItem
@@ -52,7 +55,7 @@ array_push($hrefitem,"articleproposition.php");
 }
 if($debug){echo "<br>".$sql;}
 
-//Code HTML de l'affichage
+//Code HTML de l'affichage des annonces
 function display_item($iditem,$nomitem,$imageitem,$etatitem,$hrefitem) 
 {
 	echo "	<div class='col-md-4 col-md-4 col-sm-12'>

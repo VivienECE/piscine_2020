@@ -263,10 +263,10 @@ mysqli_close($db_handle);?>
 			<div class="row">
 				<div class="col-lg-2 col-md-2"></div>
 				<div class="col-lg-8 col-md-8 col-sm-12" style=" background-color: #C4BDE3;">
-						<div align="center">
-							<p><br><br></p>
+						<div align="center">			
 							<font color="red"><?php if(isset($erreur)){echo $erreur;}?></font>
 							<p><input type="checkbox" name="clause" required>  J'accepte la clause client.</p>
+							<p><br><br></p>
 							<a href="#"><button type="submit" name="button" class="btn" style="border-radius: 2rem;">VALIDER</button></a>
 							</form>	
 						</div>

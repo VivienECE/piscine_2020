@@ -10,11 +10,12 @@ session_start();
 $id=$_SESSION['IdVendeur'];
 if($debug){echo "ID:".$_SESSION['IdVendeur'];}
 
-$sql= "SELECT Prenom, Nom FROM vendeur WHERE IdVendeur=$id ";
+$sql= "SELECT Prenom, Nom, ImageFond FROM vendeur WHERE IdVendeur=$id ";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
  $Prenom = $data['Prenom'];
- $Nom = $data['Nom'];}
+ $Nom = $data['Nom'];
+ $ImageFond = $data['ImageFond'];}
 if($debug){echo $sql;}
 //fermer la connexion
 mysqli_close($db_handle);?>
@@ -66,9 +67,9 @@ mysqli_close($db_handle);?>
 					<a href="deconnexion.php">Deconnexion</a>
 				</div>
 			</div>
-		</div>
+		</div> <!-- <php echo "'$ImageFond'"; ?> -->
 		<div class="col-md-2 col-md-2 col-sm-12"></div>
-		<div class="col-md-5 col-md-5 col-sm-12" style="background-image: url(images/tableau.jpg); border-radius: 2rem ">
+		<div class="col-md-5 col-md-5 col-sm-12" style="background-image: url(<?php echo "'$ImageFond'"; ?>); border-radius: 2rem ">
 			<p><br>                <button type="button" style="color: white; font-size: 16px; font-weight: bold; background-color: #C4BDE3; border-radius: 2rem;">BIENVENUE SUR VOTRE COMPTE</button></p>
 			<p><br><br><br><br><br><br><br><br><br><br><br><br><br></p>
 			<p><a href="#"><img  style="background-color: lightgrey;" src="images/modifier.png" width="20" height="20"><br><br></a></p>

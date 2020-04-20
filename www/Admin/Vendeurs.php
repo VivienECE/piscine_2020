@@ -5,7 +5,7 @@ $database = "ecebay";
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$debug = true;
+$debug = false;
 
 $idVendeur=array(); $idUtilisateur=array(); $nomVendeur=array(); $prenomVendeur=array(); $photoVendeur=array(); $fondVendeur=array(); $hrefVendeur=array(); $nbItem=array(); 
 

@@ -7,20 +7,22 @@ $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = false;
 
-$idVendeur = $_GET['IdVendeur']; 
+$idVendeur = $_GET['id']; 
+
 session_start();
 $msg="";
 
-$sql= "SELECT IdUtilisateur, Nom, Prénom, ImageProfil, ImageFond
-FROM vendeur WHERE vendeur.IdVendeur=$idVendeur";
+$sql= "SELECT vendeur.IdUtilisateur, Nom, Prenom, ImageProfil, ImageFond, Email
+FROM vendeur join utilisateur on vendeur.IdUtilisateur=utilisateur.IdUtilisateur WHERE vendeur.IdVendeur=$idVendeur";
 $result = mysqli_query($db_handle, $sql);
+if($debug){echo $sql;}
 while ($data = mysqli_fetch_assoc($result)){
-$Email = $data['IdUtilisateur'];
-$Prenom = $data['Prenom'];
+$IdUtilisateur = $data['IdUtilisateur'];
 $Nom = $data['Nom'];
+$Email = $data['Email'];
+$Prenom = $data['Prenom'];
 $ImageProfil = $data['ImageProfil'];
 $ImageFond = $data['ImageFond'];}
-if($debug){echo "debug:true";}
 if (isset($_POST["supprimer"])) {
 	if($debug){echo "<br>"."button";}
 	$sql="DELETE * from `vendeur` WHERE IdVendeur=$idVendeur";
@@ -28,17 +30,15 @@ if (isset($_POST["supprimer"])) {
 	$msg="Vendeur supprimé";	
 }
 
-for($i = 0;$i < sizeof($idVendeur);$i++)
-	{
-		$sqlItem="SELECT COUNT(*) as ventes FROM 'item' WHERE IdVendeur=$idVendeur[$i]"; //REQUETE
-		$result=mysqli_query($db_handle, $sqlItem); //EXECUTION DE LA REQUETE
-		array_push($nbItem,mysqli_fetch_assoc($result)["Ventes"]); //RECUPERE LE NB D'ITEM
-	}
-
+$sqlItem="SELECT COUNT(*) as ventes FROM item WHERE IdVendeur=$idVendeur"; //REQUETE
+if($debug){echo "<br>".$sqlItem;}
+$result=mysqli_query($db_handle, $sqlItem); //EXECUTION DE LA REQUETE
+$nbItem=mysqli_fetch_assoc($result)["ventes"]; //RECUPERE LE NB D'ITEM
+	
 
 
 //Code HTML de l'affichage
-function display_vendeur($ImageProfil,$Prenom,$Nom,$nbItem) 
+function display_vendeur($ImageProfil,$Prenom,$Nom,$nbItem,$Email) 
 {
 	echo "	<div class='col-lg-5 col-md-5 col-sm-5'>
 				<img src=$ImageProfil class='img-fluid' width='150' height='150' style='border-radius: 5em; margin-left: 40px;'><br><br>
@@ -89,7 +89,7 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 			<div class="col-lg-7 col-md-7 col-sm-7" style="background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;">
 				<div><p><br></p></div>
 				<div class="row">
-					<?php display_vendeur($ImageProfil,$Prenom,$Nom,$nbItem) ?>
+					<?php display_vendeur($ImageProfil,$Prenom,$Nom,$nbItem,$Email) ?>
 				</div>
 			</div>
 			<div align="center" class="col-lg-5 col-md-5 col-sm-5">

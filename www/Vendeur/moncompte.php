@@ -66,7 +66,7 @@ mysqli_close($db_handle);?>
 				<div class="menu">
 			 		<a href="mesInfos.php">Mes informations</a>
 					<a href="aide.php">Aide</a>
-					<a href="deconnexion.php">Deconnexion</a>
+					<a href="../autres/login.php">Deconnexion</a>
 				</div>
 			</div>
 		</div> <!-- <php echo "'$ImageFond'"; ?> -->

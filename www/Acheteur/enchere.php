@@ -88,7 +88,7 @@ mysqli_close($db_handle);?>
 	{
 		// Get today's date and time
 		var now = new Date().getTime();
-		for(i=0;i<3;i++)
+		for(i=0;i< <?php echo json_encode(sizeof($datefin)); ?> ;i++)
 		{
 			// Find the distance between now and the count down date
 			var countDownDate = new Date(dates[i]).getTime();
@@ -110,48 +110,39 @@ mysqli_close($db_handle);?>
 	</script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-md">
+<nav class="navbar navbar-expand-md">
 		<a class="navbar-brand" href="#"><img src="images/logoblanc.png" width="109" height="30"></a>
 		<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 			<div class="collapse navbar-collapse" id="main-navigation">
 				 <ul class="nav navbar-nav navbar-right">
-			        <li><a class="nav-link" href="accueil.php">ACCUEIL</a></li>
-			        <li><a class="nav-link" class="tablinks" onclick="Event(event, 'categories')" >CATEGORIES</a></li>
-			        <li><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
-			        <li><a class="nav-link" href="moncompte.php">MON COMPTE</a></li>
+			        <li><a class="nav-link" href="accueil.php" style="padding-top: 14px;">ACCUEIL</a></li>
+			        
+			        <li><div class="dropdown">
+  							<button class="dropbtn" onclick="myFunction()">CATEGORIES</button></li>
+							<div class="dropdown-content" id="myDropdown">
+								
+								<ul id="prix">
+							  		<li><a href="enchere.php">Enchères</a></li>
+									<li><a href="achatimmediat.php">Achats</a></li>
+						  			<li><a href="meilleureoffre.php">Offres</a></li>
+						  		</ul>
+								
+						  		<ul id="prix">
+						  			<li><a href="tresors.php">Ferraille et trésors</a></li>
+						  			<li><a href="musee.php">Musée</a></li>
+						  			<li><a href="accessoires.php">Accessoire VIP</a></li>
+								</ul>
+							</div>
+						</div>
+					
+			        <li style="list-style: none;"><a class="nav-link" href="panier.php"><img src="images/panier.png" width="20" height="20"></a></li>
+			        <li style="list-style: none;"><a class="nav-link" href="favoris.php"><img src="images/favoris.png" width="20" height="20"></a></li>
+			        <li class="ici" style="list-style: none;"><a  class="nav-link" href="moncompte.php">MON COMPTE</a></li>
 			     </ul>
 			</div>
 	</nav>
-
-
-	<div class="container features">
-		<div class="row">
-			<div class="col-lg-7 col-md-7 col-sm-0"></div>
-			<div   id="categories" class="col-lg-5 col-md-5 col-sm-12">
-				<div class="row">
-				<div class="col-lg-5 col-md-5 col-sm-5">
-			  		<br><h5>TYPE DE VENTE</h5>
-			  		<ul id="prix">
-			  			<li><a href="enchere.php">Enchères</a></li>
-			  			<li><a href="achatimmediat.php">Achat immédiat</a></li>
-			  			<li><a href="meilleureoffre.php">Meilleure Offre</a></li>
-			  		</ul>
-			  	</div>
-			  	<div class="col-lg-1 col-md-1 col-sm-1"><hr id="V" style="height: 50px;"></div>
-			  	<div class="col-lg-6 col-md-6 col-sm-6">
-			  		<br><h5>TYPE D'ARTICLE</h5>
-			  		<ul id="prix">
-			  			<li><a href="tresors.php">Féraille et trésors</a></li>
-			  			<li><a href="musee.php">Musée</a></li>
-			  			<li><a href="accessoires.php">Accessoire VIP</a></li>
-			  		</ul>
-			  	</div>
-			  </div>
-			</div>
-		</div>
 
 		<div><p><br><h1>VENTES AUX ENCHERES</h1><br><br></p></div>
 		<div class="row">

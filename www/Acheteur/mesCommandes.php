@@ -129,7 +129,7 @@ mysqli_close($db_handle);?>
 						<a href="modesPaiement.php">Mes modes de paiement</a>
 						<a href="mesCommandes.php">Mes commandes</a>
 						<a href="aide.php">Aide</a>
-						<a href="deconnexion.php">Déconnexion</a>
+						<a href="../autres/login.php">Déconnexion</a>
 					</div>
 				</div>
 			</div>

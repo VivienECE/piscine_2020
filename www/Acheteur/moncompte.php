@@ -10,10 +10,11 @@ session_start();
 $id=$_SESSION['IdAcheteur'];
 if($debug){echo "ID:".$_SESSION['IdAcheteur'];}
 
-$sql= "SELECT Prenom, Nom FROM acheteur WHERE IdAcheteur=$id ";
+$sql= "SELECT Prenom, Nom, ImageProfil FROM acheteur WHERE IdAcheteur=$id ";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
  $Prenom = $data['Prenom'];
+ $ImageProfil = $data['ImageProfil'];
  $Nom = $data['Nom'];}
 
 //fermer la connexion
@@ -42,7 +43,8 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 	      myDropdown.classList.remove('show');
 	    }
 	  }
-}</script>
+	}
+	</script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-md">
@@ -86,7 +88,7 @@ mysqli_close($db_handle);?><!DOCTYPE html>
 		<div class="col-md-4 col-md-4 col-sm-12">
 			<div class="row">
 				<div class="col-md-6 col-md-6 col-sm-6">
-					<img align="center" src="images/compte.png" height="100" width="100">
+					<img align="center" src=<?php echo "'$ImageProfil'";?> height="100" width="100">
 				</div>
 				<div class="col-md-6 col-md-6 col-sm-6" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
 					<p><br>Bonjour<br><?php echo "$Prenom $Nom "; ?></p>

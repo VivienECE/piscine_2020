@@ -63,7 +63,7 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$hrefitem)
 }
 
 //barre de recherche
-
+/*
 $recherche = isset($_POST["recherche"])? $_POST["recherche"] : "";
 if(isset($_POST["Rechercher"])){
 	if($db_found){
@@ -86,7 +86,7 @@ if(isset($_POST["Rechercher"])){
 	echo "Database not found.";
 }
 
-}
+}*/
 
 // Display the decrypted string 
 ob_start();

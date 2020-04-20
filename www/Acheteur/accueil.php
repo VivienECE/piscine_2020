@@ -17,7 +17,7 @@ $sql= "SELECT item.IdItem,PrixFinal,DateFin FROM enchere join item ON item.IdIte
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($EnchereIdItem,$data['IdItem']);
-array_push($EncherePrix,$data['PrixFinal']);
+array_push($EncherePrix,"Faites une offre");
 array_push($EnchereDate,$data['DateFin']);}
 
 for($i = 0;$i < sizeof($EnchereIdItem);$i++)
@@ -38,7 +38,7 @@ $sql= "SELECT item.IdItem,PrixFinal,DateFin FROM achatimmediat join item ON item
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($ImmediatIdItem,$data['IdItem']);
-array_push($ImmediatPrix,$data['PrixFinal']);
+array_push($ImmediatPrix,$data['PrixFinal']." €");
 array_push($ImmediatDate,$data['DateFin']);}
 
 for($i = 0;$i < sizeof($ImmediatIdItem);$i++)
@@ -59,8 +59,8 @@ $sql= "SELECT item.IdItem,PrixFinal,DateFin FROM meilleureoffre join item ON ite
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($OffreIdItem,$data['IdItem']);
-array_push($OffrePrix,$data['PrixFinal']);
-array_push($OffreDate,$data['DateFin']);}
+array_push($OffrePrix,"Faites une offre");
+array_push($OffreDate,"Faites une offre");}
 
 for($i = 0;$i < sizeof($OffreIdItem);$i++)
 {
@@ -82,7 +82,7 @@ function display_item($Nom,$Image,$Prix,$i)
 	       <div class='carousel-item active'>
 		      <img src='$Image' >
 		      <p id='titre'> $Nom </p>
-			  <p id='prix'> $Prix € <br><br></p>
+			  <p id='prix'> $Prix <br><br></p>
 		   </div>";
 	}
 	else //AUTRES SLIDES

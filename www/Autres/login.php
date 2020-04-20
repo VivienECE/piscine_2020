@@ -38,6 +38,13 @@ if (isset($_POST["button"])) {
 				else {header("Location: ../Vendeur/mesventesVIDES.php");}
 				exit;}
 
+			$sql = "SELECT * FROM utilisateur join admin ON utilisateur.idUtilisateur = admin.idUtilisateur WHERE pseudo = '$pseudo' AND motdepasse = '$motdepasse' ";
+			$result = mysqli_query($db_handle, $sql);
+			if (mysqli_num_rows($result) != 0) {
+				session_start();
+				header("Location: ../Admin/accueiladmin.php");
+				exit;}
+
 			$erreur = "Erreur dans le nom d'utilisateur ou le mot de passe";
 		}
 		else {echo "Database not found";}

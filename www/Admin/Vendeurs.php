@@ -23,7 +23,6 @@ array_push($fondVendeur,$data["ImageFond"]);
 array_push($idUtilisateur,$data["IdUtilisateur"]);
 array_push($hrefVendeur,"vendeursolo.php");
 }
-print_r($photoVendeur);
 
 for($i = 0;$i < sizeof($idVendeur);$i++)
 	{
@@ -35,7 +34,7 @@ for($i = 0;$i < sizeof($idVendeur);$i++)
 
 //barre de recherche
 
-
+/*
 if(isset($_POST["recherche"])){
 	$recherche = htmlspecialchars(($_POST["recherche"]));
 	if($db_found){
@@ -56,13 +55,14 @@ if(isset($_POST["recherche"])){
 				$itemresult=mysqli_query($db_handle, $sqlItem); //EXECUTION DE LA REQUETE
 				display_item($data['IdVendeur'],$data['Nom'],$data['Prenom'],$data['IdUtilisateur'],"vendeursolo.php",  mysqli_fetch_assoc($itemresult)["ventes"], $data['ImageProfil']);
 			}
+
 		}
 
 }else{
 	echo "Database not found.";
 }
 
-}
+}*/
 
 
 //Code HTML de l'affichage

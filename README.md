@@ -1,12 +1,11 @@
 # piscine_2020
 --------------------------------------------
 Projet Piscine 2020
-BACK-END
-//acheteur
--inscription.php [fonctionnel]
-//vendeur
--inscription.php [en cours]
-//autre
--login/php [non fonctionnel]
+Vivien DETOURNAY
+Baptiste RONDARD
+Clémence Jean-Louis Dit Montout
+---------------------------------------------
+BDD: Wampserver
+localhost:root
+mdp:
 
-FRONT-END

@@ -15,7 +15,7 @@ $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
  $Prenom = $data['Prenom'];
  $Nom = $data['Nom'];}
-
+if($debug){echo $sql;}
 //fermer la connexion
 mysqli_close($db_handle);?>
 
@@ -56,7 +56,7 @@ mysqli_close($db_handle);?>
 					<img align="center" src="images/compte.png" height="100" width="100">
 				</div>
 				<div class="col-md-6 col-md-6 col-sm-6" style="font-weight: bold; font-size: 14px; color: #C4BDE3">
-					<p><br>Bonjour<br><?php $Prenom $Nom ?></p>
+					<p><br>Bonjour<br><?php echo "$Prenom $Nom" ?></p>
 				</div>
 			</div>
 			<div class="row">

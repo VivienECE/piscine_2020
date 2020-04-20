@@ -6,7 +6,6 @@ $database = "ecebay";
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
-
 $iditem=array(); $nomitem=array(); $imageitem=array(); $etatitem=array(); $hrefitem=array();
 session_start();
 $IdVendeur=$_SESSION['IdVendeur'];
@@ -15,7 +14,7 @@ $sql= "SELECT item.IdItem, Nom, Image, Statut
 FROM item
 join achatimmediat ON item.IdItem = achatimmediat.IdItem
 WHERE item.IdVendeur = $IdVendeur ";
-if($debug){echo $sql;}
+if($debug){echo "<br>".$sql;}
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
@@ -37,6 +36,7 @@ array_push($imageitem,$data['Image']);
 array_push($etatitem,$data['Statut']);
 array_push($hrefitem,"articleenchere.php");
 }
+if($debug){echo "<br>".$sql;}
 
 $sql= "SELECT item.IdItem, Nom, Image, Statut
 FROM item
@@ -50,7 +50,7 @@ array_push($imageitem,$data['Image']);
 array_push($etatitem,$data['Statut']);
 array_push($hrefitem,"articleproposition.php");
 }
-
+if($debug){echo "<br>".$sql;}
 
 //Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$etatitem,$hrefitem) 

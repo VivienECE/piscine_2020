@@ -74,11 +74,12 @@ if (isset($_POST["button"])) {
 					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
 					$nom_image = $uploaddir . 'imageprofil_'. $idutilisateur."." . get_file_extension($image); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
 					rename($uploadfile,$nom_image);
-					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil` ) VALUES ('$idutilisateur','$nom','$prenom','$nom_image')";
-				    if($debug){echo $sql;}
-					$result =mysqli_query($db_handle, $sql);
+					$sql = "SELECT IdVendeur FROM vendeur WHERE IdUtilisateur = $idutilisateur";
+					$result = mysqli_query($db_handle, $sql);
+					if ($debug){echo $sql;}
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
+					$_SESSION['IdVendeur'] = mysqli_fetch_assoc($result)['IdVendeur'];
 					header("Location: ../Vendeur/mesventesVIDE.php");
 				} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
 				else {
@@ -134,7 +135,22 @@ mysqli_close($db_handle);?>
 							  };
 							</script>
 							<!--IMAGE DU PROFIL -->
-
+							<!--IMAGE FOND -->
+							<br><br><img id="fond" align="center" src="fond.png" style="width: 100px; height: 100px"></a><br>
+						
+							<input type="hidden" name="MAX_FILE_SIZE" value="80000" />  <!--Apparament taille max de l'image en ko? -->
+							<input type="file" name="fond" accept="image/gif, image/jpeg, image/png" onchange="loadImg(event)"> 
+							<script>
+							  var loadImg = function(event) {
+							    var output = document.getElementById('fond');
+							    output.src = URL.createObjectURL(event.target.files[0]);
+							    output.onload = function() {
+							      URL.revokeObjectURL(output.src) // free memory
+							    }
+							  };
+							</script>
+							<!--IMAGE FOND -->
+							
 							<hr style="height: 30px; color: white; margin-bottom: 10px; margin-top: 20px;">
 
 							<tr align="center">

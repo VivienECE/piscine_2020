@@ -149,11 +149,11 @@ mysqli_close($db_handle);?>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg">
+				      <img align="center" <?php echo "src='$Image'";?>>
 				    </div>
 
 				    <div class="carousel-item">
-				      <img align="center" src="images/antiquite.jpg">
+				      <img align="center" <?php echo "src='$Image'";?>>
 				    </div>
 				  </div>
 

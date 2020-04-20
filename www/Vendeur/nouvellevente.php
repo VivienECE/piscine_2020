@@ -43,11 +43,14 @@ if (isset($_POST["button"]))
 			{
 				$sql= "SELECT (MAX(IdItem)+1) as nb FROM item"; //Selectionne l'id max et rajoute+1 = futur IdItem attribué automatiquement pb en cas de suppression d'item mais pas de suppr de prévu
 				$result=mysqli_query($db_handle, $sql);
-				$nom_image = $uploaddir . 'item_'. (mysqli_fetch_assoc($result)['nb']) ."." . get_file_extension($image); 
+				$IdItem=(mysqli_fetch_assoc($result)['nb']);
+				$nom_image = $uploaddir . 'item_'. $IdItem ."." . get_file_extension($image); 
 				rename($uploadfile,$nom_image);
 			    $sql= "INSERT INTO item (`idvendeur`,`Nom`, `Description`, `Categorie`, `Statut`, `Image`, `Video`,`PrixInitial`,`Date`) VALUES ($IdVendeur,'$titre','$description','$categorie','En cours!','$nom_image','','$prix',CURRENT_DATE)";
 				$result = mysqli_query($db_handle, $sql);
-			    if($debug){echo $sql;}
+			    $sql= "INSERT INTO `$typevente`(`IdItem`, `PrixFinal`, `DateFin`) VALUES ($IdItem,'$prix',CURRENT_DATE+ INTERVAL 2 WEEK)";
+				$result = mysqli_query($db_handle, $sql);
+				if($debug){echo $sql;}
 			} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
 			else 
 			{

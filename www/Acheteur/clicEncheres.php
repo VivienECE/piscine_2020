@@ -94,7 +94,6 @@ mysqli_close($db_handle);?>
 	  evt.currentTarget.className += " active";}
 
 </script>
-
 	<script type="text/javascript">
 	// Set the date we're counting down to
 	var date = <?php echo json_encode($DateFin);?>;

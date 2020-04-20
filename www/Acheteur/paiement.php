@@ -10,6 +10,24 @@ session_start();
 $idAcheteur = $_SESSION['IdAcheteur'];
 $iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array(); $typeitem=array(); $idachat=array();
 
+if (isset($_POST["confirmer"])) {
+	if($debug){echo "COMMANDE:";}
+	for($i=0;$i<sizeof($idachat);$i++)
+	{
+		$sql =  "UPDATE `item` SET `Statut` = 'Vendu!' WHERE `item`.`IdItem` = $iditem[$i] ";
+		$result = mysqli_query($db_handle, $sql);
+		if($debug){echo "<br>".$sql."<br>";}
+		$sql =  "DELETE FROM `selectionne` WHERE `IdAchatImmediat` = $idachat[$i] ";
+		if($debug){echo "<br>".$sql."<br>";}
+		$result = mysqli_query($db_handle, $sql);
+		$sql =  "DELETE FROM `favoris` WHERE `IdItem` = $iditem[$i] ";
+		if($debug){echo "<br>".$sql."<br>";}
+		$result = mysqli_query($db_handle, $sql);
+		$sql =  "INSERT INTO `commandes`(`IdItem`, `IdAcheteur`, `NomPrenom`, `Adresse`, `CP`, `Pays`, `Livraison`, `Prix`) VALUES ($iditem[$i],$idAcheteur,'$Nom $Prenom','$Adresse','$CodePostal','$Pays',CURRENT_DATE()+INTERVAL 1 WEEK,'$prixitem[$i]')";
+		if($debug){echo "<br>".$sql."<br>";}
+		$result = mysqli_query($db_handle, $sql);
+	}
+}
 //ITEM
 $PrixTotal=0;
 $sql= "SELECT item.IdItem, Nom, Image, PrixFinal, achatimmediat.IdAchatImmediat
@@ -41,23 +59,7 @@ $CodePostal = $data['CodePostal'];
 $NomCarte = $data['NomCarte'];
 $ExpirationCarte = $data['ExpirationCarte'];}
 
-if (isset($_POST["confirmer"])) {
-	if($debug){echo "COMMANDE:";}
-	for($i=0;$i<sizeof($idachat);$i++)
-	{
-		$sql =  "UPDATE `item` SET `Statut` = 'Vendu!' WHERE `item`.`IdItem` = $iditem[$i] ";
-		$result = mysqli_query($db_handle, $sql);
-		$sql =  "DELETE FROM `selectionne` WHERE `IdAchatImmediat` = $idachat[$i] ";
-		if($debug){echo "<br>".$sql."<br>";}
-		$result = mysqli_query($db_handle, $sql);
-		$sql =  "DELETE FROM `favoris` WHERE `IdItem` = $iditem[$i] ";
-		if($debug){echo "<br>".$sql."<br>";}
-		$result = mysqli_query($db_handle, $sql);
-		$sql =  "INSERT INTO `commandes`(`IdItem`, `IdAcheteur`, `NomPrenom`, `Adresse`, `CP`, `Pays`, `Livraison`, `Prix`) VALUES ($iditem[$i],$idAcheteur,'$Nom $Prenom','$Adresse','$CodePostal','$Pays',CURRENT_DATE()+INTERVAL 1 WEEK,'$prixitem[$i]')";
-		if($debug){echo "<br>".$sql."<br>";}
-		$result = mysqli_query($db_handle, $sql);
-	}
-}
+
 //Code HTML de l'affichage
 function display_item($iditem,$nomitem,$imageitem,$prixitem) 
 {

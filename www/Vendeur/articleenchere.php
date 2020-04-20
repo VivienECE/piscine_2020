@@ -10,7 +10,7 @@ $idItem = $_GET['id'];
 session_start();
 $IdVendeur=$_SESSION['IdVendeur'];
 
-$sql= "SELECT Nom, Description, Image, PrixFinal,IdEnchere
+$sql= "SELECT Nom, Description, Image, PrixFinal,IdEnchere, enchere.DateFin
 FROM item
 	join enchere ON item.IdItem = enchere.IdItem
 	WHERE item.IdItem=$idItem";
@@ -20,6 +20,7 @@ $Nom = $data['Nom'];
 $Description = $data['Description'];
 $Image = $data['Image'];
 $PrixFinal = $data['PrixFinal'];
+$DateFin = $data['DateFin'];
 $IdEnchere = $data['IdEnchere'];}
 
 $nom=array(); $prenom=array(); $prix=array();
@@ -50,6 +51,32 @@ mysqli_close($db_handle);?>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> 
 	<link rel="stylesheet" type="text/css" href="vendeur.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
+	<script type="text/javascript">
+	// Set the date we're counting down to
+	var date = <?php echo json_encode($DateFin);?>;
+	// Update the count down every 1 second
+	var x = setInterval(function() 
+	{
+		// Get today's date and time
+		var now = new Date().getTime();
+		// Find the distance between now and the count down date
+		var countDownDate = new Date(date).getTime();
+		var distance = countDownDate - now; 
+
+		if (distance <= 0) {document.getElementById("timer").innerHTML = "Expiré";}
+		else
+		{
+			// Time calculations for days, hours, minutes and seconds
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+			// Display the result in the element with id="timer+..."
+			document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s ";
+		} 
+	}, 1000);
+	</script>
 </head>
 <body>
 	<nav class="navbar navbar-expand-md">
@@ -64,7 +91,6 @@ mysqli_close($db_handle);?>
 			     </ul>
 			</div>
 	</nav>
-
 	<div><p><br><br><br></p></div>
 
 	<div class="container features">
@@ -86,11 +112,11 @@ mysqli_close($db_handle);?>
 						    </div>
 
 						    <div class="carousel-item">
-						      <img align="center" src="images/montre.jpg">
+						      <img align="center"<?php echo "src='$Image'";?>>
 						    </div>
 
 						    <div class="carousel-item">
-						      <img align="center" src="images/montre.jpg">
+						      <img align="center" <?php echo "src='$Image'";?>>
 						    </div>
 						  </div>
 
@@ -128,8 +154,9 @@ mysqli_close($db_handle);?>
 				<?php for($i = 0;$i < sizeof($nom);$i++){display_item($nom[$i],$prenom[$i],$prix[$i]);}?>
 				</div> 
 				<hr style="width: 200px;">
+				<p><br><h3 id=timer></h3></p>
 				<div class="row">
-					<div class="col-md-12 col-md-12 col-sm-12" style="font-size: 20; font-weight: bold; text-align: center;">Expire dans 2 jours<a href="#"><button style="margin-left: 10px;" type="submit" class="btn"> Modifier </button></a><br></div>
+					<div class="col-md-12 col-md-12 col-sm-12" style="font-size: 20; font-weight: bold; text-align: center;"><a href="#"><button style="margin-left: 10px;" type="submit" class="btn"> Modifier </button></a><br></div>
 				</div>
 			</div>
 		</div>

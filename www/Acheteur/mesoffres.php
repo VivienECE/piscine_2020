@@ -28,14 +28,14 @@ $sql= "SELECT item.IdItem, Nom, Image, Prix, EtapeNegociation
 FROM item
 	join meilleureoffre ON MeilleureOffre.IdItem = item.IdItem
     join negocie ON MeilleureOffre.IdMeilleureOffre = negocie.IdMeilleureOffre
-    WHERE negocie.IdAcheteur=$IdAcheteur";
+    WHERE negocie.IdAcheteur=$IdAcheteur AND EtapeNegociation!=0";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
 array_push($etape,$data['EtapeNegociation']);
-array_push($prixitem, "Proposition en attente. Vous avez proposé ".$data['Prix']);}
+array_push($prixitem, $data['Prix']);}
 
 
 //Code HTML de l'affichage des offres
@@ -52,7 +52,7 @@ function display_item($iditem,$nomitem,$imageitem,$prix,$etape)
          //       <div class='col-md-1 col-md-1 col-sm-0'>
          //       	<hr id='V' style='height: 200px;'>
          //       </div>";
-    if($etape==6){//A CHANGER 
+    if($etape==6){//Si offre accepté
     	echo "<div class='col-md-3 col-md-3 col-sm-3' style='background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;'>
                 	<p id='titre'> 
 						Le vendeur a accepté votre offre au prix de : <strong>$prix €</strong><br>
@@ -63,7 +63,7 @@ function display_item($iditem,$nomitem,$imageitem,$prix,$etape)
 				    <br>$msg
                 </div>";
     }
-    else{
+    else if($etape%2==0){//Si offre refusé
     	echo "<p id='titre'> 
 						Le vendeur vous a fait une contre-offre : <strong>$prix €</strong><br>
 						<form method='post'>
@@ -73,9 +73,13 @@ function display_item($iditem,$nomitem,$imageitem,$prix,$etape)
 						Contre-offre : <input style='width: 75px' type='text' name='contre'> € 
 						 <input type='submit' class='submit3' alt='Submit button' name='button3' value='Proposer' />
 						</form>
+					</p>";}
+	else if($etape%2!=0){//Si offre refusé
+    	echo "<p id='titre'> 
+						En attente de la réponse du vendeur. <br> Vous avez fait une offre de: <strong>$prix €</strong><br>
 					</p>";
     }
-    echo "<hr style='width: 500px; margin-left: 10px;'>";
+    echo "<hr style='width: 500px; margin-left: 10px;'></div>";
                 
 }
 
@@ -188,7 +192,8 @@ mysqli_close($db_handle);?>
 			<div class="col-md-7 col-md-7 col-sm-12">
 				
 				<div class="row">
-						<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$etape[$i]);}?>
+
+						<?php  for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$etape[$i]);}?>
 				</div>
 		    </div>
 		</div>

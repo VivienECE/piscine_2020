@@ -39,50 +39,102 @@ if (isset($_POST["button"])) {
 			
 			//Si aucun doublon (pseudo/mail), ajout dans la BDD utilisateur et vendeur
 			if (!$doublon) {
-				$uploadfile = $uploaddir . basename($_FILES['image']['name']);
+				$uploadfileimage = $uploaddir . basename($_FILES['image']['name']);
 				$image = $_FILES['image']['name']; //chemin d'accès à l'image
+				$uploadfilefond = $uploaddir . basename($_FILES['fond']['name']);
+				$fond = $_FILES['fond']['name']; //chemin d'accès à l'image
 				
 				//si aucune image de selectionnée, ajoute dans la bdd avec une image par défaut
-				if(!$image)
+				if(!$image&&!$fond)
 				{
 				    $sql= "INSERT INTO utilisateur (`Pseudo`, `MotDePasse`) VALUES ('$pseudo','$motdepasse')";
 					$result = mysqli_query($db_handle, $sql);
 					$sql= "SELECT IdUtilisateur FROM utilisateur WHERE pseudo = '$pseudo'";
 					$result = mysqli_query($db_handle, $sql);
 					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
-					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil` ) VALUES ('$idutilisateur','$nom','$prenom','images/compte.png')";
+					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil`,`ImageFond` ) VALUES ('$idutilisateur','$nom','$prenom','images/compte.png','fond.png')";
 				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
 					$sql = "SELECT IdVendeur FROM vendeur WHERE IdUtilisateur = $idutilisateur";
 					$result = mysqli_query($db_handle, $sql);
 					if ($debug){echo $sql;}
 					session_start();
-					$_SESSION['id'] = $idutilisateur;
+					$_SESSION['IdUtilisateur'] = $idutilisateur;
 					$_SESSION['IdVendeur'] = mysqli_fetch_assoc($result)['IdVendeur'];
 					echo $_SESSION['IdVendeur'];
 					header("Location: ../Vendeur/mesventesVIDE.php");
 				}//sinon verifie le format
-				else if(get_file_extension($image)!="jpg"&&get_file_extension($image)!="png"&&get_file_extension($image)!="PNG"){
-				   $erreur = "Mauvais format d'image";
+				else if($image&&get_file_extension($image)!="jpg"&&get_file_extension($image)!="png"&&get_file_extension($image)!="PNG"&&get_file_extension($image)!="JPG"){
+				   $erreur = "Mauvais format d'image de profil";
+				}
+				else if($fond&&get_file_extension($fond)!="jpg"&&get_file_extension($fond)!="png"&&get_file_extension($fond)!="PNG"&&get_file_extension($image)!="JPG"){
+				   $erreur = "Mauvais format d'image de fond";
 				}
 				//Deplace l'image dans nos fichiers www/vendeur/images, si succès: Ajout du reste des infos dans la BDD, redirection à l'acceuil
-				else if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfile)) {
+				else if ($image&&!$fond&&move_uploaded_file($_FILES['image']['tmp_name'], $uploadfileimage))
+				{
 				    $sql= "INSERT INTO utilisateur (`Pseudo`,`Email`, `MotDePasse`) VALUES ('$pseudo','$email','$motdepasse')";
 					$result = mysqli_query($db_handle, $sql);
 					$sql= "SELECT IdUtilisateur FROM utilisateur WHERE pseudo = '$pseudo'";
 					$result = mysqli_query($db_handle, $sql);
 					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
 					$nom_image = $uploaddir . 'imageprofil_'. $idutilisateur."." . get_file_extension($image); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
-					rename($uploadfile,$nom_image);
+					rename($uploadfileimage,$nom_image);
+					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil`,`ImageFond`  ) VALUES ('$idutilisateur','$nom','$prenom','$nom_image','fond.png')";
+			  		if($debug){echo $sql;}
+					$result =mysqli_query($db_handle, $sql);
 					$sql = "SELECT IdVendeur FROM vendeur WHERE IdUtilisateur = $idutilisateur";
 					$result = mysqli_query($db_handle, $sql);
 					if ($debug){echo $sql;}
 					session_start();
-					$_SESSION['id'] = $idutilisateur;
+					$_SESSION['IdUtilisateur'] = $idutilisateur;
 					$_SESSION['IdVendeur'] = mysqli_fetch_assoc($result)['IdVendeur'];
 					header("Location: ../Vendeur/mesventesVIDE.php");
 				} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
-				else {
+				else if (!$image&&$fond&&move_uploaded_file($_FILES['fond']['tmp_name'], $uploadfilefond))
+				{
+				    $sql= "INSERT INTO utilisateur (`Pseudo`,`Email`, `MotDePasse`) VALUES ('$pseudo','$email','$motdepasse')";
+					$result = mysqli_query($db_handle, $sql);
+					$sql= "SELECT IdUtilisateur FROM utilisateur WHERE pseudo = '$pseudo'";
+					$result = mysqli_query($db_handle, $sql);
+					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
+					$nom_fond = $uploaddir . 'imagefond_'. $idutilisateur."." . get_file_extension($fond); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
+					rename($uploadfilefond,$nom_fond);
+					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil`,`ImageFond` ) VALUES ('$idutilisateur','$nom','$prenom','images/compte.png','$nom_fond')";
+			  		if($debug){echo $sql;}
+					$result =mysqli_query($db_handle, $sql);
+					$sql = "SELECT IdVendeur FROM vendeur WHERE IdUtilisateur = $idutilisateur";
+					$result = mysqli_query($db_handle, $sql);
+					if ($debug){echo $sql;}
+					session_start();
+					$_SESSION['IdUtilisateur'] = $idutilisateur;
+					$_SESSION['IdVendeur'] = mysqli_fetch_assoc($result)['IdVendeur'];
+					header("Location: ../Vendeur/mesventesVIDE.php");
+				} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
+				else if (move_uploaded_file($_FILES['image']['tmp_name'], $uploadfileimage)&&move_uploaded_file($_FILES['fond']['tmp_name'], $uploadfilefond))
+				{
+				    $sql= "INSERT INTO utilisateur (`Pseudo`,`Email`, `MotDePasse`) VALUES ('$pseudo','$email','$motdepasse')";
+					$result = mysqli_query($db_handle, $sql);
+					$sql= "SELECT IdUtilisateur FROM utilisateur WHERE pseudo = '$pseudo'";
+					$result = mysqli_query($db_handle, $sql);
+					$idutilisateur= mysqli_fetch_assoc($result)['IdUtilisateur'];
+					$nom_image = $uploaddir . 'imageprofil_'. $idutilisateur."." . get_file_extension($image); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
+					rename($uploadfileimage,$nom_image);
+					$nom_fond = $uploaddir . 'imagefond_'. $idutilisateur."." . get_file_extension($fond); //Dans l'immediat, jpg/pnj le changement du type ne derange pas
+					rename($uploadfilefond,$nom_fond);
+					$sql= "INSERT INTO `vendeur`(`IdUtilisateur`,`Nom`,`Prenom`,`ImageProfil`,`ImageFond` ) VALUES ('$idutilisateur','$nom','$prenom','$nom_image','$nom_fond')";
+			  		if($debug){echo $sql;}
+					$result =mysqli_query($db_handle, $sql);
+					$sql = "SELECT IdVendeur FROM vendeur WHERE IdUtilisateur = $idutilisateur";
+					$result = mysqli_query($db_handle, $sql);
+					if ($debug){echo $sql;}
+					session_start();
+					$_SESSION['IdUtilisateur'] = $idutilisateur;
+					$_SESSION['IdVendeur'] = mysqli_fetch_assoc($result)['IdVendeur'];
+					header("Location: ../Vendeur/mesventesVIDE.php");
+				} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
+				else 
+				{
 				   $erreur = "Image trop volumineuse";
 				}
 			}
@@ -150,14 +202,14 @@ mysqli_close($db_handle);?>
 							  };
 							</script>
 							<!--IMAGE FOND -->
-							
+
 							<hr style="height: 30px; color: white; margin-bottom: 10px; margin-top: 20px;">
 
 							<tr align="center">
 								<td><input type="text" name="pseudo" placeholder=" Nom d'utilisateur" pattern=".{4,14}" maxlength='14' required></td>
 							</tr>
 							<tr align="center">
-								<td><input type="email" name="email" placeholder=" Email" maxlength='90' required></td>
+								<td><input type="email" name="email" placeholder=" Email" minlength='2' maxlength='90' required></td>
 							</tr>
 							<tr align="center">
 								<td><input type="password" name="motdepasse" placeholder=" Mot de passe" pattern=".{10,30}" title="10 à 30 caractères" maxlength='30' required></td>

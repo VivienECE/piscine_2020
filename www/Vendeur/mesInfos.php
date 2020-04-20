@@ -1,3 +1,35 @@
+<?php
+//identifier votre BDD
+$database = "ecebay";
+//connectez-vous dans votre BDD
+//Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
+$db_handle = mysqli_connect('localhost', 'root', '');
+$db_found = mysqli_select_db($db_handle, $database);
+$debug = false;
+session_start();
+$IdVendeur=$_SESSION['IdVendeur'];
+if($debug){echo "ID:".$_SESSION['IdVendeur'];}
+
+$sql= "SELECT Nom, Prenom, ImageProfil, ImageFond, Email
+FROM vendeur join utilisateur on vendeur.IdUtilisateur=utilisateur.IdUtilisateur WHERE vendeur.IdVendeur=$IdVendeur";
+$result = mysqli_query($db_handle, $sql);
+if($debug){echo $sql;}
+while ($data = mysqli_fetch_assoc($result)){
+ $Prenom = $data['Prenom'];
+ $Nom = $data['Nom'];
+ $Email = $data['Email'];
+ $ImageProfil = $data['ImageProfil'];
+ $ImageFond = $data['ImageFond'];}
+if($debug){echo "<br>".$ImageFond;}
+
+ $sqlItem="SELECT COUNT(*) as ventes FROM item WHERE IdVendeur=$IdVendeur"; //REQUETE
+if($debug){echo "<br>".$sqlItem;}
+$result=mysqli_query($db_handle, $sqlItem); //EXECUTION DE LA REQUETE
+$nbItem=mysqli_fetch_assoc($result)["ventes"]; //RECUPERE LE NB D'ITEM
+
+//fermer la connexion
+mysqli_close($db_handle);?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,7 +42,7 @@
 	<link rel="stylesheet" type="text/css" href="vendeur.css">
 	<script type="text/javascript">$(document).ready(function(){$('.header').height($(window).height());});</script>
 </head>
-<body>
+<body style="background-image: url(<?php echo "'$ImageFond'"; ?>);">
 	<nav class="navbar navbar-expand-md">
 		<a class="navbar-brand" href="#"><img src="images/logoblanc.png" width="109" height="30"></a>
 		<button class="navbar-toggler navbar-dark" type="button" data-toggle="collapse" data-target="#main-navigation">
@@ -34,12 +66,12 @@
 				<div><p><br></p></div>
 				<div class="row">
 				<div class="col-lg-5 col-md-5 col-sm-5">
-					<img src="images/compte.png" width="200" height="200"><br><br>
+					<img src=<?php echo "'$ImageProfil'"; ?> width="200" height="200"><br><br>
 				</div>
 				<div class="col-lg-7 col-md-7 col-sm-7">
-					<p id="nom"><br>Jean-Pierre SEGADO</p>
-					<p id="nb">5 articles en vente</p>
-					<p id="email">jp.segado@edu.ece.fr</p>
+					<?php echo "<p id='nom'><br>$Prenom $Nom</p>
+							<p id='nb'>$nbItem article(s) en vente</p>
+							<p id='email'>$Email</p>"; ?>
 				</div></div>
 			</div>
 			<div align="center" class="col-lg-5 col-md-5 col-sm-5">

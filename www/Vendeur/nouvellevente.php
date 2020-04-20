@@ -6,7 +6,7 @@ $uploaddir='../items/images/';
 //Rappel: votre serveur = localhost |votre login = root |votre password = <rien>
 $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
-$debug = true;
+$debug = false;
 session_start();
 $IdVendeur=$_SESSION['IdVendeur'];
 function get_file_extension($file) {
@@ -48,18 +48,21 @@ if (isset($_POST["button"]))
 				rename($uploadfile,$nom_image);
 			    $sql= "INSERT INTO item (`idvendeur`,`Nom`, `Description`, `Categorie`, `Statut`, `Image`, `Video`,`PrixInitial`,`Date`) VALUES ($IdVendeur,'$titre','$description','$categorie','En cours!','$nom_image','','$prix',CURRENT_DATE)";
 				$result = mysqli_query($db_handle, $sql);
+				  if($debug){echo $sql;}
 			    $sql= "INSERT INTO `$typevente`(`IdItem`, `PrixFinal`, `DateFin`) VALUES ($IdItem,'$prix',CURRENT_DATE+ INTERVAL 2 WEEK)";
 				$result = mysqli_query($db_handle, $sql);
 				if($debug){echo $sql;}
+				header("Location: ../Vendeur/mesventes.php");
 			} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
 			else 
 			{
 			   $erreur = "Image trop volumineuse";
-			   if($debug){echo $erreur;}
+			   //if($debug){echo $erreur;}
+			   echo $erreur;
 			}
 		}
 	}
-	else{echo $erreur="database not found";}
+	else{echo "database not found";}
 }
 //fermer la connexion
 mysqli_close($db_handle);?>
@@ -100,7 +103,7 @@ mysqli_close($db_handle);?>
 				<div class="thumbnail">
 					<a href="#"><img id="profil" src="images/ajout1.png" style="width: 100px; height: 100px"></a><br><br>
 						<!--IMAGE ARTICLE -->
-							<input type="hidden" name="MAX_FILE_SIZE" value="80000" />  <!--Apparament taille max de l'image en ko? -->
+							<input type="hidden" name="MAX_FILE_SIZE" value="9000000" />  <!--Apparament taille max de l'image en ko? -->
 							<input type="file" name="image" accept="image/gif, image/jpeg, image/png" onchange="loadImg(event)"> 
 							<script>
 							  var loadImg = function(event) {
@@ -165,7 +168,7 @@ mysqli_close($db_handle);?>
 					<td>
 						<br><input type= "radio" name="vente" value="enchere"  > Enchères <br>
 					
-						<input type= "radio" name="vente" value="achatimmediat"> Immédiate   <input type="number" name="prix" style="width: 75px;" min="0" required> €<br>
+						<input type= "radio" name="vente" value="achatimmediat"> Immédiate   <br>
 						
 						<input type= "radio" name="vente" value="meilleureoffre"> Meilleure offre <br>
 					</td>
@@ -175,6 +178,7 @@ mysqli_close($db_handle);?>
 
 		<div class="row">
 			<div align="center" class="col-lg-12 col-md-12 col-sm-12">
+				 Prix: <input type="number" name="prix" style="width: 75px;" min="0" required> €
 				<div><p><br><br><br></p></div>
 				<a href="#"><button type="submit" name="button" class="btn">Mettre en ligne</button></a>
 				<? php echo $erreur ?>	

@@ -25,7 +25,7 @@ if (isset($_POST["button"]))
 			
 			$titre = htmlspecialchars($_POST["titre"]);
 			$description = htmlspecialchars($_POST["description"]);
-			//$image = htmlspecialchars($_POST["image"]);
+			$prix = htmlspecialchars($_POST["prix"]);
 			//$video = htmlspecialchars($_POST["video"]);
 			$categorie = htmlspecialchars($_POST["categorie"]);
 			$typevente = htmlspecialchars($_POST["vente"]);
@@ -45,7 +45,7 @@ if (isset($_POST["button"]))
 				$result=mysqli_query($db_handle, $sql);
 				$nom_image = $uploaddir . 'item_'. (mysqli_fetch_assoc($result)['nb']) ."." . get_file_extension($image); 
 				rename($uploadfile,$nom_image);
-			    $sql= "INSERT INTO item (`idvendeur`,`Nom`, `Description`, `Categorie`, `Statut`, `Image`, `Video`,`PrixInitial`,`Date`) VALUES ($IdVendeur,'$titre','$description','$categorie','En cours!','$nom_image','','0',CURRENT_DATE)";
+			    $sql= "INSERT INTO item (`idvendeur`,`Nom`, `Description`, `Categorie`, `Statut`, `Image`, `Video`,`PrixInitial`,`Date`) VALUES ($IdVendeur,'$titre','$description','$categorie','En cours!','$nom_image','','$prix',CURRENT_DATE)";
 				$result = mysqli_query($db_handle, $sql);
 			    if($debug){echo $sql;}
 			} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
@@ -162,7 +162,7 @@ mysqli_close($db_handle);?>
 					<td>
 						<br><input type= "radio" name="vente" value="enchere"  > Enchères <br>
 					
-						<input type= "radio" name="vente" value="achatimmediat"> Immédiate <br>
+						<input type= "radio" name="vente" value="achatimmediat"> Immédiate   <input type="number" name="prix" style="width: 75px;" min="0" required> €<br>
 						
 						<input type= "radio" name="vente" value="meilleureoffre"> Meilleure offre <br>
 					</td>

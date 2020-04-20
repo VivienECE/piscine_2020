@@ -72,28 +72,34 @@ for($i = 0;$i < sizeof($OffreIdItem);$i++)
 		array_push($OffreCategorie,$data['Categorie']);}
 }
 
-function display_item($Nom,$Image,$Prix) 
+//CONTENU HTML DE CHAQUE CAROUSEL
+function display_item($Nom,$Image,$Prix,$i) 
 {
-	echo  "
-		  <div class='carousel-inner' align='center'>
-		       <div class='carousel-item active'>
-		      		<img src='$Image[0]' >
-		      		<p id='titre'> $Nom[0] </p>
-			  		<p id='prix'> $Prix[0] € <br><br></p>
-		    	</div>
+	//if($i=0){echo  "<div class='carousel-inner' align='center'>";}
+	if ($i == 0){echo  "<div class='carousel-inner' align='center'>";} //SLIDE ACTIVE
+	if ($i == 0){
+		echo  "
+	       <div class='carousel-item active'>
+		      <img src='$Image' >
+		      <p id='titre'> $Nom </p>
+			  <p id='prix'> $Prix € <br><br></p>
+		   </div>";
+	}
+	else //AUTRES SLIDES
+	{
+		echo  "<div class='carousel-item'>
+		      		<img src='$Image' >
+		      		<p id='titre'> $Nom </p>
+			  		<p id='prix'> $Prix € <br><br></p>
+		    	</div>";
+	}
+}
 
-		       <div class='carousel-item'>
-			      <img src='$Image[1]' >
-		      		<p id='titre'> $Nom[1] </p>
-			  		<p id='prix'> $Prix[1] € <br><br></p>
-			    </div>
-
-			    <div class='carousel-item'>
-			       <img src='$Image[2]' >
-		      		<p id='titre'> $Nom[2] </p>
-			  		<p id='prix'> $Prix[2] € <br><br></p>
-			    </div>
-		  </div>";
+function carousel_define($carouselName,$i)
+{
+	if ($i == 0){echo  "<li data-target='$carouselName' data-slide-to='0' class='active'></li>";} //SLIDE ACTIVE
+	else{  echo"<li data-target='$carouselName' data-slide-to='$i'></li>";}
+  
 }
 
 //fermer la connexion
@@ -181,16 +187,15 @@ mysqli_close($db_handle);?>
 			<!-- ENCHERE -->
 			<div class="col-lg-3 col-md-3 col-sm-12">
 				<a href="enchere.php"><h3 class="feature-title">Ventes aux enchères<br><br><br></h3></a>
-				<div id="myCarousel1" class="carousel slide" data-ride="carousel">
+				<div id="myCarousel1" class="carousel slide" data-ride="carousel" >
 				  <ul class="carousel-indicators">
 				    <li data-target="#myCarousel1" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel1" data-slide-to="1"></li>
-				    <li data-target="#myCarousel1" data-slide-to="2"></li>
+				  	  <?php for($i = 0;$i < sizeof($EnchereNom);$i++){carousel_define("#myCarousel1",$i);}?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				<?php display_item($EnchereNom,$EnchereImage,$EncherePrix);?>
-
+				<?php for($i=0;$i<sizeof($EnchereNom);++$i){display_item($EnchereNom[$i],$EnchereImage[$i],$EncherePrix[$i],$i);}?>
+					</div>
 				  <!-- Left and right controls -->
 				  <a class="carousel-control-prev" href="#myCarousel1" data-slide="prev">
 				    <span class="carousel-control-prev-icon"></span>
@@ -209,14 +214,12 @@ mysqli_close($db_handle);?>
 				<a href="achatimmediat.php"><h3 class="feature-title">Ventes immédiates<br><br><br><br></h3></a>
 				<div id="myCarousel2" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
-				    <li data-target="#myCarousel2" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel2" data-slide-to="1"></li>
-				    <li data-target="#myCarousel2" data-slide-to="2"></li>
+				    <?php for($i = 0;$i < sizeof($ImmediatNom);$i++){carousel_define("#myCarousel2",$i);}?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				  	<?php display_item($ImmediatNom,$ImmediatImage,$ImmediatPrix);?>
-
+				  	<?php for($i=0;$i<sizeof($ImmediatNom);$i++){display_item($ImmediatNom[$i],$ImmediatImage[$i],$ImmediatPrix[$i],$i);}?>
+				  		</div>
 				  <!-- Left and right controls -->
 				  <a class="carousel-control-prev" href="#myCarousel2" data-slide="prev">
 				    <span class="carousel-control-prev-icon"></span>
@@ -235,14 +238,12 @@ mysqli_close($db_handle);?>
 				<a href="meilleureoffre.php"><h3 class="feature-title">Meilleures offres<br><br><br><br></h3></a>
 				<div id="myCarousel3" class="carousel slide" data-ride="carousel">
 				  <ul class="carousel-indicators">
-				    <li data-target="#myCarousel3" data-slide-to="0" class="active"></li>
-				    <li data-target="#myCarousel3" data-slide-to="1"></li>
-				    <li data-target="#myCarousel3" data-slide-to="2"></li>
+				   <?php for($i = 0;$i < sizeof($OffreNom);$i++){carousel_define("#myCarousel2",$i);}?>
 				  </ul>
 
 				  <!-- Wrapper for slides -->
-				 	<?php display_item($OffreNom,$OffreImage,$OffrePrix);?>
-
+				  	<?php for($i=0;$i<sizeof($OffreNom);$i++){display_item($OffreNom[$i],$OffreImage[$i],$OffrePrix[$i],$i);}?>
+				  		</div>
 				  <!-- Left and right controls -->
 				  <a class="carousel-control-prev" href="#myCarousel3" data-slide="prev">
 				    <span class="carousel-control-prev-icon"></span>

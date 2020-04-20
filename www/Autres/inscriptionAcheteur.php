@@ -76,8 +76,11 @@ if (isset($_POST["button"])) {
 					$sql= "INSERT INTO `acheteur`(`IdUtilisateur`, `Nom`, `Prenom`, `Adresse`, `CodePostal`, `Pays`, `Telephone`, `TypeDeCarte`, `NumeroCarte`, `NomCarte`, `ExpirationCarte`, `CodedeSecurite`, `ImageProfil`) VALUES ('$idutilisateur','$nom','$prenom','$adresse','$codepostal','$pays','$telephone','visa','$numerocarte','$nomcarte','$expirationcarte','$codedesecurite','images/compte.png')";
 				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
+					$sql = "SELECT IdAcheteur FROM acheteur WHERE IdUtilisateur = $idutilisateur";
+					$result = mysqli_query($db_handle, $sql);
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
+					$_SESSION['IdAcheteur'] = mysqli_fetch_assoc($result)['IdAcheteur'];
 					header("Location: ../Acheteur/accueil.php");
   				 }//sinon verifie le format
 				else if(get_file_extension($image)!="jpg"&&get_file_extension($image)!="png"&&get_file_extension($image)!="PNG"&&get_file_extension($image)!="JPG"){
@@ -95,8 +98,11 @@ if (isset($_POST["button"])) {
 					$sql= "INSERT INTO `acheteur`(`IdUtilisateur`, `Nom`, `Prenom`, `Adresse`, `CodePostal`, `Pays`, `Telephone`, `TypeDeCarte`, `NumeroCarte`, `NomCarte`, `ExpirationCarte`, `CodedeSecurite`, `ImageProfil`) VALUES ('$idutilisateur','$nom','$prenom','$adresse','$codepostal','$pays','$telephone','visa','$numerocarte','$nomcarte','$expirationcarte','$codedesecurite','$nom_image')";
 				    if($debug){echo $sql;}
 					$result =mysqli_query($db_handle, $sql);
+					$sql = "SELECT IdAcheteur FROM acheteur WHERE IdUtilisateur = $idutilisateur";
+					$result = mysqli_query($db_handle, $sql);
 					session_start();
 					$_SESSION['id'] = $idutilisateur;
+					$_SESSION['IdAcheteur'] = mysqli_fetch_assoc($result)['IdAcheteur'];
 					header("Location: ../Acheteur/accueil.php");
 				} //Le dernier probleme est que l'image est trop volumineuse et ne ce charge pas.
 				else {

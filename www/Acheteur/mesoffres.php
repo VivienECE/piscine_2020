@@ -7,40 +7,39 @@ $db_handle = mysqli_connect('localhost', 'root', '');
 $db_found = mysqli_select_db($db_handle, $database);
 $debug = true;
 session_start();
-$idacheteur = $_SESSION['IdAcheteur'];
-$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$livraison=array();
+$IdAcheteur = $_SESSION['IdAcheteur'];
+$iditem=array(); $nomitem=array(); $imageitem=array(); $prixitem=array();$livraison=array();$etape=array();
 
+//Recupère dans la BDD les informations de l'acheteur qui utilise la session
+$sql= "SELECT Prenom, Nom FROM acheteur WHERE IdAcheteur=$IdAcheteur ";
+$result = mysqli_query($db_handle, $sql);
+while ($data = mysqli_fetch_assoc($result)){
+ $Prenom = $data['Prenom'];
+ $Nom = $data['Nom'];}
 
-$sql= "SELECT item.IdItem, Nom, Image, Prix, IdVendeur, Livraison
-FROM commandes
-	join item ON item.IdItem = commandes.IdItem
-	WHERE IdAcheteur=$idacheteur";
-
+//Recupère dans la BDD les negociations de l'acheteur qui utilise la session
+//Variable EtapeNegociation définit dans quelle camps est la proposition, lors de la première proposition EtapeNegociation=1
+//Elle s'incremente de 1 à chaque contre-offre, ou passe immédiatement à 0 si la proposition est supprimé/refusé par l'un des parties
+//EtapeNegociation impair -> Le vendeur doit faire une contre-offre
+//EtapeNegociation pair -> L'acheteur doit faire une contre-offre (sauf si EtapeNegociation=0 ou 6)
+//Etape negociation = 5: Le vendeur n'a plus le choix de la contre offre et dois soit accepter, soit refuser
+//Etape negociation = 6: L'offre est accepté, payé, l'étape negociation passe immédiatement à 6 si l'un des  partis accepte une proposition.
+$sql= "SELECT item.IdItem, Nom, Image, Prix, EtapeNegociation 
+FROM item
+	join meilleureoffre ON MeilleureOffre.IdItem = item.IdItem
+    join negocie ON MeilleureOffre.IdMeilleureOffre = negocie.IdMeilleureOffre
+    WHERE negocie.IdAcheteur=$IdAcheteur";
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
 array_push($iditem,$data['IdItem']);
 array_push($nomitem,$data['Nom']);
 array_push($imageitem,$data['Image']);
-array_push($prixitem,$data['Prix']);
-array_push($livraison,$data['Livraison']);}
+array_push($etape,$data['EtapeNegociation']);
+array_push($prixitem, "Proposition en attente. Vous avez proposé ".$data['Prix']);}
 
-if (isset($_POST["panier"])) {
-	if($debug){echo "<br>"."button";}
-	$sql="SELECT * from `selectionne` WHERE IdAcheteur=$IdAcheteur AND IdAchatImmediat=$IdAchatImmediat";
-	$result=mysqli_query($db_handle, $sql);
-	$result = mysqli_query($db_handle, $sql);
-	if (mysqli_num_rows($result) == 0)
-	{
-		$sql="INSERT INTO `selectionne`( `IdAcheteur`, `IdAchatImmediat`) VALUES ($IdAcheteur,$IdAchatImmediat)";
-		if($debug){echo $sql;}
-		$result=mysqli_query($db_handle, $sql);
-		$msg="Article ajouté au panier";
-	}else{$msg="Article déja dans le panier";}
-	
-}
 
-//Code HTML de l'affichage
-function display_item($iditem,$nomitem,$imageitem,$prixitem,$livraison) 
+//Code HTML de l'affichage des offres
+function display_item($iditem,$nomitem,$imageitem,$prix,$etape) 
 {
 	echo "	<div class='col-md-2 col-md-2 col-sm-4'>
 					<img align='center' src='$imageitem' height='70' width='70' class='img-fluid'>
@@ -48,12 +47,12 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$livraison)
                 
                 <div class='col-md-6 col-md-6 col-sm-6'>
                 	<p style='font-size: 18px; font-weight: bold;'> $nomitem</p>
-                </div>
-
-                <div class='col-md-1 col-md-1 col-sm-0'>
-                	<hr id='V' style='height: 200px;'>
                 </div>";
-    if($offre== "acceptée"){//A CHANGER
+
+         //       <div class='col-md-1 col-md-1 col-sm-0'>
+         //       	<hr id='V' style='height: 200px;'>
+         //       </div>";
+    if($etape==6){//A CHANGER 
     	echo "<div class='col-md-3 col-md-3 col-sm-3' style='background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;'>
                 	<p id='titre'> 
 						Le vendeur a accepté votre offre au prix de : <strong>$prix €</strong><br>
@@ -72,11 +71,10 @@ function display_item($iditem,$nomitem,$imageitem,$prixitem,$livraison)
 						<a href='#''><img src='images/no.png' width='30' height='30'></a>
 						<br>
 						Contre-offre : <input style='width: 75px' type='text' name='contre'> € 
-						 <input type='submit' class='submit3' alt='Submit button' name='button3' value='' />
+						 <input type='submit' class='submit3' alt='Submit button' name='button3' value='Proposer' />
 						</form>
-					</p>"
+					</p>";
     }
-
     echo "<hr style='width: 500px; margin-left: 10px;'>";
                 
 }
@@ -190,7 +188,7 @@ mysqli_close($db_handle);?>
 			<div class="col-md-7 col-md-7 col-sm-12">
 				
 				<div class="row">
-						<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$livraison[$i]);}?>
+						<?php for($i = 0;$i < sizeof($iditem);$i++){display_item($iditem[$i],$nomitem[$i],$imageitem[$i],$prixitem[$i],$etape[$i]);}?>
 				</div>
 		    </div>
 		</div>

@@ -10,11 +10,12 @@ $idItem = $_GET['id'];
 session_start();
 $IdVendeur=$_SESSION['IdVendeur'];
 
-$sql= "SELECT Nom, Description, Image, PrixFinal,IdMeilleureOffre
+$sql= "SELECT Nom, Description, Image, PrixFinal, Statut, IdAchatImmediat
 FROM item
 	join achatimmediat ON item.IdItem = achatimmediat.IdItem
 	WHERE item.IdItem=$idItem";
 $result = mysqli_query($db_handle, $sql);
+if($debug){echo $sql."<br>";}
 while ($data = mysqli_fetch_assoc($result)){
 $Nom = $data['Nom'];
 $Description = $data['Description'];
@@ -22,28 +23,29 @@ $Image = $data['Image'];
 $Statut = $data['Statut'];
 $PrixFinal = $data['PrixFinal'];
 $IdAchatImmediat = $data['IdAchatImmediat'];}
-
-$nom=array(); $prenom=array(); $prix=array();
-
-$sql= "SELECT Nom, Prenom FROM achete join acheteur ON achete.IdAcheteur = acheteur.IdAcheteur join achatimmediat ON achatimmediat.IdAchatImmediat = achete.IdAchatImmediat WHERE idItem = $idItem  ";
+$nomprenom="";
+$prix="";
+//Si l'article n'est pas dans la table commandes (table référencent tt les articles payé par les acheteurs) alors il n'est pas vendu, rien d'afficher de particulier
+$sql= "SELECT NomPrenom, Prix FROM commandes WHERE idItem = $idItem  ";
 if($debug){echo $sql;}
 $result = mysqli_query($db_handle, $sql);
 while ($data = mysqli_fetch_assoc($result)){
-array_push($nom,$data['Nom']);
-array_push($prenom,$data['Prenom']);
+$nomprenom=$data['NomPrenom'];
+$prix=$data['Prix'];
 }
 
-function display_item($nom,$prenom,$PrixFinal) 
+function display_item($nomprenom,$PrixFinal,$Statut) 
 {
-	if($Statut=='vendu'){
+	if($Statut=='Vendu!'){
 		echo "<h5><br><br> Vendu à :</h5><br><br> 
-				<p id='nom'> $prenom $nom<br> $PrixFinal<br></p>";
+				<p id='nom'> $nomprenom <br> au prix de $PrixFinal €<br></p>";
 	}
 	else{
 		echo "<h5><br><br> Votre article est toujours en vente !</h5><br><br>";
 	}
 	
 }
+
 mysqli_close($db_handle);?>
 
 <!DOCTYPE html>
@@ -89,15 +91,15 @@ mysqli_close($db_handle);?>
 						  <!-- Wrapper for slides -->
 						  <div class="carousel-inner">
 						    <div class="carousel-item active">
-						      <img align="center" src="images/montre.jpg">
+						      <img align="center" src=<?php echo "'$Image'";?>>
 						    </div>
 
 						    <div class="carousel-item">
-						      <img align="center" src="images/montre.jpg">
+						      <img align="center" src=<?php echo "'$Image'";?>>
 						    </div>
 
 						    <div class="carousel-item">
-						      <img align="center" src="images/montre.jpg">
+						      <img align="center" src=<?php echo "'$Image'";?>>
 						    </div>
 						  </div>
 
@@ -124,7 +126,7 @@ mysqli_close($db_handle);?>
 			</div>
 
 			<div align="center" class="col-md-4 col-md-4 col-sm-12" style="background-color: #EFF8FF; border-radius: 3rem; box-shadow: rgba(0,0,0,0.4) 2px 2px;">
-				<?php display_item($nom,$prenom,$PrixFinal);?>
+				<?php display_item($nomprenom,$prix,$Statut);?>
 			</div>
 		</div>
 	</div>
